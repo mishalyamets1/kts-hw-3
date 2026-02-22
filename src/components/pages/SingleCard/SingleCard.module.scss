@@ -1,0 +1,79 @@
+@use '../../../styles/variables.scss' as *;
+.singleCard {
+    padding: 0 100px;
+    @include tablet {
+        padding: 0 8px;
+    }
+    @include mobile {
+        padding: 0 8px;
+    }
+}
+.container {
+    
+    margin-top: 32px;
+    display: flex;
+    gap: 48px;
+    @include tablet {
+        flex-direction: column;
+    }
+    @include mobile {
+        flex-direction: column;
+    }
+    
+}
+.image {
+    width: 600px;
+    height: 600px;
+    @include tablet {
+        width: 160px !important;
+        height: 160px !important;
+    }
+    @include mobile {
+        max-width: 400px !important;
+        max-height: 400px !important;
+    }
+}
+.info {
+    
+    
+}
+.purchase {
+    margin-top: 80px;
+}
+
+.text {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.buttons {
+    display: flex;
+    gap: 48px;
+    margin-top: 48px;
+}
+.btnBuy {
+    width: 135px;
+    
+}
+.btnCart {
+    width: 155px;
+    background: inherit;
+    border: 1px solid $brand;
+    color: $text-primary;
+}
+.related {
+    margin-top: 48px;
+}
+.cards {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat( 3, 1fr);
+    gap: 80px;
+    @include tablet {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+    @include mobile {
+        grid-template-columns: 1fr;
+    }
+}

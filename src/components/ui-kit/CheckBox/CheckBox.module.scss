@@ -1,0 +1,54 @@
+.checkboxWrapper {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.checkboxWrapper.disabled {
+  cursor: not-allowed;
+  opacity: 0.8;  
+}
+
+.checkboxInput {
+  position: absolute;
+  opacity: 0;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  z-index: 2; 
+}
+
+.checkboxBox {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFFFFF; 
+  outline: 1px solid #FFF;
+  outline-offset: -1px;
+}
+
+.checkboxWrapper:hover input:not(:disabled) + .checkbox-box {       
+  outline-color: var(--brand);
+}
+
+.checkboxWrapper.disabled .checkbox-box {
+  background-color: #f5f5f5;
+  outline-color: transparent;  
+}
+
+.disabled-icon {
+  stroke: #00000033; 
+  opacity: 0;     
+}
+ .checkbox-input.disabled {
+  opacity: 0.8; 
+ } 
+ .checkboxWrapper.disabled .checkbox .checkIcon {
+  opacity: 0.85; 
+}
+.checkIcon {
+  opacity: 0.6;                                
+}

@@ -1,0 +1,25 @@
+@use '../../../styles/variables.scss' as *;
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background-color: $brand;
+  color: #FFFFFF;
+  height: 52px;
+  max-width: 185px;
+  border: none;
+  border-radius: 0%;
+  padding: 14px 20px;
+}
+
+.button--disabled{
+  background-color: #D9D9D9;
+}
+.button:active:not(.button--disabled):not(.button--loading) {
+  background-color: #487773;
+} 
+.button:hover:not(.button--disabled):not(.button--loading){
+  background-color: #86AAA7;
+}
