@@ -1,7 +1,7 @@
 @use '../../../styles/variables.scss' as *;
 .input__wrapper {
 border: 0px;
-background: #FFFFFF;
+background: $bg-white;
 padding: 16px 12px;
 width: 100%;
 align-items: center;
@@ -13,7 +13,7 @@ font-family: 'Roboto';
   border: 1px solid $brand         
 }
 .input__wrapper:disabled{
-  background: #FFFFFF;
+  background: $bg-white;
 }
 .input {
   font-family: 'Roboto';
@@ -24,11 +24,11 @@ font-family: 'Roboto';
   line-height: 20px;
 }
 .input:disabled{
-  background: #FFFFFF; 
-  color: #AFADB5;
+  background: $bg-white; 
+  color: $text-secondary;
 }
 .input::placeholder {
-  color: #AFADB5;
+  color: $text-secondary;
 }
 .input:focus {
   outline: none;               

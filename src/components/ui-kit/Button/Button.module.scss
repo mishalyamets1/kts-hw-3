@@ -6,7 +6,7 @@
   justify-content: center;
   gap: 3px;
   background-color: $brand;
-  color: #FFFFFF;
+  color: $text-white;
   height: 52px;
   max-width: 185px;
   border: none;
@@ -15,11 +15,11 @@
 }
 
 .button--disabled{
-  background-color: #D9D9D9;
+  background-color: $bg-overlay;
 }
 .button:active:not(.button--disabled):not(.button--loading) {
-  background-color: #487773;
+  background-color: $brand-active;
 } 
 .button:hover:not(.button--disabled):not(.button--loading){
-  background-color: #86AAA7;
+  background-color: $brand-hover;
 }

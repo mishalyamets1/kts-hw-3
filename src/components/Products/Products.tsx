@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Card from 'components/ui-kit/Card'
 import Loader from 'components/ui-kit/Loader'
 import type { Product } from "api/productsTypes";
@@ -6,6 +6,7 @@ import { useGetAllProducts } from '../../hooks/useGetAllProducts'
 import  Button from 'components/ui-kit/Button';
 import styles from 'components/Products/Products.module.scss'
 import { useNavigate } from 'react-router-dom';
+import clsx from 'clsx';
 export type ProductProps = {
     products: Product[];
     loading: boolean;
@@ -47,7 +48,7 @@ const Products = () => {
                                 <div className={styles.pagination}>
                                     <img src='/svg/arrow-right.svg' className={styles.arrowLeft} width={35} height={35} onClick={() => setPage(p => Math.max(1, p - 1))}/>
                                     {[...Array(totalPages)].map((_, i) => (
-                                        <Button key={i} className={i + 1 === page ? styles.activePage : ''} onClick={() => setPage(i + 1)}>{i + 1}</Button>
+                                        <Button key={i} className={clsx({ [styles.activePage]: i + 1 === page })} onClick={() => setPage(i + 1)}>{i + 1}</Button>
                                     ))}
                                     <img src='/svg/arrow-right (1).svg' className={styles.arrowRight} width={35} height={35} onClick={() => setPage(p => Math.min(totalPages, p + 1))}/>
                                 </div>

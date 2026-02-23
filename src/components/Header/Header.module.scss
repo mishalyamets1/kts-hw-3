@@ -1,38 +1,32 @@
 @use '../../styles/variables.scss' as *;
 
 .header {
-    display: flex;
+    display: none;
     width: 100%;
     justify-content: space-around;
-    background: #FFFFFF;
+    background: $bg-white;
     padding: 24px 100px;
     align-items: center;
     height: 90px; 
     border-bottom: 2px solid $line-color;
     
-    @include tablet {
-        display: none;
-    }
-    @include mobile {
-        display: none;
+    @include tablet-and-up {
+        display: flex;
     }
 }
 
 .burger {
-    display: none;
+    display: flex;
     width: 100%;
-    background-color: #FFFFFF;
+    background-color: $bg-white;
     border-bottom: 2px solid $line-color;
     align-items: center;
     justify-content: space-between;
     padding: 12px 20px;
     gap: 16px;
     
-    @include tablet {
-        display: flex;
-    }
-    @include mobile {
-        display: flex;
+    @include tablet-and-up {
+        display: none;
     }
 }
 
@@ -47,7 +41,7 @@
 }
 
 .burgerMenu {
-    display: none;
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 24px;
@@ -58,11 +52,8 @@
     padding: 0;
     transition: all 0.3s ease;
     
-    @include tablet {
-        display: flex;
-    }
-    @include mobile {
-        display: flex;
+    @include tablet-and-up {
+        display: none;
     }
     
     span {
@@ -88,18 +79,14 @@
 }
 
 .navMobile {
-    display: none;
+    display: flex;
     flex-direction: column;
     width: 100%;
-    background: #FFFFFF;
+    background: $bg-white;
     border-bottom: 2px solid $line-color;
     
-    
-    @include tablet {
-        display: flex;
-    }
-    @include mobile {
-        display: flex;
+    @include tablet-and-up {
+        display: none;
     }
     
     .link {
@@ -108,20 +95,20 @@
         display: block;
         
         &:hover {
-            background-color: #f9f9f9;
-        }
-        
-        &::after {
-            display: none;
-        }
-        
-        p {
-            margin: 0;
-        }
+            background-color: $bg-light;
+    }
+    
+    &::after {
+        display: none;
+    }
+    
+    p {
+        margin: 0;
+    }
     }
     
     .active {
-        background-color: #f9f9f9 !important;
+        background-color: $bg-light;
     }
 }
 
@@ -130,11 +117,11 @@
     text-decoration: none;
     cursor: pointer;
     &:hover {
-        color: $brand !important;
+        color: $brand;
         transition:  all 0.3s ease;
     }
     &:hover p {
-        color: $brand !important;
+        color: $brand;
         transition:  all 0.3s ease;
     }
     &::after {
@@ -149,12 +136,12 @@
 }
 
 .active {
-    color: $brand !important;
+    color: $brand;
     &::after {
         width: 100%;
     }
     p {
-        color: $brand !important;
+        color: $brand;
     }
 }
 

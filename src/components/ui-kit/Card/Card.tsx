@@ -1,6 +1,7 @@
 import React from 'react';
 import Text from '../Text';
 import styles from './Card.module.scss'
+import clsx from 'clsx';
 
 // import styles from './Card.module.css'
 
@@ -25,7 +26,7 @@ export type CardProps = {
 
 const Card: React.FC<CardProps> = ({className='card', image, captionSlot, title, subtitle, contentSlot, onClick, actionSlot}) => {
 
-    return <div className={`${styles.card} ${className ?? ''}`} onClick={onClick}>
+    return <div className={clsx(styles.card, className)} onClick={onClick}>
 
         <div ><img src={image} className={styles.card__img} alt="картинка"/></div>  
         <div className={styles.card__text}>

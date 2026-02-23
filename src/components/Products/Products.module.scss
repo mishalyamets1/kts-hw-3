@@ -2,15 +2,13 @@
 
 .products {
     width: 100%;
-    padding: 0 100px;
+    padding: 0 8px;
     margin: 0 auto;
     margin-top: 35px;
     box-sizing: border-box;
-    @include tablet {
-        padding: 0 8px;
-    }
-    @include mobile {
-        padding: 0 8px;
+    
+    @include desktop-and-up {
+        padding: 0 100px;
     }
 }
 @keyframes spin {
@@ -28,15 +26,16 @@
 .grid{
     display: grid;
     justify-items: center;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 80px ;
-    @include tablet {
+    grid-template-columns: 1fr;
+    gap: 80px;
+    
+    @include tablet-and-up {
         grid-template-columns: repeat(2, 1fr);
     }
-    @include mobile {
-        grid-template-columns: 1fr;
+    
+    @include desktop-and-up {
+        grid-template-columns: repeat(3, 1fr);
     }
-
 }
 .pagination{
     display: flex;
@@ -58,13 +57,13 @@
     transition: all 0.3s ease;
     cursor: pointer;
     &:hover {
-        color: #fff;
+        color: $text-white;
     }
     
 }
 .activePage {
-    background: $brand !important;
-    color: #fff !important; 
+    background: $brand;
+    color: $text-white;
 }
 .arrowLeft {
     margin-right: 15px;

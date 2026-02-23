@@ -14,9 +14,9 @@ const SingleCard = () => {
   const navigate = useNavigate()
   
   
-  // useEffect(() => {
-  //   window.scrollTo(0, 0)
-  // }, [documentId])
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [documentId])
   if (!documentId) {
     return <Text view='title' color='accent'>Товар не найден</Text>
   }
@@ -60,7 +60,7 @@ const SingleCard = () => {
         <div className={styles.related}>
           <Text view='title' color='primary'>Related Items</Text>
             <div className={styles.cards}>
-              {loading ? (
+              {relLoading ? (
                 <Loader/>
               )
               : (
@@ -75,8 +75,7 @@ const SingleCard = () => {
                     subtitle={product.description}
                     contentSlot={`$${product.price}`}
                     actionSlot={<Button>Buy now</Button>}
-                    onClick={() => {navigate(`/product/${product.documentId}`) 
-                     window.scrollTo(0, 0)}} 
+                    onClick={() => {navigate(`/product/${product.documentId}`)}}
                     />
                   )
 

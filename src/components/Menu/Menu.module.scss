@@ -1,13 +1,11 @@
 @use '../../styles/variables.scss' as *;
 .menu {
-    padding: 0 100px;
+    padding: 0 8px;
     display: flex;
     flex-direction: column;
-    @include tablet {
-        padding: 0 8px;
-    }
-    @include mobile {
-        padding: 0 8px;
+    
+    @include desktop-and-up {
+        padding: 0 100px;
     }
 }
 .inputBox {

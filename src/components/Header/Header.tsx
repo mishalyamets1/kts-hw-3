@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styles from 'components/Header/Header.module.scss'
 import Text from '../ui-kit/Text'
 import { NavLink } from 'react-router-dom'
-
+import clsx from 'clsx'
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
@@ -18,13 +18,13 @@ const Header = () => {
            <img src="/svg/Frame 4.svg" alt="logo" /> 
         </div>
         <nav className={styles.nav}>
-            <NavLink to='/' className={({isActive})=> `${styles.link} ${isActive ? styles.active : ''}`}>
+            <NavLink to='/' className={({isActive})=> clsx(styles.link, {[styles.active]: isActive})}>
               <Text color='primary' view='p-18' tag='p'>Products</Text>
             </NavLink>
-            <NavLink to='/categories' className={({isActive})=> `${styles.link} ${isActive?styles.active:''}`}>
+            <NavLink to='/categories' className={({isActive})=> clsx(styles.link, {[styles.active]: isActive})}>
               <Text color='primary' view='p-18' tag='p'>Categories</Text>
             </NavLink>
-            <NavLink to='/about' className={({isActive})=> `${styles.link} ${isActive?styles.active:''}`}>
+            <NavLink to='/about' className={({isActive})=> clsx(styles.link, {[styles.active]: isActive})}>
               <Text color='primary' view='p-18' tag='p'>About us</Text>
             </NavLink>
         </nav>
