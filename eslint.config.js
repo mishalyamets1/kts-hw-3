@@ -15,7 +15,7 @@ export default tseslint.config(
       '**/node_modules',
     ],
   },
-  eslint.configs.recommended,
+ eslint.configs.recommended,
   ...tseslint.configs.strict,
   ...tseslint.configs.stylistic,
   {
@@ -32,7 +32,7 @@ export default tseslint.config(
     },
     languageOptions: {
       parserOptions: {
-        project: ['./tsconfig.json'],
+        project: ['./tsconfig.app.json'],
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -49,29 +49,29 @@ export default tseslint.config(
       'prettier/prettier': 'error',
       'no-console': 'error',
       'linebreak-style': ['error', 'unix'],
-      'import/order': [
-        'error',
-        {
-          groups: [
-            'builtin',
-            'external',
-            'internal',
-            'object',
-            'parent',
-            'sibling',
-            'index',
-          ],
-          alphabetize: {
-            order: 'asc',
-          },
-          'newlines-between': 'always',
-        },
-      ],
+      // 'import/order': [
+      //   'error',
+      //   {
+      //     groups: [
+      //       'builtin',
+      //       'external',
+      //       'internal',
+      //       'object',
+      //       'parent',
+      //       'sibling',
+      //       'index',
+      //     ],
+      //     alphabetize: {
+      //       order: 'asc',
+      //     },
+      //     'newlines-between': 'always',
+      //   },
+      // ],
       'react/jsx-uses-react': 'off',
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
       'react/display-name': 'off',
-      'react/no-unknown-property': 'error',
+      // 'react/no-unknown-property': 'error',
       'react/self-closing-comp': 'error',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',

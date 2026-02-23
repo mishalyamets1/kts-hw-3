@@ -1,148 +1,144 @@
 @use '../../styles/variables.scss' as *;
 
 .header {
-    display: none;
-    width: 100%;
-    justify-content: space-around;
-    background: $bg-white;
-    padding: 24px 100px;
-    align-items: center;
-    height: 90px; 
-    border-bottom: 2px solid $line-color;
-    
-    @include tablet-and-up {
-        display: flex;
-    }
+  display: none;
+  width: 100%;
+  justify-content: space-around;
+  background: $bg-white;
+  padding: 24px 100px;
+  align-items: center;
+  height: 90px;
+  border-bottom: 2px solid $line-color;
+
+  @include tablet-and-up {
+    display: flex;
+  }
 }
 
 .burger {
-    display: flex;
-    width: 100%;
-    background-color: $bg-white;
-    border-bottom: 2px solid $line-color;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 20px;
-    gap: 16px;
-    
-    @include tablet-and-up {
-        display: none;
-    }
+  display: flex;
+  width: 100%;
+  background-color: $bg-white;
+  border-bottom: 2px solid $line-color;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  gap: 16px;
+
+  @include tablet-and-up {
+    display: none;
+  }
 }
 
 .logo {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    
-    img {
-        height: 40px;
-    }
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  img {
+    height: 40px;
+  }
 }
 
 .burgerMenu {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 24px;
-    height: 18px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    transition: all 0.3s ease;
-    
-    @include tablet-and-up {
-        display: none;
-    }
-    
-    span {
-        width: 100%;
-        height: 2px;
-        background: $text-primary;
-        border-radius: 2px;
-    }
-    
-    
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+
+  @include tablet-and-up {
+    display: none;
+  }
+
+  span {
+    width: 100%;
+    height: 2px;
+    background: $text-primary;
+    border-radius: 2px;
+  }
 }
 
 .icons {
-    display: flex;
-    gap: 24px;
-    align-items: center;
+  display: flex;
+  gap: 24px;
+  align-items: center;
 }
 
 .nav {
-    display: flex;
-    gap: 48px;
-    margin: 0 auto;
+  display: flex;
+  gap: 48px;
+  margin: 0 auto;
 }
 
 .navMobile {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    background: $bg-white;
-    border-bottom: 2px solid $line-color;
-    
-    @include tablet-and-up {
-        display: none;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: $bg-white;
+  border-bottom: 2px solid $line-color;
+
+  @include tablet-and-up {
+    display: none;
+  }
+
+  .link {
+    padding: 16px 20px;
+    border-bottom: 1px solid $line-color;
+    display: block;
+
+    &:hover {
+      background-color: $bg-light;
     }
-    
-    .link {
-        padding: 16px 20px;
-        border-bottom: 1px solid $line-color;
-        display: block;
-        
-        &:hover {
-            background-color: $bg-light;
-    }
-    
+
     &::after {
-        display: none;
+      display: none;
     }
-    
+
     p {
-        margin: 0;
+      margin: 0;
     }
-    }
-    
-    .active {
-        background-color: $bg-light;
-    }
+  }
+
+  .active {
+    background-color: $bg-light;
+  }
 }
 
 .link {
-    position: relative;
-    text-decoration: none;
-    cursor: pointer;
-    &:hover {
-        color: $brand;
-        transition:  all 0.3s ease;
-    }
-    &:hover p {
-        color: $brand;
-        transition:  all 0.3s ease;
-    }
-    &::after {
-        position: absolute;
-        content: '';
-        bottom: -35px;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background-color: $brand;
-    }
+  position: relative;
+  text-decoration: none;
+  cursor: pointer;
+  &:hover {
+    color: $brand;
+    transition: all 0.3s ease;
+  }
+  &:hover p {
+    color: $brand;
+    transition: all 0.3s ease;
+  }
+  &::after {
+    position: absolute;
+    content: '';
+    bottom: -35px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: $brand;
+  }
 }
 
 .active {
+  color: $brand;
+  &::after {
+    width: 100%;
+  }
+  p {
     color: $brand;
-    &::after {
-        width: 100%;
-    }
-    p {
-        color: $brand;
-    }
+  }
 }
-
-

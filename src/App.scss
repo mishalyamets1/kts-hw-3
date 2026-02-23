@@ -1,7 +1,7 @@
 @use './styles/variables.scss' as *;
 @import './styles/Roboto/fonts.css';
 
-:root{
+:root {
   --space-xxs: 8px;
   --space-xs: 12px;
   --space-s: 14px;
@@ -10,16 +10,18 @@
   --space-xl: 24px;
   --border-radius: 0px;
   --brand: #518581;
-  --brand-hover: #86AAA7;
+  --brand-hover: #86aaa7;
   --brand-active: #487773;
-  --text-secondary: #AFADB5;
+  --text-secondary: #afadb5;
   --text-primary: #000000;
-  --text-accent: var(--brand)
+  --text-accent: var(--brand);
 }
-html, body {
+html,
+body {
   font-family: 'Roboto';
   margin: 0;
   padding: 0;
+  background-color: $bg-body;
 }
 
 * {
@@ -38,8 +40,3 @@ figure,
 pre {
   margin: 0;
 }
-
-
-
-
-

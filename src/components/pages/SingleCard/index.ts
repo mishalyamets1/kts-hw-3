@@ -1,1 +1,1 @@
-export {default} from './SingleCard'
+export { default } from './SingleCard';

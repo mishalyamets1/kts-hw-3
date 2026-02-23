@@ -1,1 +1,1 @@
-export {default} from './HeroProducts.tsx'
+export { default } from './HeroProducts.tsx';

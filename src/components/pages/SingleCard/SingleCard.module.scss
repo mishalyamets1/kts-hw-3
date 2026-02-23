@@ -1,73 +1,72 @@
 @use '../../../styles/variables.scss' as *;
 .singleCard {
-    padding: 0 8px;
-    
-    @include desktop-and-up {
-        padding: 0 100px;
-    }
+  padding: 0 8px;
+
+  @include desktop-and-up {
+    padding: 0 100px;
+  }
 }
 .container {
-    margin-top: 32px;
-    display: flex;
-    flex-direction: column;
-    gap: 48px;
-    
-    @include tablet-and-up {
-        flex-direction: row;
-    }
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+
+  @include tablet-and-up {
+    flex-direction: row;
+  }
 }
 .image {
-    width: 100%;
-    max-width: 400px;
-    height: auto;
-    aspect-ratio: 1;
-    
-    @include desktop-and-up {
-        width: 600px;
-        height: 600px;
-        max-width: none;
-    }
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  aspect-ratio: 1;
+
+  @include desktop-and-up {
+    width: 600px;
+    height: 600px;
+    max-width: none;
+  }
 }
 
 .purchase {
-    margin-top: 80px;
+  margin-top: 80px;
 }
 
 .text {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 .buttons {
-    display: flex;
-    gap: 48px;
-    margin-top: 48px;
+  display: flex;
+  gap: 48px;
+  margin-top: 48px;
 }
 .btnBuy {
-    width: 135px;
-    
+  width: 135px;
 }
 .btnCart {
-    width: 155px;
-    background: inherit;
-    border: 1px solid $brand;
-    color: $text-primary;
+  width: 155px;
+  background: inherit;
+  border: 1px solid $brand;
+  color: $text-primary;
 }
 .related {
-    margin-top: 48px;
+  margin-top: 48px;
 }
 .cards {
-    margin-top: 32px;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-    
-    @include tablet-and-up {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    @include desktop-and-up {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 80px;
-    }
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+
+  @include tablet-and-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include desktop-and-up {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 80px;
+  }
 }

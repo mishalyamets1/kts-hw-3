@@ -1,75 +1,76 @@
 @use '../../styles/variables.scss' as *;
 
 .products {
-    width: 100%;
-    padding: 0 8px;
-    margin: 0 auto;
-    margin-top: 35px;
-    box-sizing: border-box;
-    
-    @include desktop-and-up {
-        padding: 0 100px;
-    }
+  width: 100%;
+  padding: 0 8px;
+  margin: 0 auto;
+  margin-top: 35px;
+  box-sizing: border-box;
+
+  @include desktop-and-up {
+    padding: 0 100px;
+  }
 }
 @keyframes spin {
-  from { transform:  rotate(0deg); }
-  to { transform:  rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 .loader {
-    justify-self: center;
+  justify-self: center;
 }
 
 .loader svg {
-    animation: spin 1s linear infinite;
-    
+  animation: spin 1s linear infinite;
 }
-.grid{
-    display: grid;
-    justify-items: center;
-    grid-template-columns: 1fr;
-    gap: 80px;
-    
-    @include tablet-and-up {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    @include desktop-and-up {
-        grid-template-columns: repeat(3, 1fr);
-    }
+.grid {
+  display: grid;
+  justify-items: center;
+  grid-template-columns: 1fr;
+  gap: 80px;
+
+  @include tablet-and-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include desktop-and-up {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
-.pagination{
-    display: flex;
-    justify-content: center; 
-    align-items: center;
-    margin-top: 65px;
-    margin-bottom: 80px;
-    
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 65px;
+  margin-bottom: 80px;
 }
 .pagination button {
-    // border: 1px solid var(--brand);
-    background: inherit;
-    color: $text-primary;
-    width: 38px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    &:hover {
-        color: $text-white;
-    }
-    
+  // border: 1px solid var(--brand);
+  background: inherit;
+  color: $text-primary;
+  width: 38px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  &:hover {
+    color: $text-white;
+  }
 }
 .activePage {
-    background: $brand;
-    color: $text-white;
+  background: $brand;
+  color: $text-white;
 }
 .arrowLeft {
-    margin-right: 15px;
-    cursor: pointer;
+  margin-right: 15px;
+  cursor: pointer;
 }
 .arrowRight {
-    margin-left: 15px;
-    cursor: pointer;
+  margin-left: 15px;
+  cursor: pointer;
 }

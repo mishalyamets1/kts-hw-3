@@ -1,7 +1,8 @@
-import React, {useEffect, useMemo, useRef, useState,} from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
 import Input from '../Input';
-import styles from './MultiDropdown.module.scss'
+import styles from './MultiDropdown.module.scss';
+
 export type Option = {
   key: string;
   value: string;
@@ -32,77 +33,45 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
   const [search, setSearch] = useState('');
 
   const filteredOptions = useMemo(() => {
-    return options.filter((option) =>
-      option.value.toLowerCase().includes(search.toLowerCase())
-    );
+    return options.filter((option) => option.value.toLowerCase().includes(search.toLowerCase()));
   }, [options, search]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        wrapperRef.current &&
-        !wrapperRef.current.contains(event.target as Node)
-      ) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-
     return () => {
-      document.removeEventListener(
-        'mousedown',
-        handleClickOutside
-      );
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
   const toggleOption = (option: Option) => {
-    const isSelected = value.some(
-      (v) => v.key === option.key
-    );
-
+    const isSelected = value.some((v) => v.key === option.key);
     if (isSelected) {
-      onChange(
-        value.filter((v) => v.key !== option.key)
-      );
+      onChange(value.filter((v) => v.key !== option.key));
     } else {
       onChange([...value, option]);
     }
   };
 
-  const inputValue =
-    search !== ''
-      ? search
-      : value.length > 0
-      ? getTitle(value)
-      : '';
+  const inputValue = search !== '' ? search : value.length > 0 ? getTitle(value) : '';
 
   return (
-    <div
-      ref={wrapperRef}
-      className={classNames(
-        'multi-dropdown',
-        className,
-        { disabled }
-      )}
-    >
+    <div ref={wrapperRef} className={classNames('multi-dropdown', className, { disabled })}>
       <Input
         value={inputValue}
         disabled={disabled}
-        placeholder={
-          value.length === 0
-            ? getTitle(value)
-            : undefined
-        }
+        placeholder={value.length === 0 ? getTitle(value) : undefined}
         onChange={(val) => {
           setSearch(val);
           setIsOpen(true);
         }}
         onFocus={() => {
-          if (!disabled) {
-            setIsOpen(true);
-          }
+          if (!disabled) setIsOpen(true);
         }}
         afterSlot={
           afterSlot ? (
@@ -110,9 +79,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
               className="multi-dropdown__after"
               onClick={(e) => {
                 e.stopPropagation();
-                if (!disabled) {
-                  setIsOpen((prev) => !prev);
-                }
+                if (!disabled) setIsOpen((prev) => !prev);
               }}
             >
               {afterSlot}
@@ -124,20 +91,15 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
       {isOpen && !disabled && (
         <div className={styles.multiDropdown__options}>
           {filteredOptions.map((option) => {
-            const selected = value.some(
-              (v) => v.key === option.key
-            );
+            const selected = value.some((v) => v.key === option.key);
 
             return (
               <div
                 key={option.key}
-                className={classNames(
-                  styles.multiDropdown__option,
-                  { [styles.selected]: selected }
-                )}
-                onClick={() =>
-                  toggleOption(option)
-                }
+                className={classNames(styles.multiDropdown__option, {
+                  [styles.selected]: selected,
+                })}
+                onClick={() => toggleOption(option)}
               >
                 {option.value}
               </div>

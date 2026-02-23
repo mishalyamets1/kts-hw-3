@@ -1,42 +1,39 @@
+$space-xxs: 8px;
+$space-xs: 12px;
+$space-s: 14px;
+$space-m: 16px;
+$space-l: 20px;
+$space-xl: 24px;
+$border-radius: 0px;
+$brand: #518581;
+$brand-hover: #86aaa7;
+$brand-active: #487773;
+$text-secondary: #afadb5;
+$text-primary: #000000;
+$text-white: #ffffff;
+$text-accent: $brand;
+$line-color: #f3f3f3;
+$bg-white: #ffffff;
+$bg-light: #f9f9f9;
+$bg-light-gray: #f5f5f5;
+$bg-overlay: #d9d9d9;
+$border-light: #fff;
+$stroke-light: #00000033;
+$bg-body: #FAFAFA;
 
-    $space-xxs: 8px;
-    $space-xs: 12px;
-    $space-s: 14px;
-    $space-m: 16px;
-    $space-l: 20px;
-    $space-xl: 24px;
-    $border-radius: 0px;
-    $brand: #518581;
-    $brand-hover: #86AAA7;
-    $brand-active: #487773;
-    $text-secondary: #AFADB5;
-    $text-primary: #000000;
-    $text-white: #FFFFFF;
-    $text-accent: $brand;
-    $line-color: #F3F3F3;
-    $bg-white: #FFFFFF;
-    $bg-light: #f9f9f9;
-    $bg-light-gray: #f5f5f5;
-    $bg-overlay: #D9D9D9;
-    $border-light: #FFF;
-    $stroke-light: #00000033;
+$mobile: 375px;
+$tablet: 768px;
+$desktop: 1024px;
+$wide: 1440px;
 
-   
-    $mobile: 375px;
-    $tablet: 768px;
-    $desktop: 1024px;
-    $wide: 1440px;
+@mixin tablet-and-up {
+  @media (min-width: $tablet) {
+    @content;
+  }
+}
 
-    
-    @mixin tablet-and-up {
-        @media (min-width: $tablet) {
-            @content;
-        }
-    }
-
-    @mixin desktop-and-up {
-        @media (min-width: $desktop) {
-            @content;
-        }
-    }
-
+@mixin desktop-and-up {
+  @media (min-width: $desktop) {
+    @content;
+  }
+}

@@ -14,12 +14,12 @@
   padding: 14px 20px;
 }
 
-.button--disabled{
+.button--disabled {
   background-color: $bg-overlay;
 }
 .button:active:not(.button--disabled):not(.button--loading) {
   background-color: $brand-active;
-} 
-.button:hover:not(.button--disabled):not(.button--loading){
+}
+.button:hover:not(.button--disabled):not(.button--loading) {
   background-color: $brand-hover;
 }

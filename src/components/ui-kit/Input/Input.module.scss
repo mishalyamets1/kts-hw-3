@@ -1,18 +1,18 @@
 @use '../../../styles/variables.scss' as *;
 .input__wrapper {
-border: 0px;
-background: $bg-white;
-padding: 16px 12px;
-width: 100%;
-align-items: center;
-height: 52px;
-display: flex;
-font-family: 'Roboto';
+  border: 0px;
+  background: $bg-white;
+  padding: 16px 12px;
+  width: 100%;
+  align-items: center;
+  height: 52px;
+  display: flex;
+  font-family: 'Roboto';
 }
 .input__wrapper:focus-within {
-  border: 1px solid $brand         
+  border: 1px solid $brand;
 }
-.input__wrapper:disabled{
+.input__wrapper:disabled {
   background: $bg-white;
 }
 .input {
@@ -23,13 +23,13 @@ font-family: 'Roboto';
   font-weight: 400;
   line-height: 20px;
 }
-.input:disabled{
-  background: $bg-white; 
+.input:disabled {
+  background: $bg-white;
   color: $text-secondary;
 }
 .input::placeholder {
   color: $text-secondary;
 }
 .input:focus {
-  outline: none;               
+  outline: none;
 }

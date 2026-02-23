@@ -1,12 +1,14 @@
-import styles from '../SingleCard/SingleCard.module.scss'
-import Text from 'components/ui-kit/Text'
+import styles from '../SingleCard/SingleCard.module.scss';
+import Text from 'components/ui-kit/Text';
 
-const About= () => {
+const About = () => {
   return (
     <div className={styles.singleCard}>
-      <Text view='title' color='primary'>About</Text>
+      <Text view="title" color="primary">
+        About
+      </Text>
     </div>
-  )
-}
+  );
+};
 
-export default About
+export default About;

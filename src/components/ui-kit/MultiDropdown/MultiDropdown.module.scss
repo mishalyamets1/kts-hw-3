@@ -1,10 +1,10 @@
 @use '../../../styles/variables.scss' as *;
-.multiDropdown__options{
+.multiDropdown__options {
   margin-top: $space-xxs;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
 }
-.multiDropdown__option{
-  background:  $text-white;
+.multiDropdown__option {
+  background: $text-white;
   padding: 16px 12px;
   align-items: center;
   display: flex;
@@ -14,6 +14,6 @@
   line-height: 20px;
   height: 48px;
 }
-.multiDropdown__option.selected{
-  color: $brand
+.multiDropdown__option.selected {
+  color: $brand;
 }
