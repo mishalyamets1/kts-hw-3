@@ -1,33 +1,37 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import Card from 'components/ui-kit/Card';
 import Loader from 'components/ui-kit/Loader';
 import type { Product } from 'api/productsTypes';
-import { useGetAllProducts } from '../../hooks/useGetAllProducts';
 import Button from 'components/ui-kit/Button';
 import styles from 'components/Products/Products.module.scss';
 import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
+import { allProductsStore} from 'stores/global'; 
 export type ProductProps = {
   products: Product[];
   loading: boolean;
 };
-const Products = () => {
-  const [page, setPage] = useState(1);
-  const pageSize = 9;
-  const { products, total, loading } = useGetAllProducts(page, pageSize);
+const Products = observer(() => {
+  const pageSize = 9; 
   const navigate = useNavigate();
-  const totalPages = total ? Math.ceil(total / pageSize) : 1;
+  
+  useEffect(() => {
+    allProductsStore.fetchProducts(pageSize);
+  }, [allProductsStore.currentPage, allProductsStore.searchTitle, allProductsStore.selectedCategoryIds]);
+  
+  const totalPages = allProductsStore.total ? Math.ceil(allProductsStore.total / pageSize) : 1;
 
   return (
     <div className={styles.products}>
-      {loading ? (
+      {allProductsStore.productsLoading ? (
         <div className={styles.loader}>
           <Loader />
         </div>
       ) : (
         <>
           <div className={styles.grid}>
-            {products.map((product) => {
+            {allProductsStore.products.map((product) => {
               const image = product.images?.[0]?.url;
               return (
                 <Card
@@ -50,13 +54,13 @@ const Products = () => {
               className={styles.arrowLeft}
               width={35}
               height={35}
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              onClick={() => allProductsStore.setCurrentPage(Math.max(1, allProductsStore.currentPage - 1))}
             />
             {[...Array(totalPages)].map((_, i) => (
               <Button
                 key={i}
-                className={clsx({ [styles.activePage]: i + 1 === page })}
-                onClick={() => setPage(i + 1)}
+                className={clsx({ [styles.activePage]: i + 1 === allProductsStore.currentPage })}
+                onClick={() => allProductsStore.setCurrentPage(i + 1)}
               >
                 {i + 1}
               </Button>
@@ -66,13 +70,13 @@ const Products = () => {
               className={styles.arrowRight}
               width={35}
               height={35}
-              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              onClick={() => allProductsStore.setCurrentPage(Math.min(totalPages, allProductsStore.currentPage + 1))}
             />
           </div>
         </>
       )}
     </div>
   );
-};
+});
 
 export default Products;

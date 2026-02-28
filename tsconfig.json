@@ -4,9 +4,12 @@
     "baseUrl": "src",
     "paths": {
       "components": ["components/*"],
-      "config": ["config/*"],
+      "configs": ["configs/*"],
       "styles": ["styles/*"],
-      "utils": ["utils/*"]
+      "utils": ["utils/*"],
+      "api": ["api/*"],
+      "hooks": ["hooks/*"],
+      "stores": ["stores/*"]
     }
   },
   "files": [],

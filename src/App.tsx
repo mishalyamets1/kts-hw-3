@@ -7,8 +7,14 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import SingleCard from 'components/pages/SingleCard';
 import Categories from 'components/pages/Categories/Categories';
 import About from 'components/pages/About/About';
+import { useEffect } from 'react';
+import { allProductsStore } from 'stores/global';
 
 function App() {
+  useEffect(() => {
+    // Инициализируем стор при загрузке приложения
+    allProductsStore.initializeFromUrl();
+  }, []);
   return (
     <BrowserRouter>
       <Header />

@@ -1,26 +1,33 @@
 import RemoveButton from 'components/RemoveButton';
 import styles from './SingleCard.module.scss';
-import { useGetProductById } from '../../../hooks/useGetProductById';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loader from 'components/ui-kit/Loader';
 import Text from 'components/ui-kit/Text';
 import Button from 'components/ui-kit/Button';
-import { useGetProductByCategory } from '../../../hooks/useGetProductByCategory';
 import Card from 'components/ui-kit/Card';
+import { observer} from 'mobx-react-lite';
+import { singleProductStore } from 'stores/local';
 import { useEffect } from 'react';
 
-const SingleCard = () => {
+const SingleCard = observer(() => {
   const { documentId } = useParams<{ documentId?: string }>();
   const navigate = useNavigate();
-
+ const categoryId = singleProductStore.product?.productCategory?.id;
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [documentId]);
+    if (documentId) {
+      singleProductStore.fetchProductById(documentId)
+    }
+    return () => {
+      singleProductStore.destroy()
+    }
+  }, [documentId])
 
-  const { product, loading, error } = useGetProductById(documentId ?? '');
-  const { relatedProducts, loading: relLoading } = useGetProductByCategory(
-    product?.productCategory?.id ?? undefined
-  );
+  useEffect(() => {
+    if (categoryId) {
+      singleProductStore.fetchRelatedProducts(categoryId)
+    }
+  }, [categoryId])
 
   if (!documentId) {
     return (
@@ -30,19 +37,19 @@ const SingleCard = () => {
     );
   }
 
-  if (loading) {
-    return <Loader />;
+  if (singleProductStore.productLoading) {
+    return  <div className={styles.loader}><Loader /></div>;
   }
 
-  if (error) {
+  if (singleProductStore.productError) {
     return (
       <Text view="title" color="accent">
-        Ошибка: {error}
+        Ошибка: {singleProductStore.productError}
       </Text>
     );
   }
 
-  if (!product) {
+  if (!singleProductStore.product) {
     return (
       <Text view="title" color="accent">
         Товар не найден
@@ -50,7 +57,7 @@ const SingleCard = () => {
     );
   }
 
-  const image = product.images && product.images.length > 0 ? product.images[0].url : undefined;
+  const image = singleProductStore.product.images && singleProductStore.product.images.length > 0 ? singleProductStore.product.images[0].url : undefined;
   return (
     <div className={styles.singleCard}>
       <RemoveButton />
@@ -61,16 +68,16 @@ const SingleCard = () => {
         <div className={styles.info}>
           <div className={styles.text}>
             <Text view="title" color="primary">
-              {product.title}
+              {singleProductStore.product.title}
             </Text>
             <Text view="p-20" color="secondary">
-              {product.description}
+              {singleProductStore.product.description}
             </Text>
           </div>
 
           <div className={styles.purchase}>
             <Text view="title" color="primary">
-              ${product.price}
+              ${singleProductStore.product.price}
             </Text>
             <div className={styles.buttons}>
               <Button className={styles.btnBuy}>Buy now</Button>
@@ -85,10 +92,10 @@ const SingleCard = () => {
           Related Items
         </Text>
         <div className={styles.cards}>
-          {relLoading ? (
-            <Loader />
+          {singleProductStore.relatedError ? (
+            <div className={styles.loader}><Loader /></div>
           ) : (
-            relatedProducts?.map((prod) => {
+            singleProductStore.relatedProducts?.map((prod) => {
               const image = prod.images?.[0]?.url ?? '';
               return (
                 <Card
@@ -108,6 +115,6 @@ const SingleCard = () => {
       </div>
     </div>
   );
-};
+});
 
 export default SingleCard;

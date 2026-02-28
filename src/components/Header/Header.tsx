@@ -22,7 +22,7 @@ const Header = () => {
             to="/"
             className={({ isActive }) => clsx(styles.link, { [styles.active]: isActive })}
           >
-            <Text color="primary" view="p-18" tag="p">
+            <Text view="p-18" tag="p">
               Products
             </Text>
           </NavLink>
@@ -30,7 +30,7 @@ const Header = () => {
             to="/categories"
             className={({ isActive }) => clsx(styles.link, { [styles.active]: isActive })}
           >
-            <Text color="primary" view="p-18" tag="p">
+            <Text  view="p-18" tag="p">
               Categories
             </Text>
           </NavLink>
@@ -38,7 +38,7 @@ const Header = () => {
             to="/about"
             className={({ isActive }) => clsx(styles.link, { [styles.active]: isActive })}
           >
-            <Text color="primary" view="p-18" tag="p">
+            <Text view="p-18" tag="p">
               About us
             </Text>
           </NavLink>
