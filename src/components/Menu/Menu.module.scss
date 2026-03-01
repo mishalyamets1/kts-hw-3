@@ -1,0 +1,27 @@
+@use '../../styles/variables.scss' as *;
+.menu {
+  padding: 0 8px;
+  display: flex;
+  flex-direction: column;
+
+  @include desktop-and-up {
+    padding: 0 100px;
+  }
+}
+.inputBox {
+  display: flex;
+  gap: 24px;
+}
+.btn {
+  width: 137px;
+}
+.filter {
+  max-width: 300px;
+  margin-top: 24px;
+}
+.totalBox {
+  margin-top: 48px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}

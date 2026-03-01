@@ -1,0 +1,18 @@
+@use '../../styles/variables.scss' as *;
+
+.removeButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  max-width: 129px;
+  height: 48px;
+  background: inherit;
+
+  &:hover {
+    border: 1px solid $brand;
+  }
+}
+.wrapper {
+  margin-top: 60px;
+}
