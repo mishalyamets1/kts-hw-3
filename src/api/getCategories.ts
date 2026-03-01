@@ -13,7 +13,7 @@ type CategoriesResponse = {
 export const getCategories = async (): Promise<ProductCategory[]> => {
   const query = qs.stringify({});
   const response = await axios.get<CategoriesResponse>(`${STRAPI_URL}?${query}`, {
-    headers: { Authorization: API_TOKEN },
+    headers: { Authorization: `Bearer ${API_TOKEN}` },
   });
   return response.data.data;
 };

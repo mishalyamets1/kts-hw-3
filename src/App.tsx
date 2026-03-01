@@ -8,12 +8,16 @@ import SingleCard from 'components/pages/SingleCard';
 import Categories from 'components/pages/Categories/Categories';
 import About from 'components/pages/About/About';
 import { useEffect } from 'react';
-import { allProductsStore } from 'stores/global';
+import { allProductsStore } from 'stores/global/AllProductsStore';
+import { cartStore } from 'stores/global/CartStore';
+import Cart from 'components/pages/Cart';
 
 function App() {
   useEffect(() => {
-    // Инициализируем стор при загрузке приложения
     allProductsStore.initializeFromUrl();
+  }, []);
+  useEffect(() => {
+    cartStore.fetchCart();
   }, []);
   return (
     <BrowserRouter>
@@ -32,6 +36,7 @@ function App() {
         <Route path="/categories" element={<Categories />} />
         <Route path="/about" element={<About />} />
         <Route path="/product/:documentId" element={<SingleCard />} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
     </BrowserRouter>
   );

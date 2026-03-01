@@ -63,8 +63,8 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
   const inputValue = search !== '' ? search : value.length > 0 ? getTitle(value) : '';
 
   return (
-    <div 
-      ref={wrapperRef} 
+    <div
+      ref={wrapperRef}
       className={classNames('multi-dropdown', className, { disabled })}
       onClick={() => {
         if (!disabled && readOnly) setIsOpen((prev) => !prev);

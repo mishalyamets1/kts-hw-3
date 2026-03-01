@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from 'components/Header/Header.module.scss';
 import Text from '../ui-kit/Text';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
-const Header = () => {
+import { cartStore } from 'stores/global/CartStore';
+import { observer } from 'mobx-react-lite';
+const Header = observer(() => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
-
+  const navigate = useNavigate();
   return (
     <>
       {/* Desktop Header */}
@@ -30,7 +31,7 @@ const Header = () => {
             to="/categories"
             className={({ isActive }) => clsx(styles.link, { [styles.active]: isActive })}
           >
-            <Text  view="p-18" tag="p">
+            <Text view="p-18" tag="p">
               Categories
             </Text>
           </NavLink>
@@ -45,8 +46,8 @@ const Header = () => {
         </nav>
         <div className={styles.icons}>
           <div className={styles.cart}>
-            {' '}
-            <img src="/svg/bag-2.svg" alt="" />
+            <img src="/svg/bag-2.svg" alt="" onClick={() => navigate('/cart')} />
+            {cartStore.ItemsCount}
           </div>
           <div className={styles.account}>
             <img src="/svg/user.svg" alt="" />
@@ -70,8 +71,8 @@ const Header = () => {
             <span />
           </button>
           <div className={styles.cart}>
-            {' '}
-            <img src="/svg/bag-2.svg" alt="" />
+            <img src="/svg/bag-2.svg" alt="" onClick={() => navigate('/cart')} />
+            {cartStore.ItemsCount}
           </div>
           <div className={styles.account}>
             <img src="/svg/user.svg" alt="" />
@@ -113,6 +114,6 @@ const Header = () => {
       )}
     </>
   );
-};
+});
 
 export default Header;

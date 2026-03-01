@@ -5,29 +5,29 @@ import Loader from 'components/ui-kit/Loader';
 import Text from 'components/ui-kit/Text';
 import Button from 'components/ui-kit/Button';
 import Card from 'components/ui-kit/Card';
-import { observer} from 'mobx-react-lite';
+import { observer } from 'mobx-react-lite';
 import { singleProductStore } from 'stores/local';
 import { useEffect } from 'react';
 
 const SingleCard = observer(() => {
   const { documentId } = useParams<{ documentId?: string }>();
   const navigate = useNavigate();
- const categoryId = singleProductStore.product?.productCategory?.id;
+  const categoryId = singleProductStore.product?.productCategory?.id;
   useEffect(() => {
     window.scrollTo(0, 0);
     if (documentId) {
-      singleProductStore.fetchProductById(documentId)
+      singleProductStore.fetchProductById(documentId);
     }
     return () => {
-      singleProductStore.destroy()
-    }
-  }, [documentId])
+      singleProductStore.destroy();
+    };
+  }, [documentId]);
 
   useEffect(() => {
     if (categoryId) {
-      singleProductStore.fetchRelatedProducts(categoryId)
+      singleProductStore.fetchRelatedProducts(categoryId);
     }
-  }, [categoryId])
+  }, [categoryId]);
 
   if (!documentId) {
     return (
@@ -38,7 +38,11 @@ const SingleCard = observer(() => {
   }
 
   if (singleProductStore.productLoading) {
-    return  <div className={styles.loader}><Loader /></div>;
+    return (
+      <div className={styles.loader}>
+        <Loader />
+      </div>
+    );
   }
 
   if (singleProductStore.productError) {
@@ -57,7 +61,10 @@ const SingleCard = observer(() => {
     );
   }
 
-  const image = singleProductStore.product.images && singleProductStore.product.images.length > 0 ? singleProductStore.product.images[0].url : undefined;
+  const image =
+    singleProductStore.product.images && singleProductStore.product.images.length > 0
+      ? singleProductStore.product.images[0].url
+      : undefined;
   return (
     <div className={styles.singleCard}>
       <RemoveButton />
@@ -93,20 +100,23 @@ const SingleCard = observer(() => {
         </Text>
         <div className={styles.cards}>
           {singleProductStore.relatedError ? (
-            <div className={styles.loader}><Loader /></div>
+            <div className={styles.loader}>
+              <Loader />
+            </div>
           ) : (
             singleProductStore.relatedProducts?.map((prod) => {
-              const image = prod.images?.[0]?.url ?? '';
+              const { documentId, title, description, price, productCategory } = prod;
+              const image = prod.images?.[0]?.url;
               return (
                 <Card
-                  key={prod.documentId}
+                  key={documentId}
                   image={image}
-                  captionSlot={prod.productCategory?.title}
-                  title={prod.title}
-                  subtitle={prod.description}
-                  contentSlot={`$${prod.price}`}
+                  captionSlot={productCategory?.title}
+                  title={title}
+                  subtitle={description}
+                  contentSlot={`$${price}`}
                   actionSlot={<Button>Buy now</Button>}
-                  onClick={() => navigate(`/product/${prod.documentId}`)}
+                  onClick={() => navigate(`/product/${documentId}`)}
                 />
               );
             })

@@ -6,51 +6,47 @@ import type { Option } from 'components/ui-kit/MultiDropdown';
 import Button from 'components/ui-kit/Button';
 import Text from 'components/ui-kit/Text';
 import { observer } from 'mobx-react-lite';
-import { allProductsStore } from 'stores/global';
+import { allProductsStore } from 'stores/global/AllProductsStore';
 
 const Menu = observer(() => {
-  const [value, setValue] = useState('');
-  const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
+  const [value, setValue] = useState(() => allProductsStore.searchTitle);
 
-  // Загружаем категории и восстанавливаем состояние из URL
+  // Загружаем категории
   useEffect(() => {
     allProductsStore.fetchCategories();
-    
-    
-    // Восстанавливаем значения input и filter из стора
-    setValue(allProductsStore.searchTitle);
-    const selectedCats = allProductsStore.selectedCategoryIds.map(id => ({
-      key: String(id),
-      value: allProductsStore.categories.find(c => c.id === id)?.title || '',
-    }));
-    setSelectedOptions(selectedCats);
   }, []);
 
   const categoryOptions: Option[] = allProductsStore.categories.map((cat) => ({
     key: String(cat.id),
     value: cat.title,
   }));
-  
+
+  const selectedOptions: Option[] = allProductsStore.selectedCategoryIds.map((id) => ({
+    key: String(id),
+    value: allProductsStore.categories.find((c) => c.id === id)?.title || '',
+  }));
+
   const handleSearch = (inputValue: string) => {
     setValue(inputValue);
-  }
+  };
 
   const handleFindClick = () => {
-    allProductsStore.setSearchTitle(value);  // Это уже вызывает updateUrl()
+    allProductsStore.setSearchTitle(value);
     allProductsStore.fetchProducts(9);
-  }
+  };
 
   const handleFilterChange = (options: Option[]) => {
-    setSelectedOptions(options);
-    const categoryIds = options.map(opt => parseInt(opt.key));
-    allProductsStore.setSelectedCategories(categoryIds);  // Это уже вызывает updateUrl()
+    const categoryIds = options.map((opt) => parseInt(opt.key));
+    allProductsStore.setSelectedCategories(categoryIds);
     allProductsStore.fetchProducts(9);
-  }
+  };
   return (
     <div className={styles.menu}>
       <div className={styles.inputBox}>
         <Input value={value} onChange={handleSearch} placeholder="Search product" />
-        <Button className={styles.btn} onClick={handleFindClick}>Find now</Button>
+        <Button className={styles.btn} onClick={handleFindClick}>
+          Find now
+        </Button>
       </div>
       <MultiDropdown
         className={styles.filter}
@@ -73,5 +69,3 @@ const Menu = observer(() => {
 });
 
 export default Menu;
-
-

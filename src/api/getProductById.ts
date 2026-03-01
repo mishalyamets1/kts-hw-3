@@ -10,7 +10,7 @@ type ProductByIdResponse = {
 export const getProductById = async (documentId: string): Promise<Product> => {
   const query = qs.stringify({ populate: ['images', 'productCategory'] });
   const response = await axios.get<ProductByIdResponse>(`${STRAPI_URL}/${documentId}?${query}`, {
-    headers: { authorization: API_TOKEN },
+    headers: { Authorization: `Bearer ${API_TOKEN}` },
   });
   return response.data.data;
 };
