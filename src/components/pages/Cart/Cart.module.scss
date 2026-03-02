@@ -44,12 +44,17 @@
   gap: 20px;
   background: $bg-white;
   align-items: center;
+  transition: opacity 0.2s ease;
   img {
     display: block;
   }
   @include tablet-and-up {
     gap: 40px;
   }
+}
+.cartItemUpdating {
+  opacity: 0.5;
+  pointer-events: none;
 }
 .itemInfo {
   font-size: 14px;

@@ -1,11 +1,12 @@
+import clsx from 'clsx';
 import React from 'react';
 import Text from '../Text';
 import styles from './Card.module.scss';
-import clsx from 'clsx';
 
 export type CardProps = {
   className?: string;
   image: string;
+  imageAlt?: string;
   captionSlot?: React.ReactNode;
   title: React.ReactNode;
   subtitle: React.ReactNode;
@@ -17,6 +18,7 @@ export type CardProps = {
 const Card: React.FC<CardProps> = ({
   className = 'card',
   image,
+  imageAlt,
   captionSlot,
   title,
   subtitle,
@@ -26,10 +28,7 @@ const Card: React.FC<CardProps> = ({
 }) => {
   return (
     <div className={clsx(styles.card, className)} onClick={onClick}>
-      <div>
-        <img src={image} className={styles.card__img} alt="картинка" />
-      </div>
-
+      <img src={image} className={styles.card__img} alt={imageAlt} width={360} height={360} />
       <div className={styles.card__text}>
         {captionSlot && (
           <Text view="p-14" weight="medium" color="secondary" className={styles.card__caption}>

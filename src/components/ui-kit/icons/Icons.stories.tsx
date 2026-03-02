@@ -1,7 +1,7 @@
 import React from 'react';
-import type { IconProps } from './Icon';
-import CheckIcon from './CheckIcon';
 import ArrowDownIcon from './ArrowDownIcon';
+import CheckIcon from './CheckIcon';
+import type { IconProps } from './Icon';
 
 export default {
   title: 'Icons',

@@ -1,0 +1,36 @@
+@use '../../styles/variables.scss' as *;
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  background-color: $brand;
+  color: $text-white;
+  border-radius: 8px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  animation: slideIn 0.3s ease-out;
+  max-width: 360px;
+}
+
+.toast__text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

@@ -1,15 +1,21 @@
-import { useState, useEffect } from 'react';
-import styles from 'components/Menu/Menu.module.scss';
-import Input from 'components/ui-kit/Input';
-import MultiDropdown from 'components/ui-kit/MultiDropdown';
-import type { Option } from 'components/ui-kit/MultiDropdown';
-import Button from 'components/ui-kit/Button';
-import Text from 'components/ui-kit/Text';
 import { observer } from 'mobx-react-lite';
-import { allProductsStore } from 'stores/global/AllProductsStore';
+import { useState, useEffect } from 'react';
+import Button from '@/components/ui-kit/Button';
+import Input from '@/components/ui-kit/Input';
+import MultiDropdown from '@/components/ui-kit/MultiDropdown';
+import type { Option } from '@/components/ui-kit/MultiDropdown';
+import Text from '@/components/ui-kit/Text';
+import { useAllProductsStore } from '@/stores/local/AllProductsStore/AllProductsStoreContext';
+import styles from './Menu.module.scss';
 
 const Menu = observer(() => {
-  const [value, setValue] = useState(() => allProductsStore.searchTitle);
+  const allProductsStore = useAllProductsStore();
+  const [value, setValue] = useState('');
+  const searchTitle = allProductsStore.searchTitle;
+
+  useEffect(() => {
+    setValue(searchTitle);
+  }, [searchTitle]);
 
   // Загружаем категории
   useEffect(() => {

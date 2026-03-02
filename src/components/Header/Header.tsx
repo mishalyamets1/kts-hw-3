@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import styles from 'components/Header/Header.module.scss';
-import Text from '../ui-kit/Text';
-import { NavLink, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
-import { cartStore } from 'stores/global/CartStore';
 import { observer } from 'mobx-react-lite';
+import { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { cartStore } from '@/stores/global/CartStore';
+import Text from '../ui-kit/Text';
+import styles from './Header.module.scss';
+
 const Header = observer(() => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const closeMenu = () => {
@@ -16,7 +17,7 @@ const Header = observer(() => {
       {/* Desktop Header */}
       <header className={styles.header}>
         <div className={styles.logo}>
-          <img src="/svg/Frame 4.svg" alt="logo" />
+          <img src="/svg/logo.svg" alt="logo" />
         </div>
         <nav className={styles.nav}>
           <NavLink
@@ -46,7 +47,7 @@ const Header = observer(() => {
         </nav>
         <div className={styles.icons}>
           <div className={styles.cart}>
-            <img src="/svg/bag-2.svg" alt="" onClick={() => navigate('/cart')} />
+            <img src="/svg/cart.svg" alt="" onClick={() => navigate('/cart')} />
             {cartStore.ItemsCount}
           </div>
           <div className={styles.account}>
@@ -58,7 +59,7 @@ const Header = observer(() => {
       {/* Mobile Header */}
       <div className={styles.burger}>
         <div className={styles.logo}>
-          <img src="/svg/Frame 4.svg" alt="logo" />
+          <img src="/svg/logo.svg" alt="logo" />
         </div>
 
         <div className={styles.icons}>
@@ -71,7 +72,7 @@ const Header = observer(() => {
             <span />
           </button>
           <div className={styles.cart}>
-            <img src="/svg/bag-2.svg" alt="" onClick={() => navigate('/cart')} />
+            <img src="/svg/cart.svg" alt="" onClick={() => navigate('/cart')} />
             {cartStore.ItemsCount}
           </div>
           <div className={styles.account}>

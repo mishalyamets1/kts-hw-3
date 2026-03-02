@@ -1,7 +1,7 @@
-import { getProductById } from 'api/getProductById';
-import { getProductsByCategory } from 'api/getProductsByCategory';
-import type { Product } from 'api/productsTypes';
 import { makeAutoObservable, runInAction } from 'mobx';
+import { getProductById } from '@/api/getProductById';
+import { getProductsByCategory } from '@/api/getProductsByCategory';
+import type { Product } from '@/api/productsTypes';
 
 export class SingleProductStore {
   // хук useGetProductById

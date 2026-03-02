@@ -1,14 +1,15 @@
-import { useEffect } from 'react';
-import Card from 'components/ui-kit/Card';
-import Loader from 'components/ui-kit/Loader';
-import type { Product } from 'api/productsTypes';
-import Button from 'components/ui-kit/Button';
-import styles from 'components/Products/Products.module.scss';
-import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
-import { allProductsStore } from 'stores/global/AllProductsStore';
-import { cartStore } from 'stores/global/CartStore';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import type { Product } from '@/api/productsTypes';
+import Button from '@/components/ui-kit/Button';
+import Card from '@/components/ui-kit/Card';
+import Loader from '@/components/ui-kit/Loader';
+import { cartStore } from '@/stores/global/CartStore';
+import { useAllProductsStore } from '@/stores/local/AllProductsStore/AllProductsStoreContext';
+import styles from './Products.module.scss';
+
 export type ProductProps = {
   products: Product[];
   loading: boolean;
@@ -16,6 +17,7 @@ export type ProductProps = {
 const Products = observer(() => {
   const pageSize = 9;
   const navigate = useNavigate();
+  const allProductsStore = useAllProductsStore();
 
   useEffect(() => {
     allProductsStore.fetchProducts(pageSize);
@@ -47,6 +49,7 @@ const Products = observer(() => {
                   captionSlot={productCategory?.title}
                   subtitle={description}
                   contentSlot={`$${price}`}
+                  imageAlt={title}
                   actionSlot={
                     <Button
                       onClick={(e) => {
@@ -65,7 +68,7 @@ const Products = observer(() => {
 
           <div className={styles.pagination}>
             <img
-              src="/svg/arrow-right.svg"
+              src="/svg/arrow-left.svg"
               className={styles.arrowLeft}
               width={35}
               height={35}
@@ -83,7 +86,7 @@ const Products = observer(() => {
               </Button>
             ))}
             <img
-              src="/svg/arrow-right (1).svg"
+              src="/svg/arrow-right.svg"
               className={styles.arrowRight}
               width={35}
               height={35}

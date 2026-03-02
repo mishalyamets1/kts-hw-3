@@ -1,9 +1,8 @@
 import axios from 'axios';
-import type { CartItem } from 'api/productsTypes';
+import type { CartItem } from '@/api/productsTypes';
+import { STRAPI_BASE_URL, API_TOKEN } from '@/config/api';
 
-const STRAPI_BASE_URL = import.meta.env.VITE_STRAPI_BASE_URL;
 const CART_URL = `${STRAPI_BASE_URL}/api/cart`;
-const API_TOKEN = import.meta.env.VITE_STRAPI_API_TOKEN;
 
 export type CartResponse = {
   data: CartItem[];

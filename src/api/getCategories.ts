@@ -1,10 +1,9 @@
 import axios from 'axios';
 import qs from 'qs';
+import { STRAPI_BASE_URL, API_TOKEN } from '@/config/api';
 import type { ProductCategory } from './productsTypes';
 
-const STRAPI_BASE_URL = import.meta.env.VITE_STRAPI_BASE_URL;
 const STRAPI_URL = `${STRAPI_BASE_URL}/api/product-categories`;
-const API_TOKEN = import.meta.env.VITE_STRAPI_API_TOKEN;
 
 type CategoriesResponse = {
   data: ProductCategory[];

@@ -1,10 +1,10 @@
-import Text from 'components/ui-kit/Text';
-import Loader from 'components/ui-kit/Loader';
-
-import { cartStore } from 'stores/global/CartStore';
 import { observer } from 'mobx-react-lite';
+import Button from '@/components/ui-kit/Button';
+import Loader from '@/components/ui-kit/Loader';
+import Text from '@/components/ui-kit/Text';
+import { cartStore } from '@/stores/global/CartStore';
 import styles from './Cart.module.scss';
-import Button from 'components/ui-kit/Button';
+
 const Cart = observer(() => {
   return (
     <div className={styles.cart}>
@@ -24,43 +24,55 @@ const Cart = observer(() => {
       ) : (
         <div className={styles.cartItems}>
           {Array.isArray(cartStore.cartItems) && cartStore.cartItems.length > 0 ? (
-            cartStore.cartItems.map((item) => (
-              <div className={styles.cartItem} key={item.id}>
-                <div>
-                  <img className={styles.img} src={item.product.images?.[0]?.url} alt="" />
-                </div>
-                <div className={styles.itemInfo}>
-                  <Text color="primary" weight="bold">
-                    {item.product.title}
-                  </Text>
-                  <Text>${item.product.price * item.quantity}</Text>
-                  <div className={styles.quantity}>
+            cartStore.cartItems.map((item) => {
+              const { id: itemId, quantity } = item;
+              const { id: productId, title, price, images } = item.product;
+              const imageUrl = images?.[0]?.url;
+              const isUpdating = cartStore.isItemUpdating(productId);
+              return (
+                <div
+                  className={`${styles.cartItem} ${isUpdating ? styles.cartItemUpdating : ''}`}
+                  key={itemId}
+                >
+                  <div>
+                    <img className={styles.img} src={imageUrl} alt={title} />
+                  </div>
+                  <div className={styles.itemInfo}>
+                    <Text color="primary" weight="bold">
+                      {title}
+                    </Text>
+                    <Text>${price * quantity}</Text>
+                    <div className={styles.quantity}>
+                      <Button
+                        className={styles.quantityBtn}
+                        disabled={isUpdating}
+                        onClick={() => cartStore.removeItem(productId)}
+                      >
+                        -
+                      </Button>
+                      <Text>{quantity}</Text>
+                      <Button
+                        className={styles.quantityBtn}
+                        disabled={isUpdating}
+                        onClick={() => cartStore.addItem(productId)}
+                      >
+                        +
+                      </Button>
+                    </div>
+                  </div>
+                  <div className={styles.btnBox}>
                     <Button
-                      className={styles.quantityBtn}
-                      onClick={() => cartStore.removeItem(item.product.id)}
+                      className={styles.removeBtn}
+                      disabled={isUpdating}
+                      onClick={() => cartStore.removeItemFull(productId)}
                     >
-                      -
+                      Remove
                     </Button>
-                    <Text>{item.quantity}</Text>
-                    <Button
-                      className={styles.quantityBtn}
-                      onClick={() => cartStore.addItem(item.product.id)}
-                    >
-                      +
-                    </Button>
+                    <Button className={styles.buyBtn}>Buy</Button>
                   </div>
                 </div>
-                <div className={styles.btnBox}>
-                  <Button
-                    className={styles.removeBtn}
-                    onClick={() => cartStore.removeItemFull(item.product.id)}
-                  >
-                    Remove
-                  </Button>
-                  <Button className={styles.buyBtn}>Buy</Button>
-                </div>
-              </div>
-            ))
+              );
+            })
           ) : (
             <p>Корзина пуста</p>
           )}

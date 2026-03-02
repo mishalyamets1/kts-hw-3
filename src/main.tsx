@@ -1,6 +1,6 @@
-import { createRoot } from 'react-dom/client';
 import { StrictMode } from 'react';
-import 'configs/configureMobX';
+import { createRoot } from 'react-dom/client';
+import '@/configs/configureMobX';
 import App from './App';
 
 const container = document.getElementById('root');

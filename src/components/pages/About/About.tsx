@@ -1,5 +1,5 @@
+import Text from '@/components/ui-kit/Text';
 import styles from '../SingleCard/SingleCard.module.scss';
-import Text from 'components/ui-kit/Text';
 
 const About = () => {
   return (

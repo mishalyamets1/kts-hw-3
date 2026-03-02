@@ -1,7 +1,7 @@
-import { getProducts } from 'api/getProducts';
-import { getCategories } from 'api/getCategories';
-import type { Product, ProductCategory } from 'api/productsTypes';
 import { makeAutoObservable, runInAction } from 'mobx';
+import { getCategories } from '@/api/getCategories';
+import { getProducts } from '@/api/getProducts';
+import type { Product, ProductCategory } from '@/api/productsTypes';
 
 export class AllProductsStore {
   // хук useGetAllProducts
@@ -88,12 +88,12 @@ export class AllProductsStore {
   async fetchProducts(pageSize = 9) {
     this.productsLoading = true;
     try {
-      const data = await getProducts(
-        this.currentPage,
+      const data = await getProducts({
+        page: this.currentPage,
         pageSize,
-        this.searchTitle,
-        this.selectedCategoryIds
-      );
+        searchTitle: this.searchTitle,
+        categoryIds: this.selectedCategoryIds,
+      });
       runInAction(() => {
         this.products = data.data;
         this.total = data.meta?.pagination?.total;
@@ -106,4 +106,3 @@ export class AllProductsStore {
     }
   }
 }
-export const allProductsStore = new AllProductsStore();

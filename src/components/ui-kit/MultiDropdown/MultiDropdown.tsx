@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Input from '../Input';
 import styles from './MultiDropdown.module.scss';
 

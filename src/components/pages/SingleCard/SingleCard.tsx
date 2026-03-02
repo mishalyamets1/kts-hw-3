@@ -1,13 +1,14 @@
-import RemoveButton from 'components/RemoveButton';
-import styles from './SingleCard.module.scss';
-import { useNavigate, useParams } from 'react-router-dom';
-import Loader from 'components/ui-kit/Loader';
-import Text from 'components/ui-kit/Text';
-import Button from 'components/ui-kit/Button';
-import Card from 'components/ui-kit/Card';
 import { observer } from 'mobx-react-lite';
-import { singleProductStore } from 'stores/local';
 import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import RemoveButton from '@/components/RemoveButton';
+import Button from '@/components/ui-kit/Button';
+import Card from '@/components/ui-kit/Card';
+import Loader from '@/components/ui-kit/Loader';
+import Text from '@/components/ui-kit/Text';
+import { cartStore } from '@/stores/global/CartStore';
+import { singleProductStore } from '@/stores/local/SingleProductStore';
+import styles from './SingleCard.module.scss';
 
 const SingleCard = observer(() => {
   const { documentId } = useParams<{ documentId?: string }>();
@@ -65,6 +66,7 @@ const SingleCard = observer(() => {
     singleProductStore.product.images && singleProductStore.product.images.length > 0
       ? singleProductStore.product.images[0].url
       : undefined;
+  const { id: productId, title, description, price } = singleProductStore.product;
   return (
     <div className={styles.singleCard}>
       <RemoveButton />
@@ -75,20 +77,28 @@ const SingleCard = observer(() => {
         <div className={styles.info}>
           <div className={styles.text}>
             <Text view="title" color="primary">
-              {singleProductStore.product.title}
+              {title}
             </Text>
             <Text view="p-20" color="secondary">
-              {singleProductStore.product.description}
+              {description}
             </Text>
           </div>
 
           <div className={styles.purchase}>
             <Text view="title" color="primary">
-              ${singleProductStore.product.price}
+              ${price}
             </Text>
             <div className={styles.buttons}>
               <Button className={styles.btnBuy}>Buy now</Button>
-              <Button className={styles.btnCart}>Add to cart</Button>
+              <Button
+                className={styles.btnCart}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  cartStore.addItem(productId, 1);
+                }}
+              >
+                Add to cart
+              </Button>
             </div>
           </div>
         </div>
@@ -105,7 +115,7 @@ const SingleCard = observer(() => {
             </div>
           ) : (
             singleProductStore.relatedProducts?.map((prod) => {
-              const { documentId, title, description, price, productCategory } = prod;
+              const { id, documentId, title, description, price, productCategory } = prod;
               const image = prod.images?.[0]?.url;
               return (
                 <Card
@@ -115,7 +125,16 @@ const SingleCard = observer(() => {
                   title={title}
                   subtitle={description}
                   contentSlot={`$${price}`}
-                  actionSlot={<Button>Buy now</Button>}
+                  actionSlot={
+                    <Button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        cartStore.addItem(id, 1);
+                      }}
+                    >
+                      Add to cart
+                    </Button>
+                  }
                   onClick={() => navigate(`/product/${documentId}`)}
                 />
               );

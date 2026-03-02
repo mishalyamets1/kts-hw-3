@@ -43,35 +43,49 @@ export default tseslint.config(
       react: {
         version: 'detect',
       },
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+          project: './tsconfig.app.json',
+        },
+      },
     },
     rules: {
       'eol-last': ['error', 'always'],
       'prettier/prettier': 'error',
       'no-console': 'error',
       'linebreak-style': ['error', 'unix'],
-      // 'import/order': [
-      //   'error',
-      //   {
-      //     groups: [
-      //       'builtin',
-      //       'external',
-      //       'internal',
-      //       'object',
-      //       'parent',
-      //       'sibling',
-      //       'index',
-      //     ],
-      //     alphabetize: {
-      //       order: 'asc',
-      //     },
-      //     'newlines-between': 'always',
-      //   },
-      // ],
+      'import/order': [
+        'error',
+        {
+          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+          pathGroups: [
+            {
+              pattern: '@/**',
+              group: 'internal',
+              position: 'before',
+            },
+          ],
+          pathGroupsExcludedImportTypes: ['builtin'],
+          alphabetize: { order: 'asc', caseInsensitive: true },
+          'newlines-between': 'never',
+        },
+      ],
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['components/*', 'api/*', 'stores/*', 'hooks/*', 'configs/*', 'styles/*', 'utils/*'],
+              message: 'Используй @/ для не-относительных импортов, например @/components/...',
+            },
+          ],
+        },
+      ],
       'react/jsx-uses-react': 'off',
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
       'react/display-name': 'off',
-      // 'react/no-unknown-property': 'error',
       'react/self-closing-comp': 'error',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
