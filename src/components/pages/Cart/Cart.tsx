@@ -14,7 +14,7 @@ const Cart = observer(() => {
       <div className={styles.cartInfo}>
         <Text view="subtitle">Products in the cart:</Text>
         <Text view="p-20" weight="bold" color="accent">
-          {cartStore.ItemsCount}
+          {cartStore.itemsCount}
         </Text>
       </div>
       {cartStore.cartLoading ? (

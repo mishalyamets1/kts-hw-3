@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import clsx from 'clsx';
 import React from 'react';
-import CheckIcon from '../icons/CheckIcon';
+import CheckIcon from '@/components/ui-kit/icons/CheckIcon';
 import styles from './CheckBox.module.scss';
 export type CheckBoxProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> & {
   /** Вызывается при клике на чекбокс */

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import Input from '../Input';
+import Input from '@/components/ui-kit/Input';
 import styles from './MultiDropdown.module.scss';
 
 export type Option = {
@@ -42,6 +42,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
     const handleClickOutside = (event: MouseEvent) => {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
         setIsOpen(false);
+        setSearch('');
       }
     };
 
@@ -65,7 +66,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
   return (
     <div
       ref={wrapperRef}
-      className={classNames('multi-dropdown', className, { disabled })}
+      className={classNames(styles.multiDropdown, className, { disabled })}
       onClick={() => {
         if (!disabled && readOnly) setIsOpen((prev) => !prev);
       }}

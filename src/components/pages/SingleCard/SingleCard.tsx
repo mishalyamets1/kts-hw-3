@@ -124,7 +124,7 @@ const SingleCard = observer(() => {
                   captionSlot={productCategory?.title}
                   title={title}
                   subtitle={description}
-                  contentSlot={`$${price}`}
+                  contentSlot={<Text view="p-18" color="primary" weight="bold">{`$${price}`}</Text>}
                   actionSlot={
                     <Button
                       onClick={(e) => {

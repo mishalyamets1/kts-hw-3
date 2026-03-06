@@ -2,8 +2,8 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import Text from '@/components/ui-kit/Text';
 import { cartStore } from '@/stores/global/CartStore';
-import Text from '../ui-kit/Text';
 import styles from './Header.module.scss';
 
 const Header = observer(() => {
@@ -48,7 +48,7 @@ const Header = observer(() => {
         <div className={styles.icons}>
           <div className={styles.cart}>
             <img src="/svg/cart.svg" alt="" onClick={() => navigate('/cart')} />
-            {cartStore.ItemsCount}
+            {cartStore.itemsCount}
           </div>
           <div className={styles.account}>
             <img src="/svg/user.svg" alt="" />
@@ -73,7 +73,7 @@ const Header = observer(() => {
           </button>
           <div className={styles.cart}>
             <img src="/svg/cart.svg" alt="" onClick={() => navigate('/cart')} />
-            {cartStore.ItemsCount}
+            {cartStore.itemsCount}
           </div>
           <div className={styles.account}>
             <img src="/svg/user.svg" alt="" />

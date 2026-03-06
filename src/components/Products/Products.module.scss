@@ -22,6 +22,20 @@
 .loader {
   justify-self: center;
 }
+.contentSlot {
+  display: flex;
+  flex-direction: row;
+  gap: 16px; 
+  align-items: center;
+}
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+}
 
 .loader svg {
   animation: spin 1s linear infinite;

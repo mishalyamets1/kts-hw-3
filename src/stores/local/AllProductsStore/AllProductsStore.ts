@@ -17,13 +17,21 @@ export class AllProductsStore {
   categories: ProductCategory[] = [];
   categoriesLoading = false;
 
+  private _setSearchParams: ((params: URLSearchParams) => void) | null = null;
+
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable<AllProductsStore, '_setSearchParams'>(this, { _setSearchParams: false });
   }
 
-  initializeFromUrl() {
-    const searchParams = new URLSearchParams(window.location.search);
+  setUrlUpdater(fn: (params: URLSearchParams) => void) {
+    this._setSearchParams = fn;
+  }
 
+  resetUrlUpdater() {
+    this._setSearchParams = null;
+  }
+
+  initializeFromUrl(searchParams: URLSearchParams) {
     const search = searchParams.get('search') || '';
     const page = parseInt(searchParams.get('page') || '1');
     const categories = searchParams.get('categories');
@@ -34,22 +42,23 @@ export class AllProductsStore {
     this.selectedCategoryIds = categoryIds;
   }
 
-  updateUrl() {
+  buildSearchParams(): URLSearchParams {
     const params = new URLSearchParams();
-
-    if (this.searchTitle) {
-      params.set('search', this.searchTitle);
-    }
-    if (this.currentPage > 1) {
-      params.set('page', String(this.currentPage));
-    }
-    if (this.selectedCategoryIds.length > 0) {
+    if (this.searchTitle) params.set('search', this.searchTitle);
+    if (this.currentPage > 1) params.set('page', String(this.currentPage));
+    if (this.selectedCategoryIds.length > 0)
       params.set('categories', this.selectedCategoryIds.join(','));
+    return params;
+  }
+
+  updateUrl() {
+    const params = this.buildSearchParams();
+    if (this._setSearchParams) {
+      this._setSearchParams(params);
+    } else {
+      const newUrl = params.toString() ? `/?${params.toString()}` : '/';
+      window.history.replaceState({}, '', newUrl);
     }
-
-    const newUrl = params.toString() ? `/?${params.toString()}` : '/';
-
-    window.history.pushState({}, '', newUrl);
   }
 
   setSearchTitle(title: string) {

@@ -6,6 +6,7 @@ import type { Product } from '@/api/productsTypes';
 import Button from '@/components/ui-kit/Button';
 import Card from '@/components/ui-kit/Card';
 import Loader from '@/components/ui-kit/Loader';
+import Text from '@/components/ui-kit/Text';
 import { cartStore } from '@/stores/global/CartStore';
 import { useAllProductsStore } from '@/stores/local/AllProductsStore/AllProductsStoreContext';
 import styles from './Products.module.scss';
@@ -37,34 +38,57 @@ const Products = observer(() => {
         </div>
       ) : (
         <>
-          <div className={styles.grid}>
-            {allProductsStore.products.map((product) => {
-              const { documentId, title, description, price, productCategory, id } = product;
-              const image = product.images?.[0]?.url;
-              return (
-                <Card
-                  key={documentId}
-                  image={image}
-                  title={title}
-                  captionSlot={productCategory?.title}
-                  subtitle={description}
-                  contentSlot={`$${price}`}
-                  imageAlt={title}
-                  actionSlot={
-                    <Button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        cartStore.addItem(id, 1);
-                      }}
-                    >
-                      Add to Cart
-                    </Button>
-                  }
-                  onClick={() => navigate(`/product/${documentId}`)}
-                />
-              );
-            })}
-          </div>
+          {allProductsStore.products.length === 0 ? (
+            <div className={styles.empty}>
+              <Text view="title" color="secondary">
+                Nothing was found
+              </Text>
+              <Text view="p-18" color="secondary">
+                Try changing the query or resetting the filters
+              </Text>
+            </div>
+          ) : (
+            <div className={styles.grid}>
+              {allProductsStore.products.map((product) => {
+                const { documentId, title, description, price, productCategory, id } = product;
+                const image = product.images?.[0]?.url;
+                const cartQty = cartStore.getItemQuantity(id);
+                return (
+                  <Card
+                    key={documentId}
+                    image={image}
+                    title={title}
+                    captionSlot={productCategory?.title}
+                    subtitle={description}
+                    contentSlot={
+                      <div className={styles.contentSlot}>
+                        <Text view="p-18" color="primary" weight="bold">
+                          {`$${price}`}
+                        </Text>
+                        {cartQty > 0 && (
+                          <Text view="p-14" color="secondary">
+                            In the cart: {cartQty}
+                          </Text>
+                        )}
+                      </div>
+                    }
+                    imageAlt={title}
+                    actionSlot={
+                      <Button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          cartStore.addItem(id, 1);
+                        }}
+                      >
+                        Add to Cart
+                      </Button>
+                    }
+                    onClick={() => navigate(`/product/${documentId}`)}
+                  />
+                );
+              })}
+            </div>
+          )}
 
           <div className={styles.pagination}>
             <img

@@ -46,6 +46,17 @@ const Menu = observer(() => {
     allProductsStore.setSelectedCategories(categoryIds);
     allProductsStore.fetchProducts(9);
   };
+
+  const handleClearFilter = () => {
+    setValue('');
+    // allProductsStore.setSearchTitle('');
+    allProductsStore.setSelectedCategories([]);
+    allProductsStore.fetchProducts(9);
+  };
+
+  const hasActiveFilters =
+    allProductsStore.selectedCategoryIds.length > 0 || allProductsStore.searchTitle !== '';
+
   return (
     <div className={styles.menu}>
       <div className={styles.inputBox}>
@@ -54,14 +65,18 @@ const Menu = observer(() => {
           Find now
         </Button>
       </div>
-      <MultiDropdown
-        className={styles.filter}
-        options={categoryOptions}
-        value={selectedOptions}
-        onChange={handleFilterChange}
-        readOnly={true}
-        getTitle={(value) => (value.length ? value.map((v) => v.value).join(', ') : 'Filter')}
-      />
+      <div className={styles.filterBox}>
+        <MultiDropdown
+          className={styles.filter}
+          options={categoryOptions}
+          value={selectedOptions}
+          onChange={handleFilterChange}
+          getTitle={(value) => (value.length ? value.map((v) => v.value).join(', ') : 'Filter')}
+        />
+
+        {hasActiveFilters && <Button onClick={handleClearFilter}>Reset</Button>}
+      </div>
+
       <div className={styles.totalBox}>
         <Text view="subtitle" color="primary">
           Total products

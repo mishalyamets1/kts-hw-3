@@ -52,11 +52,7 @@ const Card: React.FC<CardProps> = ({
 
         {(contentSlot || actionSlot) && (
           <div className={styles.card__contentAction}>
-            {contentSlot && (
-              <Text view="p-18" color="primary" weight="bold">
-                {contentSlot}
-              </Text>
-            )}
+            {contentSlot}
             {actionSlot}
           </div>
         )}

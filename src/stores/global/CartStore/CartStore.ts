@@ -108,8 +108,12 @@ export class CartStore {
     return this.updatingItemIds.has(productId);
   }
 
-  get ItemsCount(): number {
+  get itemsCount(): number {
     return this.cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  }
+
+  getItemQuantity(productId: number): number {
+    return this.cartItems.find((item) => item.product.id === productId)?.quantity ?? 0;
   }
 }
 export const cartStore = new CartStore();

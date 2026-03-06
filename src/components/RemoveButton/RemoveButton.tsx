@@ -9,7 +9,7 @@ const RemoveButton = () => {
       <button className={styles.removeButton} onClick={() => navigate('/')}>
         <img src="/svg/arrow-left.svg" alt="back arrow" />
         <Text view="p-20" color="primary">
-          Назад
+          Back
         </Text>
       </button>
     </div>
