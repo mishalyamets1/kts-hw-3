@@ -1,5 +1,4 @@
 import { makeAutoObservable, runInAction } from 'mobx';
-import { getCategories } from '@/api/getCategories';
 import { getProducts } from '@/api/getProducts';
 import type { Product, ProductCategory } from '@/api/productsTypes';
 
@@ -21,6 +20,14 @@ export class AllProductsStore {
 
   constructor() {
     makeAutoObservable<AllProductsStore, '_setSearchParams'>(this, { _setSearchParams: false });
+  }
+
+  setInitialData(products: Product[], total: number, categories: ProductCategory[]) {
+    this.products = products;
+    this.total = total;
+    this.categories = categories;
+    this.productsLoading = false;
+    this.categoriesLoading = false;
   }
 
   setUrlUpdater(fn: (params: URLSearchParams) => void) {
@@ -76,21 +83,6 @@ export class AllProductsStore {
   setCurrentPage(page: number) {
     this.currentPage = page;
     this.updateUrl();
-  }
-
-  // Загружаем категории
-  async fetchCategories() {
-    this.categoriesLoading = true;
-    try {
-      const data = await getCategories();
-      runInAction(() => {
-        this.categories = data;
-      });
-    } finally {
-      runInAction(() => {
-        this.categoriesLoading = false;
-      });
-    }
   }
 
   // хук useGetAllProducts

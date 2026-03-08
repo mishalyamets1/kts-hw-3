@@ -1,3 +1,5 @@
+'use client';
+
 import classNames from 'classnames';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Input from '@/components/ui-kit/Input';

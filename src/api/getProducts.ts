@@ -1,6 +1,5 @@
-import axios from 'axios';
 import qs from 'qs';
-import { STRAPI_BASE_URL, API_TOKEN } from '@/config/api';
+import { STRAPI_BASE_URL, API_TOKEN } from '@/configs/api';
 import type { ProductsResponse } from './productsTypes';
 
 const STRAPI_URL = `${STRAPI_BASE_URL}/api/products`;
@@ -36,8 +35,9 @@ export const getProducts = async ({
     },
     { arrayFormat: 'brackets' }
   );
-  const response = await axios.get<ProductsResponse>(`${STRAPI_URL}?${query}`, {
+  const response = await fetch(`${STRAPI_URL}?${query}`, {
     headers: { Authorization: `Bearer ${API_TOKEN}` },
+    next: {revalidate: 60},
   });
-  return response.data;
+  return response.json();
 };

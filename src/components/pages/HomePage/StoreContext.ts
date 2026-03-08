@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { AllProductsStore } from '@/stores/local/AllProductsStore';
+import type { AllProductsStore } from './store';
 
 const AllProductsStoreContext = createContext<AllProductsStore | null>(null);
 

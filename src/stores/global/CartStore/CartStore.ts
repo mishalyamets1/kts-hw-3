@@ -68,6 +68,7 @@ export class CartStore {
     }
   }
 
+  
   async removeItem(productId: number, quantity = 1) {
     this.updatingItemIds.add(productId);
 

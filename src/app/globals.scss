@@ -1,6 +1,4 @@
-@use './styles/variables.scss' as *;
-@import './styles/Roboto/fonts.css';
-
+@use '../styles/variables.scss' as *;
 :root {
   --space-xxs: 8px;
   --space-xs: 12px;
@@ -15,28 +13,43 @@
   --text-secondary: #afadb5;
   --text-primary: #000000;
   --text-accent: var(--brand);
+
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
 html,
 body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
   font-family: 'Roboto';
-  margin: 0;
-  padding: 0;
   background-color: $bg-body;
 }
 
 * {
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-figure,
-pre {
-  margin: 0;
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
 }

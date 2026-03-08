@@ -1,32 +1,21 @@
+'use client'
+
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import type { Product } from '@/api/productsTypes';
 import Button from '@/components/ui-kit/Button';
 import Card from '@/components/ui-kit/Card';
 import Loader from '@/components/ui-kit/Loader';
 import Text from '@/components/ui-kit/Text';
 import { cartStore } from '@/stores/global/CartStore';
-import { useAllProductsStore } from '@/stores/local/AllProductsStore/AllProductsStoreContext';
+import { useAllProductsStore } from '@/components/pages/HomePage/StoreContext';
 import styles from './Products.module.scss';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
-export type ProductProps = {
-  products: Product[];
-  loading: boolean;
-};
 const Products = observer(() => {
   const pageSize = 9;
-  const navigate = useNavigate();
+  const router = useRouter();
   const allProductsStore = useAllProductsStore();
-
-  useEffect(() => {
-    allProductsStore.fetchProducts(pageSize);
-  }, [
-    allProductsStore.currentPage,
-    allProductsStore.searchTitle,
-    allProductsStore.selectedCategoryIds,
-  ]);
 
   const totalPages = allProductsStore.total ? Math.ceil(allProductsStore.total / pageSize) : 1;
 
@@ -83,7 +72,7 @@ const Products = observer(() => {
                         Add to Cart
                       </Button>
                     }
-                    onClick={() => navigate(`/product/${documentId}`)}
+                    onClick={() => router.push(`/product/${documentId}`)}
                   />
                 );
               })}
@@ -91,10 +80,11 @@ const Products = observer(() => {
           )}
 
           <div className={styles.pagination}>
-            <img
+            <Image
               src="/svg/arrow-left.svg"
               className={styles.arrowLeft}
               width={35}
+              alt='arrow-left'
               height={35}
               onClick={() =>
                 allProductsStore.setCurrentPage(Math.max(1, allProductsStore.currentPage - 1))
@@ -109,9 +99,10 @@ const Products = observer(() => {
                 {i + 1}
               </Button>
             ))}
-            <img
+            <Image
               src="/svg/arrow-right.svg"
               className={styles.arrowRight}
+              alt='arrow-right'
               width={35}
               height={35}
               onClick={() =>

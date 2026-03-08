@@ -1,4 +1,7 @@
+'use client'
+
 import { observer } from 'mobx-react-lite';
+import Image from 'next/image';
 import Button from '@/components/ui-kit/Button';
 import Loader from '@/components/ui-kit/Loader';
 import Text from '@/components/ui-kit/Text';
@@ -35,7 +38,7 @@ const Cart = observer(() => {
                   key={itemId}
                 >
                   <div>
-                    <img className={styles.img} src={imageUrl} alt={title} />
+                    <Image className={styles.img} src={imageUrl} alt={title} width={100} height={100} />
                   </div>
                   <div className={styles.itemInfo}>
                     <Text color="primary" weight="bold">

@@ -1,4 +1,6 @@
 import * as React from 'react';
+import clsx from 'clsx';
+import styles from './Text.module.scss';
 
 export type TextProps = {
   /** Дополнительный класс */
@@ -42,13 +44,12 @@ const Text: React.FC<TextProps> = ({ className, view, tag, weight, children, col
     fontSize: baseStyle.fontSize,
     lineHeight: baseStyle.lineHeight,
     fontWeight: weight ? weightMap[weight] : baseStyle.fontWeight,
-    color: color ? `var(--text-${color})` : 'inherit',
     display: maxLines ? '-webkit-box' : undefined,
     overflow: maxLines ? 'hidden' : undefined,
     WebkitLineClamp: maxLines,
     WebkitBoxOrient: 'vertical',
   };
-  return React.createElement(Tag, { style, className }, children);
+  return React.createElement(Tag, { style, className: clsx(color && styles[color], className) }, children);
 };
 
 export default Text;

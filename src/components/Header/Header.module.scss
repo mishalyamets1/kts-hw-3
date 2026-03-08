@@ -38,6 +38,7 @@
 
   img {
     height: 40px;
+    width: auto;
   }
 }
 
@@ -146,6 +147,7 @@
     color: $brand;
   }
 }
-a {
+
+.link {
   color: $text-primary;
 }
