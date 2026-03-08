@@ -1,28 +1,30 @@
-import React, { useState } from 'react';
-import styles from 'components/Header/Header.module.scss';
-import Text from '../ui-kit/Text';
-import { NavLink } from 'react-router-dom';
 import clsx from 'clsx';
-const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+import { observer } from 'mobx-react-lite';
+import { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import Text from '@/components/ui-kit/Text';
+import { cartStore } from '@/stores/global/CartStore';
+import styles from './Header.module.scss';
 
+const Header = observer(() => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
-
+  const navigate = useNavigate();
   return (
     <>
       {/* Desktop Header */}
       <header className={styles.header}>
         <div className={styles.logo}>
-          <img src="/svg/Frame 4.svg" alt="logo" />
+          <img src="/svg/logo.svg" alt="logo" />
         </div>
         <nav className={styles.nav}>
           <NavLink
             to="/"
             className={({ isActive }) => clsx(styles.link, { [styles.active]: isActive })}
           >
-            <Text color="primary" view="p-18" tag="p">
+            <Text view="p-18" tag="p">
               Products
             </Text>
           </NavLink>
@@ -30,7 +32,7 @@ const Header = () => {
             to="/categories"
             className={({ isActive }) => clsx(styles.link, { [styles.active]: isActive })}
           >
-            <Text color="primary" view="p-18" tag="p">
+            <Text view="p-18" tag="p">
               Categories
             </Text>
           </NavLink>
@@ -38,15 +40,15 @@ const Header = () => {
             to="/about"
             className={({ isActive }) => clsx(styles.link, { [styles.active]: isActive })}
           >
-            <Text color="primary" view="p-18" tag="p">
+            <Text view="p-18" tag="p">
               About us
             </Text>
           </NavLink>
         </nav>
         <div className={styles.icons}>
           <div className={styles.cart}>
-            {' '}
-            <img src="/svg/bag-2.svg" alt="" />
+            <img src="/svg/cart.svg" alt="" onClick={() => navigate('/cart')} />
+            {cartStore.itemsCount}
           </div>
           <div className={styles.account}>
             <img src="/svg/user.svg" alt="" />
@@ -57,7 +59,7 @@ const Header = () => {
       {/* Mobile Header */}
       <div className={styles.burger}>
         <div className={styles.logo}>
-          <img src="/svg/Frame 4.svg" alt="logo" />
+          <img src="/svg/logo.svg" alt="logo" />
         </div>
 
         <div className={styles.icons}>
@@ -70,8 +72,8 @@ const Header = () => {
             <span />
           </button>
           <div className={styles.cart}>
-            {' '}
-            <img src="/svg/bag-2.svg" alt="" />
+            <img src="/svg/cart.svg" alt="" onClick={() => navigate('/cart')} />
+            {cartStore.itemsCount}
           </div>
           <div className={styles.account}>
             <img src="/svg/user.svg" alt="" />
@@ -113,6 +115,6 @@ const Header = () => {
       )}
     </>
   );
-};
+});
 
 export default Header;

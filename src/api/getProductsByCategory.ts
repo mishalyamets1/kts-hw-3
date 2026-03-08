@@ -1,10 +1,10 @@
 import axios from 'axios';
 import qs from 'qs';
+import { STRAPI_BASE_URL, API_TOKEN } from '@/config/api';
 import type { ProductsResponse } from './productsTypes';
 
-const STRAPI_BASE_URL = import.meta.env.VITE_STRAPI_BASE_URL;
 const STRAPI_URL = `${STRAPI_BASE_URL}/api/products`;
-const API_TOKEN = import.meta.env.VITE_STRAPI_API_TOKEN;
+
 export const getProductsByCategory = async (
   productCategoryId?: number | null
 ): Promise<ProductsResponse> => {
@@ -14,7 +14,7 @@ export const getProductsByCategory = async (
   });
   const response = await axios.get<ProductsResponse>(`${STRAPI_URL}?${query}`, {
     headers: {
-      Authorization: API_TOKEN,
+      Authorization: `Bearer ${API_TOKEN}`,
     },
   });
   return response.data;

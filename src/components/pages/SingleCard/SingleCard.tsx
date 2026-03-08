@@ -1,26 +1,34 @@
-import RemoveButton from 'components/RemoveButton';
-import styles from './SingleCard.module.scss';
-import { useGetProductById } from '../../../hooks/useGetProductById';
-import { useNavigate, useParams } from 'react-router-dom';
-import Loader from 'components/ui-kit/Loader';
-import Text from 'components/ui-kit/Text';
-import Button from 'components/ui-kit/Button';
-import { useGetProductByCategory } from '../../../hooks/useGetProductByCategory';
-import Card from 'components/ui-kit/Card';
+import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import RemoveButton from '@/components/RemoveButton';
+import Button from '@/components/ui-kit/Button';
+import Card from '@/components/ui-kit/Card';
+import Loader from '@/components/ui-kit/Loader';
+import Text from '@/components/ui-kit/Text';
+import { cartStore } from '@/stores/global/CartStore';
+import { singleProductStore } from '@/stores/local/SingleProductStore';
+import styles from './SingleCard.module.scss';
 
-const SingleCard = () => {
+const SingleCard = observer(() => {
   const { documentId } = useParams<{ documentId?: string }>();
   const navigate = useNavigate();
-
+  const categoryId = singleProductStore.product?.productCategory?.id;
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (documentId) {
+      singleProductStore.fetchProductById(documentId);
+    }
+    return () => {
+      singleProductStore.destroy();
+    };
   }, [documentId]);
 
-  const { product, loading, error } = useGetProductById(documentId ?? '');
-  const { relatedProducts, loading: relLoading } = useGetProductByCategory(
-    product?.productCategory?.id ?? undefined
-  );
+  useEffect(() => {
+    if (categoryId) {
+      singleProductStore.fetchRelatedProducts(categoryId);
+    }
+  }, [categoryId]);
 
   if (!documentId) {
     return (
@@ -30,19 +38,23 @@ const SingleCard = () => {
     );
   }
 
-  if (loading) {
-    return <Loader />;
+  if (singleProductStore.productLoading) {
+    return (
+      <div className={styles.loader}>
+        <Loader />
+      </div>
+    );
   }
 
-  if (error) {
+  if (singleProductStore.productError) {
     return (
       <Text view="title" color="accent">
-        Ошибка: {error}
+        Ошибка: {singleProductStore.productError}
       </Text>
     );
   }
 
-  if (!product) {
+  if (!singleProductStore.product) {
     return (
       <Text view="title" color="accent">
         Товар не найден
@@ -50,7 +62,11 @@ const SingleCard = () => {
     );
   }
 
-  const image = product.images && product.images.length > 0 ? product.images[0].url : undefined;
+  const image =
+    singleProductStore.product.images && singleProductStore.product.images.length > 0
+      ? singleProductStore.product.images[0].url
+      : undefined;
+  const { id: productId, title, description, price } = singleProductStore.product;
   return (
     <div className={styles.singleCard}>
       <RemoveButton />
@@ -61,20 +77,28 @@ const SingleCard = () => {
         <div className={styles.info}>
           <div className={styles.text}>
             <Text view="title" color="primary">
-              {product.title}
+              {title}
             </Text>
             <Text view="p-20" color="secondary">
-              {product.description}
+              {description}
             </Text>
           </div>
 
           <div className={styles.purchase}>
             <Text view="title" color="primary">
-              ${product.price}
+              ${price}
             </Text>
             <div className={styles.buttons}>
               <Button className={styles.btnBuy}>Buy now</Button>
-              <Button className={styles.btnCart}>Add to cart</Button>
+              <Button
+                className={styles.btnCart}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  cartStore.addItem(productId, 1);
+                }}
+              >
+                Add to cart
+              </Button>
             </div>
           </div>
         </div>
@@ -85,21 +109,33 @@ const SingleCard = () => {
           Related Items
         </Text>
         <div className={styles.cards}>
-          {relLoading ? (
-            <Loader />
+          {singleProductStore.relatedError ? (
+            <div className={styles.loader}>
+              <Loader />
+            </div>
           ) : (
-            relatedProducts?.map((prod) => {
-              const image = prod.images?.[0]?.url ?? '';
+            singleProductStore.relatedProducts?.map((prod) => {
+              const { id, documentId, title, description, price, productCategory } = prod;
+              const image = prod.images?.[0]?.url;
               return (
                 <Card
-                  key={prod.documentId}
+                  key={documentId}
                   image={image}
-                  captionSlot={prod.productCategory?.title}
-                  title={prod.title}
-                  subtitle={prod.description}
-                  contentSlot={`$${prod.price}`}
-                  actionSlot={<Button>Buy now</Button>}
-                  onClick={() => navigate(`/product/${prod.documentId}`)}
+                  captionSlot={productCategory?.title}
+                  title={title}
+                  subtitle={description}
+                  contentSlot={<Text view="p-18" color="primary" weight="bold">{`$${price}`}</Text>}
+                  actionSlot={
+                    <Button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        cartStore.addItem(id, 1);
+                      }}
+                    >
+                      Add to cart
+                    </Button>
+                  }
+                  onClick={() => navigate(`/product/${documentId}`)}
                 />
               );
             })
@@ -108,6 +144,6 @@ const SingleCard = () => {
       </div>
     </div>
   );
-};
+});
 
 export default SingleCard;

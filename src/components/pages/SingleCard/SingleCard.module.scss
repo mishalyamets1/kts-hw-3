@@ -6,6 +6,22 @@
     padding: 0 100px;
   }
 }
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.loader {
+  justify-self: center;
+  margin-top: 200px;
+}
+
+.loader svg {
+  animation: spin 1s linear infinite;
+}
 .container {
   margin-top: 32px;
   display: flex;

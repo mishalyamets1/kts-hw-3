@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
-import Input from '../Input';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import Input from '@/components/ui-kit/Input';
 import styles from './MultiDropdown.module.scss';
 
 export type Option = {
@@ -14,6 +14,7 @@ export type MultiDropdownProps = {
   value: Option[];
   onChange: (value: Option[]) => void;
   disabled?: boolean;
+  readOnly?: boolean;
   getTitle: (value: Option[]) => string;
   afterSlot?: React.ReactNode;
 };
@@ -24,6 +25,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
   value,
   onChange,
   disabled,
+  readOnly,
   getTitle,
   afterSlot,
 }) => {
@@ -40,6 +42,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
     const handleClickOutside = (event: MouseEvent) => {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
         setIsOpen(false);
+        setSearch('');
       }
     };
 
@@ -61,17 +64,26 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
   const inputValue = search !== '' ? search : value.length > 0 ? getTitle(value) : '';
 
   return (
-    <div ref={wrapperRef} className={classNames('multi-dropdown', className, { disabled })}>
+    <div
+      ref={wrapperRef}
+      className={classNames(styles.multiDropdown, className, { disabled })}
+      onClick={() => {
+        if (!disabled && readOnly) setIsOpen((prev) => !prev);
+      }}
+    >
       <Input
         value={inputValue}
         disabled={disabled}
+        readOnly={readOnly}
         placeholder={value.length === 0 ? getTitle(value) : undefined}
         onChange={(val) => {
-          setSearch(val);
-          setIsOpen(true);
+          if (!readOnly) {
+            setSearch(val);
+            setIsOpen(true);
+          }
         }}
         onFocus={() => {
-          if (!disabled) setIsOpen(true);
+          if (!disabled && !readOnly) setIsOpen(true);
         }}
         afterSlot={
           afterSlot ? (

@@ -16,12 +16,18 @@
   width: 137px;
 }
 .filter {
-  max-width: 300px;
-  margin-top: 24px;
+  width: 300px;
+  
 }
 .totalBox {
   margin-top: 48px;
   display: flex;
   align-items: center;
   gap: 24px;
+}
+.filterBox {
+  display: flex;
+  margin-top: 24px;
+  gap: 24px;
+  
 }

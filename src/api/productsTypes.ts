@@ -28,3 +28,10 @@ export type ProductsResponse = {
     };
   };
 };
+
+export type CartItem = {
+  productId: number;
+  quantity: number;
+  id: number;
+  product: Product;
+};

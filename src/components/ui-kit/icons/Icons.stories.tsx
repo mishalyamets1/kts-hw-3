@@ -1,7 +1,6 @@
-import React from 'react';
-import type { IconProps } from './Icon';
-import CheckIcon from './CheckIcon';
-import ArrowDownIcon from './ArrowDownIcon';
+import ArrowDownIcon from '@/components/ui-kit/icons/ArrowDownIcon';
+import CheckIcon from '@/components/ui-kit/icons/CheckIcon';
+import type { IconProps } from '@/components/ui-kit/icons/Icon';
 
 export default {
   title: 'Icons',

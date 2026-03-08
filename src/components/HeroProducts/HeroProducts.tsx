@@ -1,6 +1,6 @@
-import React from 'react';
-import Text from 'components/ui-kit/Text';
-import styles from 'components/HeroProducts/HeroProducts.module.scss';
+import Text from '@/components/ui-kit/Text';
+import styles from './HeroProducts.module.scss';
+
 const HeroProducts = () => {
   return (
     <div className={styles.hero}>
