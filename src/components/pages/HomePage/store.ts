@@ -1,6 +1,5 @@
 import { makeAutoObservable, runInAction } from 'mobx';
-import { getProducts } from '@/api/getProducts';
-import type { Product, ProductCategory } from '@/api/productsTypes';
+import type { Product, ProductCategory, ProductsResponse } from '@/api/productsTypes';
 
 export class AllProductsStore {
   // хук useGetAllProducts
@@ -72,33 +71,40 @@ export class AllProductsStore {
     this.searchTitle = title;
     this.currentPage = 1;
     this.updateUrl();
+    this.fetchProducts();
   }
 
   setSelectedCategories(categoryIds: number[]) {
     this.selectedCategoryIds = categoryIds;
     this.currentPage = 1;
     this.updateUrl();
+    this.fetchProducts();
   }
 
   setCurrentPage(page: number) {
     this.currentPage = page;
     this.updateUrl();
+    this.fetchProducts();
   }
 
   // хук useGetAllProducts
   async fetchProducts(pageSize = 9) {
     this.productsLoading = true;
     try {
-      const data = await getProducts({
-        page: this.currentPage,
-        pageSize,
-        searchTitle: this.searchTitle,
-        categoryIds: this.selectedCategoryIds,
-      });
+      const params = new URLSearchParams();
+      params.set('page', String(this.currentPage));
+      params.set('pageSize', String(pageSize));
+      if (this.searchTitle) params.set('search', this.searchTitle);
+      if (this.selectedCategoryIds.length > 0)
+        params.set('categories', this.selectedCategoryIds.join(','));
+
+      const response = await fetch(`/api/products?${params.toString()}`);
+      if (!response.ok) throw new Error(`Failed to fetch products: ${response.status}`);
+      
+      const data: ProductsResponse = await response.json();
       runInAction(() => {
         this.products = data.data;
         this.total = data.meta?.pagination?.total;
-        this.updateUrl();
       });
     } finally {
       runInAction(() => {
