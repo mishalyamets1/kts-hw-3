@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import styles from './error.module.scss';
 import Text from '@/components/ui-kit/Text';
 import Button from '@/components/ui-kit/Button';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   error: Error;

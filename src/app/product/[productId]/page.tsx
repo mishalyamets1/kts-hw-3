@@ -23,7 +23,7 @@ export async function generateMetadata({params}: Props): Promise<Metadata>{
       images: product.images?.[0]?.url ? [product.images[0].url] : [],
     }
   };
- 
+
 }
 
 export default async function productPage({params}: Props) {
