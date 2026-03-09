@@ -39,5 +39,8 @@ export const getProducts = async ({
     headers: { Authorization: `Bearer ${API_TOKEN}` },
     next: {revalidate: 60},
   });
+  if (!response.ok) {
+    throw new Error(`Failed to fetch products: ${response.status} ${response.statusText}`);
+  }
   return response.json();
 };

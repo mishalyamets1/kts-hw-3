@@ -21,7 +21,7 @@ export async function generateMetadata({params}: Props): Promise<Metadata>{
       title: product.title,
       description: product.description,
       images: product.images?.[0]?.url ? [product.images[0].url] : [],
-    }
+    },
   };
 
 }

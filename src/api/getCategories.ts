@@ -10,6 +10,9 @@ export const getCategories = async (): Promise<ProductCategory[]> => {
     headers: { Authorization: `Bearer ${API_TOKEN}` },
     next: {revalidate: 60},
   });
+  if (!response.ok) {
+    throw new Error(`Failed to fetch categories: ${response.status} ${response.statusText}`);
+  }
   const data = await response.json();
   return data.data;
 };

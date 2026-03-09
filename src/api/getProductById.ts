@@ -10,6 +10,9 @@ export const getProductById = async (documentId: string): Promise<Product> => {
     headers: { Authorization: `Bearer ${API_TOKEN}` },
     next: {revalidate: 60},
   });
+  if (!response.ok) {
+    throw new Error(`Failed to fetch product ${documentId}: ${response.status} ${response.statusText}`);
+  }
   const data = await response.json();
   return data.data;
 };
