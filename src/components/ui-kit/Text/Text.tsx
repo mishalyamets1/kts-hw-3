@@ -44,10 +44,12 @@ const Text: React.FC<TextProps> = ({ className, view, tag, weight, children, col
     fontSize: baseStyle.fontSize,
     lineHeight: baseStyle.lineHeight,
     fontWeight: weight ? weightMap[weight] : baseStyle.fontWeight,
-    display: maxLines ? '-webkit-box' : undefined,
-    overflow: maxLines ? 'hidden' : undefined,
-    WebkitLineClamp: maxLines,
-    WebkitBoxOrient: 'vertical',
+    ...(maxLines && {
+      display: '-webkit-box',
+      overflow: 'hidden',
+      WebkitLineClamp: maxLines,
+      WebkitBoxOrient: 'vertical',
+    }),
   };
   return React.createElement(Tag, { style, className: clsx(color && styles[color], className) }, children);
 };
