@@ -44,7 +44,7 @@ const Cart = observer(() => {
                     <Text color="primary" weight="bold">
                       {title}
                     </Text>
-                    <Text>${price * quantity}</Text>
+                    <Text color="primary">${price * quantity}</Text>
                     <div className={styles.quantity}>
                       <Button
                         className={styles.quantityBtn}
@@ -53,7 +53,7 @@ const Cart = observer(() => {
                       >
                         -
                       </Button>
-                      <Text>{quantity}</Text>
+                      <Text color='primary'>{quantity}</Text>
                       <Button
                         className={styles.quantityBtn}
                         disabled={isUpdating}
