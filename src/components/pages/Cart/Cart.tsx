@@ -12,10 +12,10 @@ const Cart = observer(() => {
   return (
     <div className={styles.cart}>
       <div className={styles.cartTitle}>
-        <Text view="title">Cart</Text>
+        <Text view="title" color='primary'>Cart</Text>
       </div>
       <div className={styles.cartInfo}>
-        <Text view="subtitle">Products in the cart:</Text>
+        <Text view="subtitle" color='primary'>Products in the cart:</Text>
         <Text view="p-20" weight="bold" color="accent">
           {cartStore.itemsCount}
         </Text>

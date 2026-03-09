@@ -60,7 +60,7 @@ const Header = observer(() => {
               onClick={() => router.push('/cart')}
               style={{ cursor: 'pointer' }}
             />
-            {cartStore.itemsCount}
+            <Text className={styles.cartCount} color='primary'>{cartStore.itemsCount}</Text>
           </div>
           <div className={styles.account}>
             <Image src="/svg/user.svg" alt="user" width={30} height={30} />
@@ -94,7 +94,7 @@ const Header = observer(() => {
               onClick={() => router.push('/cart')}
               style={{ cursor: 'pointer' }}
             />
-            {cartStore.itemsCount}
+            <Text color='primary'>{cartStore.itemsCount}</Text>
           </div>
           <div className={styles.account}>
             <Image src="/svg/user.svg" alt="user" width={30} height={30} />

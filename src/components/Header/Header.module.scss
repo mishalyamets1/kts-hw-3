@@ -151,3 +151,14 @@
 .link {
   color: $text-primary;
 }
+.cart {
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+.cartCount{
+  display: inline-block;
+  position: absolute;
+  top: -6px;
+  right: -6px;
+}
