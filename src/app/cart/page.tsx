@@ -6,10 +6,10 @@ export const metadata: Metadata = {
   description: 'Your shopping cart',
 }
 
-const cartPage = () => {
+const СartPage = () => {
   return (
-    <div><Cart/></div>
+    <Cart/>
   )
 }
 
-export default cartPage
+export default СartPage

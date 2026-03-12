@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Input from '@/components/ui-kit/Input';
 import styles from './MultiDropdown.module.scss';
+import Text from '../Text';
 
 export type Option = {
   key: string;
@@ -115,7 +116,9 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
                 })}
                 onClick={() => toggleOption(option)}
               >
-                {option.value}
+                <Text color={selected ? 'accent' : 'primary'}>
+                  {option.value}
+                </Text>
               </div>
             );
           })}

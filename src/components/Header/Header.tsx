@@ -10,7 +10,7 @@ import Text from '@/components/ui-kit/Text';
 import { cartStore } from '@/stores/global/CartStore';
 import styles from './Header.module.scss';
 
-const navLinks = [
+const NAV_LINKS = [
   { href: '/', label: 'Products' },
   { href: '/categories', label: 'Categories' },
   { href: '/about', label: 'About us' },
@@ -38,7 +38,7 @@ const Header = observer(() => {
           </Link>
         </div>
         <nav className={styles.nav}>
-          {navLinks.map(({ href, label }) => (
+          {NAV_LINKS.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
@@ -105,7 +105,7 @@ const Header = observer(() => {
       {/* Mobile Navigation Menu */}
       {isMenuOpen && (
         <nav className={styles.navMobile}>
-          {navLinks.map(({ href, label }) => (
+          {NAV_LINKS.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
