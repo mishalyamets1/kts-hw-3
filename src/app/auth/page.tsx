@@ -1,10 +1,10 @@
-import AuthPage from "@/components/pages/Auth"
-import { Metadata } from "next";
+'use client'
 
-export const metadata: Metadata = {
-  title: 'Authentication',
-  description: 'login or register to your account',
-};
+import dynamic from 'next/dynamic'
+
+const AuthPage = dynamic(() => import("@/components/pages/Auth"), {
+  ssr: false,
+})
 
 const Auth = () => {
   return (
