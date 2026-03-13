@@ -1,8 +1,8 @@
 'use client'
 
 import { observer } from 'mobx-react-lite'
-import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import Text from '@/components/ui-kit/Text'
 import Button from '@/components/ui-kit/Button'
 import { authStore } from '@/stores/global/AuthStore/AuthStore'
@@ -37,12 +37,21 @@ const ProfilePage = observer(() => {
 
         <div className={styles.info}>
           <div className={styles.row}>
-            <Text view="p-16" color="secondary">Username</Text>
-            <Text view="p-18" color="primary" weight="bold">{authStore.user?.username}</Text>
+            <Text view="p-14" color="secondary">
+              Email
+            </Text>
+            <Text view="p-18" color="primary" weight="bold">
+              {authStore.user?.email}
+            </Text>
           </div>
+
           <div className={styles.row}>
-            <Text view="p-16" color="secondary">Email</Text>
-            <Text view="p-18" color="primary" weight="bold">{authStore.user?.email}</Text>
+            <Text view="p-14" color="secondary">
+              Username
+            </Text>
+            <Text view="p-18" color="primary" weight="bold">
+              {authStore.user?.username}
+            </Text>
           </div>
         </div>
 

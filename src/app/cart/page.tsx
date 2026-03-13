@@ -1,15 +1,15 @@
-import Cart from "@/components/pages/Cart"
-import type { Metadata } from "next"
+'use client'
 
-export const metadata: Metadata = {
-  title: 'Cart',
-  description: 'Your shopping cart',
-}
+import dynamic from 'next/dynamic'
 
-const СartPage = () => {
+const Cart = dynamic(() => import("@/components/pages/Cart"), {
+  ssr: false,
+})
+
+const CartPage = () => {
   return (
     <Cart/>
   )
 }
 
-export default СartPage
+export default CartPage
