@@ -155,10 +155,73 @@
   display: flex;
   position: relative;
   align-items: center;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+  padding: 6px;
+  border-radius: 50%;
+
+  &:hover {
+    opacity: 1;
+    background: rgba($brand, 0.15);
+  }
+
+  &:active {
+    opacity: 0.9;
+    background: rgba($brand, 0.2);
+  }
+
+  &.active {
+    opacity: 1;
+    background: rgba($brand, 0.2);
+  }
 }
+
+.account {
+  transition: all 0.3s ease;
+  opacity: 0.7;
+  padding: 6px;
+  border-radius: 50%;
+
+  &:hover {
+    opacity: 1;
+    background: rgba($brand, 0.15);
+  }
+
+  &:active {
+    opacity: 0.9;
+    background: rgba($brand, 0.2);
+  }
+
+  &.active {
+    opacity: 1;
+    background: rgba($brand, 0.2);
+  }
+}
+
 .cartCount{
   display: inline-block;
   position: absolute;
-  top: -7px;
-  right: -9px;
+  top: -2px;
+  right: -3px;
+}
+
+.iconButton {
+  transition: all 0.3s ease;
+  opacity: 0.7;
+  border-radius: 50%;
+
+  &:hover {
+    opacity: 1;
+    background: rgba($brand, 0.15);
+  }
+
+  &:active {
+    opacity: 0.9;
+    background: rgba($brand, 0.2);
+  }
+
+  &.active {
+    opacity: 1;
+    background: rgba($brand, 0.2);
+  }
 }

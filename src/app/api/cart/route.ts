@@ -1,10 +1,15 @@
-import { NextResponse } from 'next/server';
-import { STRAPI_BASE_URL, API_TOKEN } from '@/configs/api';
+import { NextRequest, NextResponse } from 'next/server';
+import { STRAPI_BASE_URL } from '@/configs/api';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const authHeader = request.headers.get('Authorization');
+  if (!authHeader) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   const response = await fetch(`${STRAPI_BASE_URL}/api/cart`, {
     headers: {
-      Authorization: `Bearer ${API_TOKEN}`,
+      Authorization: authHeader,
     },
     cache: 'no-store',
   });

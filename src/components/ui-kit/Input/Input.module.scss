@@ -22,6 +22,7 @@
   font-size: 16px;
   font-weight: 400;
   line-height: 20px;
+  background: transparent;
 }
 .input:disabled {
   background: $bg-white;
@@ -32,4 +33,11 @@
 }
 .input:focus {
   outline: none;
+  box-shadow: none;
+}
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px $bg-white inset ;
+  box-shadow: 0 0 0 1000px $bg-white inset ;
 }

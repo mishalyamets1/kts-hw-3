@@ -33,6 +33,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
   afterSlot,
 }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -71,10 +72,17 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
       ref={wrapperRef}
       className={classNames(styles.multiDropdown, className, { disabled })}
       onClick={() => {
-        if (!disabled && readOnly) setIsOpen((prev) => !prev);
-      }}
+          if (disabled) return;
+          if (readOnly) {
+            setIsOpen((prev) => !prev);
+          } else {
+            setIsOpen(true);
+            inputRef.current?.focus();
+          }
+        }}
     >
       <Input
+          ref={inputRef}
         value={inputValue}
         disabled={disabled}
         readOnly={readOnly}

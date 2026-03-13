@@ -7,6 +7,7 @@ import Card from '@/components/ui-kit/Card';
 import Loader from '@/components/ui-kit/Loader';
 import Text from '@/components/ui-kit/Text';
 import { cartStore } from '@/stores/global/CartStore';
+import { authStore } from '@/stores/global/AuthStore/AuthStore';
 import { useAllProductsStore } from '@/components/pages/HomePage/StoreContext';
 import styles from './Products.module.scss';
 import { useRouter } from 'next/navigation';
@@ -66,6 +67,10 @@ const Products = observer(() => {
                       <Button
                         onClick={(e) => {
                           e.stopPropagation();
+                          if (!authStore.isAuthenticated) {
+                            router.push('/auth?next=/');
+                            return;
+                          }
                           cartStore.addItem(id, 1);
                         }}
                       >

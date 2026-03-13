@@ -8,6 +8,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Text from '@/components/ui-kit/Text';
 import { cartStore } from '@/stores/global/CartStore';
+import { authStore } from '@/stores/global/AuthStore/AuthStore';
 import styles from './Header.module.scss';
 
 const NAV_LINKS = [
@@ -51,19 +52,28 @@ const Header = observer(() => {
           ))}
         </nav>
         <div className={styles.icons}>
-          <div className={styles.cart}>
+          <div className={clsx(styles.cart, { [styles.active]: pathname === '/cart' })}>
             <Image
               src="/svg/cart.svg"
               alt="cart"
               width={30}
               height={30}
-              onClick={() => router.push('/cart')}
+              onClick={() =>
+                router.push(authStore.isAuthenticated ? '/cart' : '/auth?next=/cart')
+              }
               style={{ cursor: 'pointer' }}
             />
             <Text className={styles.cartCount} color='primary'>{cartStore.itemsCount}</Text>
           </div>
-          <div className={styles.account}>
-            <Image src="/svg/user.svg" alt="user" width={30} height={30} />
+          <div className={clsx(styles.account, { [styles.active]: pathname === '/profile' })}>
+            <Image
+              src="/svg/user.svg"
+              alt="user"
+              width={30}
+              height={30}
+              onClick={() => router.push(authStore.isAuthenticated ? '/profile' : '/auth')}
+              style={{ cursor: 'pointer' }}
+            />
           </div>
         </div>
       </header>
@@ -85,19 +95,28 @@ const Header = observer(() => {
             <span />
             <span />
           </button>
-          <div className={styles.cart}>
+          <div className={clsx(styles.cart, { [styles.active]: pathname === '/cart' })}>
             <Image
               src="/svg/cart.svg"
               alt="cart"
               width={30}
               height={30}
-              onClick={() => router.push('/cart')}
+              onClick={() =>
+                router.push(authStore.isAuthenticated ? '/cart' : '/auth?next=/cart')
+              }
               style={{ cursor: 'pointer' }}
             />
             <Text className={styles.cartCount} color='primary'>{cartStore.itemsCount}</Text>
           </div>
-          <div className={styles.account}>
-            <Image src="/svg/user.svg" alt="user" width={30} height={30} />
+          <div className={clsx(styles.account, { [styles.active]: pathname === '/profile' })}>
+            <Image
+              src="/svg/user.svg"
+              alt="user"
+              width={30}
+              height={30}
+              onClick={() => router.push(authStore.isAuthenticated ? '/profile' : '/auth')}
+              style={{ cursor: 'pointer' }}
+            />
           </div>
         </div>
       </div>

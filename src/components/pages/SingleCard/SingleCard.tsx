@@ -8,6 +8,7 @@ import Button from '@/components/ui-kit/Button';
 import Card from '@/components/ui-kit/Card';
 import Text from '@/components/ui-kit/Text';
 import { cartStore } from '@/stores/global/CartStore';
+import { authStore } from '@/stores/global/AuthStore/AuthStore';
 import styles from './SingleCard.module.scss';
 import { useRouter } from 'next/navigation';
 import type { Product } from '@/api/productsTypes';
@@ -65,6 +66,10 @@ const SingleCard = observer(({product, relatedProducts}: Props) => {
                 className={styles.btnCart}
                 onClick={(e) => {
                   e.stopPropagation();
+                  if (!authStore.isAuthenticated) {
+                    router.push(`/auth?next=/product/${product.documentId}`);
+                    return;
+                  }
                   cartStore.addItem(prodId, 1);
                 }}
               >
@@ -96,6 +101,10 @@ const SingleCard = observer(({product, relatedProducts}: Props) => {
                     <Button
                       onClick={(e) => {
                         e.stopPropagation();
+                        if (!authStore.isAuthenticated) {
+                          router.push(`/auth?next=/product/${documentId}`);
+                          return;
+                        }
                         cartStore.addItem(id, 1);
                       }}
                     >

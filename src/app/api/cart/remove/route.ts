@@ -1,13 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { STRAPI_BASE_URL, API_TOKEN } from '@/configs/api';
+import { STRAPI_BASE_URL } from '@/configs/api';
 
 export async function POST(request: NextRequest) {
+  const authHeader = request.headers.get('Authorization');
+  if (!authHeader) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   const body = await request.json();
 
   const response = await fetch(`${STRAPI_BASE_URL}/api/cart/remove`, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${API_TOKEN}`,
+      Authorization: authHeader,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),

@@ -1,7 +1,7 @@
-'use client';
+ 'use client';
 
 import classNames from 'classnames';
-import React from 'react';
+import React, { useRef, useImperativeHandle } from 'react';
 import styles from './Input.module.scss';
 
 export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> & {
@@ -12,10 +12,17 @@ export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onCh
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ value, onChange, className, afterSlot, disabled, ...rest }, ref) => {
+    const internalRef = useRef<HTMLInputElement | null>(null);
+
+    useImperativeHandle(ref, () => internalRef.current as HTMLInputElement, [internalRef]);
+
     return (
-      <div className={classNames(styles.input__wrapper, className)}>
+      <div
+        className={classNames(styles.input__wrapper, className)}
+        onClick={() => internalRef.current?.focus()}
+      >
         <input
-          ref={ref}
+          ref={internalRef}
           type="text"
           className={styles.input}
           value={value}
