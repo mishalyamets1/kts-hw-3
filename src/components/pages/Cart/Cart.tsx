@@ -2,7 +2,7 @@
 
 import { observer } from 'mobx-react-lite';
 import Image from 'next/image';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/ui-kit/Button';
 import Loader from '@/components/ui-kit/Loader';
@@ -13,14 +13,16 @@ import styles from './Cart.module.scss';
 
 const Cart = observer(() => {
   const router = useRouter();
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     if (!authStore.isAuthenticated) {
       router.push('/auth?next=/cart');
     }
   }, [router]);
 
-  if (!authStore.isAuthenticated) {
+  if (!isMounted || !authStore.isAuthenticated) {
     return null;
   }
 

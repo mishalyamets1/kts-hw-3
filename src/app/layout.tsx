@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 import Header from "@/components/Header";
 import Toast from "@/components/Toast";
 import StoreProvider from "@/components/providers/StoreProvider";
+import ThemeScript from "./ThemeScript";
 import "./globals.scss";
 
 const roboto = localFont({
@@ -40,7 +41,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={roboto.variable}>
+    <html lang="en" className={roboto.variable} data-theme="light" suppressHydrationWarning>
+      <head>
+        <ThemeScript />
+      </head>
       <body >
         <StoreProvider>
           <Header />

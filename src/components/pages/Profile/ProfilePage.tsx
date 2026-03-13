@@ -2,7 +2,7 @@
 
 import { observer } from 'mobx-react-lite'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Text from '@/components/ui-kit/Text'
 import Button from '@/components/ui-kit/Button'
 import { authStore } from '@/stores/global/AuthStore/AuthStore'
@@ -11,14 +11,16 @@ import styles from './ProfilePage.module.scss'
 
 const ProfilePage = observer(() => {
   const router = useRouter()
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    setIsMounted(true)
     if (!authStore.isAuthenticated) {
       router.push('/auth?next=/profile')
     }
   }, [router])
 
-  if (!authStore.isAuthenticated) {
+  if (!isMounted || !authStore.isAuthenticated) {
     return null
   }
 

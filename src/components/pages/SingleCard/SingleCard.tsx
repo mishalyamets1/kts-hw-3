@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react';
+import { use, useEffect } from 'react';
 import Image from 'next/image';
 import { observer } from 'mobx-react-lite';
 import RemoveButton from '@/components/RemoveButton';
@@ -11,15 +11,16 @@ import { cartStore } from '@/stores/global/CartStore';
 import { authStore } from '@/stores/global/AuthStore/AuthStore';
 import styles from './SingleCard.module.scss';
 import { useRouter } from 'next/navigation';
-import type { Product } from '@/api/productsTypes';
+import type { Product, ProductsResponse } from '@/api/productsTypes';
 
 type Props = {
   product: Product;
-  relatedProducts: Product[];
+  relatedPromise: Promise<ProductsResponse>;
 };
 
-const SingleCard = observer(({product, relatedProducts}: Props) => {
-  
+const SingleCard = observer(({product, relatedPromise}: Props) => {
+  const relatedProducts = use(relatedPromise).data;
+
   const router = useRouter();
   const cartItem = cartStore.cartItems.find(item => item.product.id === product.id);
   const cartQuantity = cartItem?.quantity ?? 0;

@@ -1,5 +1,6 @@
 import qs from 'qs';
 import { STRAPI_BASE_URL, API_TOKEN } from '@/configs/api';
+import { PRODUCTS_PAGE_SIZE } from '@/configs/constants';
 import type { ProductsResponse } from './productsTypes';
 
 const STRAPI_URL = `${STRAPI_BASE_URL}/api/products`;
@@ -13,7 +14,7 @@ type GetProductsParams = {
 
 export const getProducts = async ({
   page = 1,
-  pageSize = 9,
+  pageSize = PRODUCTS_PAGE_SIZE,
   searchTitle,
   categoryIds,
 }: GetProductsParams): Promise<ProductsResponse> => {

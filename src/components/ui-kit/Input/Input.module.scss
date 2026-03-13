@@ -23,6 +23,7 @@
   font-weight: 400;
   line-height: 20px;
   background: transparent;
+  color: $text-primary;
 }
 .input:disabled {
   background: $bg-white;
@@ -38,6 +39,7 @@
 .input:-webkit-autofill,
 .input:-webkit-autofill:hover,
 .input:-webkit-autofill:focus {
+  -webkit-text-fill-color: $text-primary;
   -webkit-box-shadow: 0 0 0 1000px $bg-white inset ;
   box-shadow: 0 0 0 1000px $bg-white inset ;
 }

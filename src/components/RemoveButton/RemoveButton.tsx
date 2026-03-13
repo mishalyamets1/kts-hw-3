@@ -10,7 +10,13 @@ const RemoveButton = () => {
   return (
     <div className={styles.wrapper}>
       <button className={styles.removeButton} onClick={() => router.push('/')}>
-        <Image src="/svg/arrow-left.svg" alt="back arrow" width={32} height={32} />
+        <Image
+          src="/svg/arrow-left.svg"
+          alt="back arrow"
+          className={styles.arrowIcon}
+          width={32}
+          height={32}
+        />
         <Text view="p-20" color="primary">
           Back
         </Text>

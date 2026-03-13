@@ -1,10 +1,4 @@
-'use client'
-
-import dynamic from 'next/dynamic'
-
-const Cart = dynamic(() => import("@/components/pages/Cart"), {
-  ssr: false,
-})
+import Cart from "@/components/pages/Cart"
 
 const CartPage = () => {
   return (

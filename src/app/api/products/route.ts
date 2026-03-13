@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import qs from 'qs';
 import { STRAPI_BASE_URL, API_TOKEN } from '@/configs/api';
+import { PRODUCTS_PAGE_SIZE } from '@/configs/constants';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
 
   const page = parseInt(searchParams.get('page') || '1');
-  const pageSize = parseInt(searchParams.get('pageSize') || '9');
+  const pageSize = parseInt(searchParams.get('pageSize') || String(PRODUCTS_PAGE_SIZE));
   const searchTitle = searchParams.get('search') || '';
   const categoriesParam = searchParams.get('categories');
   const categoryIds = categoriesParam ? categoriesParam.split(',').map(Number) : [];

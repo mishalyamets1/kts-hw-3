@@ -1,5 +1,6 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import type { Product, ProductCategory, ProductsResponse } from '@/api/productsTypes';
+import { PRODUCTS_PAGE_SIZE } from '@/configs/constants';
 
 export class AllProductsStore {
   // хук useGetAllProducts
@@ -88,7 +89,7 @@ export class AllProductsStore {
   }
 
   // хук useGetAllProducts
-  async fetchProducts(pageSize = 9) {
+  async fetchProducts(pageSize = PRODUCTS_PAGE_SIZE) {
     this.productsLoading = true;
     try {
       const params = new URLSearchParams();

@@ -72,6 +72,28 @@
   align-items: center;
 }
 
+.iconImage {
+  transition: filter 0.2s ease;
+}
+
+:global(html[data-theme='dark']) .iconImage {
+  filter: brightness(0) invert(1);
+}
+
+.themeToggle {
+  border: 1px solid $line-color;
+  background: $bg-white;
+  color: $text-primary;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: $brand;
+    color: $brand;
+  }
+}
+
 .nav {
   display: flex;
   gap: 48px;
@@ -162,17 +184,17 @@
 
   &:hover {
     opacity: 1;
-    background: rgba($brand, 0.15);
+    background: rgb(var(--brand-rgb) / 0.15);
   }
 
   &:active {
     opacity: 0.9;
-    background: rgba($brand, 0.2);
+    background: rgb(var(--brand-rgb) / 0.2);
   }
 
   &.active {
     opacity: 1;
-    background: rgba($brand, 0.2);
+    background: rgb(var(--brand-rgb) / 0.2);
   }
 }
 
@@ -184,17 +206,17 @@
 
   &:hover {
     opacity: 1;
-    background: rgba($brand, 0.15);
+    background: rgb(var(--brand-rgb) / 0.15);
   }
 
   &:active {
     opacity: 0.9;
-    background: rgba($brand, 0.2);
+    background: rgb(var(--brand-rgb) / 0.2);
   }
 
   &.active {
     opacity: 1;
-    background: rgba($brand, 0.2);
+    background: rgb(var(--brand-rgb) / 0.2);
   }
 }
 
@@ -212,16 +234,16 @@
 
   &:hover {
     opacity: 1;
-    background: rgba($brand, 0.15);
+    background: rgb(var(--brand-rgb) / 0.15);
   }
 
   &:active {
     opacity: 0.9;
-    background: rgba($brand, 0.2);
+    background: rgb(var(--brand-rgb) / 0.2);
   }
 
   &.active {
     opacity: 1;
-    background: rgba($brand, 0.2);
+    background: rgb(var(--brand-rgb) / 0.2);
   }
 }

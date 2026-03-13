@@ -9,12 +9,13 @@ import Text from '@/components/ui-kit/Text';
 import { cartStore } from '@/stores/global/CartStore';
 import { authStore } from '@/stores/global/AuthStore/AuthStore';
 import { useAllProductsStore } from '@/components/pages/HomePage/StoreContext';
+import { PRODUCTS_PAGE_SIZE } from '@/configs/constants';
 import styles from './Products.module.scss';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 const Products = observer(() => {
-  const pageSize = 9;
+  const pageSize = PRODUCTS_PAGE_SIZE;
   const router = useRouter();
   const allProductsStore = useAllProductsStore();
 
@@ -87,7 +88,7 @@ const Products = observer(() => {
           <div className={styles.pagination}>
             <Image
               src="/svg/arrow-left.svg"
-              className={styles.arrowLeft}
+              className={clsx(styles.arrowLeft, styles.arrowIcon)}
               width={35}
               alt='arrow-left'
               height={35}
@@ -106,7 +107,7 @@ const Products = observer(() => {
             ))}
             <Image
               src="/svg/arrow-right.svg"
-              className={styles.arrowRight}
+              className={clsx(styles.arrowRight, styles.arrowIcon)}
               alt='arrow-right'
               width={35}
               height={35}

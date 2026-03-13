@@ -2,7 +2,7 @@
 
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -17,10 +17,37 @@ const NAV_LINKS = [
   { href: '/about', label: 'About us' },
 ];
 
+type Theme = 'light' | 'dark';
+
+const getInitialTheme = (): Theme => {
+  if (typeof window === 'undefined') return 'light';
+
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'light' || savedTheme === 'dark') {
+    return savedTheme;
+  }
+
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+};
+
 const Header = observer(() => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [theme, setTheme] = useState<Theme>('light');
   const pathname = usePathname();
   const router = useRouter();
+
+  useEffect(() => {
+    const resolvedTheme = getInitialTheme();
+    setTheme(resolvedTheme);
+    document.documentElement.dataset.theme = resolvedTheme;
+  }, []);
+
+  const toggleTheme = () => {
+    const nextTheme: Theme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+    document.documentElement.dataset.theme = nextTheme;
+    localStorage.setItem('theme', nextTheme);
+  };
 
   const closeMenu = () => {
     setIsMenuOpen(false);
@@ -29,13 +56,15 @@ const Header = observer(() => {
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href);
 
+  const logoSrc = theme === 'dark' ? '/svg/logo-dark.svg' : '/svg/logo.svg';
+
   return (
     <>
       {/* Desktop Header */}
       <header className={styles.header}>
         <div className={styles.logo}>
           <Link href="/">
-            <Image src="/svg/logo.svg" alt="logo" height={42} width={130}/>
+            <Image src={logoSrc} alt="logo" height={42} width={130}/>
           </Link>
         </div>
         <nav className={styles.nav}>
@@ -52,10 +81,20 @@ const Header = observer(() => {
           ))}
         </nav>
         <div className={styles.icons}>
+          <button
+            type="button"
+            className={styles.themeToggle}
+            onClick={toggleTheme}
+            aria-label="Toggle color theme"
+            title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+          >
+            {theme === 'dark' ? 'Light' : 'Dark'}
+          </button>
           <div className={clsx(styles.cart, { [styles.active]: pathname === '/cart' })}>
             <Image
               src="/svg/cart.svg"
               alt="cart"
+              className={styles.iconImage}
               width={30}
               height={30}
               onClick={() =>
@@ -65,10 +104,11 @@ const Header = observer(() => {
             />
             <Text className={styles.cartCount} color='primary'>{cartStore.itemsCount}</Text>
           </div>
-          <div className={clsx(styles.account, { [styles.active]: pathname === '/profile' })}>
+          <div className={clsx(styles.account, { [styles.active]: pathname === '/profile' || pathname === '/auth' })}>
             <Image
               src="/svg/user.svg"
               alt="user"
+              className={styles.iconImage}
               width={30}
               height={30}
               onClick={() => router.push(authStore.isAuthenticated ? '/profile' : '/auth')}
@@ -82,11 +122,20 @@ const Header = observer(() => {
       <div className={styles.burger}>
         <div className={styles.logo}>
           <Link href="/">
-            <Image src="/svg/logo.svg" alt="logo" height={42} width={130}/>
+            <Image src={logoSrc} alt="logo" height={42} width={130}/>
           </Link>
         </div>
 
         <div className={styles.icons}>
+          <button
+            type="button"
+            className={styles.themeToggle}
+            onClick={toggleTheme}
+            aria-label="Toggle color theme"
+            title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+          >
+            {theme === 'dark' ? 'Light' : 'Dark'}
+          </button>
           <button
             className={clsx(styles.burgerMenu, { [styles.active]: isMenuOpen })}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -99,6 +148,7 @@ const Header = observer(() => {
             <Image
               src="/svg/cart.svg"
               alt="cart"
+              className={styles.iconImage}
               width={30}
               height={30}
               onClick={() =>
@@ -108,10 +158,11 @@ const Header = observer(() => {
             />
             <Text className={styles.cartCount} color='primary'>{cartStore.itemsCount}</Text>
           </div>
-          <div className={clsx(styles.account, { [styles.active]: pathname === '/profile' })}>
+          <div className={clsx(styles.account, { [styles.active]: pathname === '/profile' || pathname === '/auth' })}>
             <Image
               src="/svg/user.svg"
               alt="user"
+              className={styles.iconImage}
               width={30}
               height={30}
               onClick={() => router.push(authStore.isAuthenticated ? '/profile' : '/auth')}
