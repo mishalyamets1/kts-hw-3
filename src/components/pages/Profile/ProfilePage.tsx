@@ -26,7 +26,7 @@ const ProfilePage = observer(() => {
 
   const handleLogout = () => {
     authStore.logout()
-    cartStore.cartItems = []
+    cartStore.clearCart()
     router.push('/')
   }
 

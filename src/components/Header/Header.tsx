@@ -56,15 +56,28 @@ const Header = observer(() => {
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href);
 
-  const logoSrc = theme === 'dark' ? '/svg/logo-dark.svg' : '/svg/logo.svg';
+  const logoMarkSrc = theme === 'dark' ? '/svg/logo-img-dark.svg' : '/svg/logo-img.svg';
 
   return (
     <>
       {/* Desktop Header */}
       <header className={styles.header}>
         <div className={styles.logo}>
-          <Link href="/">
-            <Image src={logoSrc} alt="logo" height={42} width={130}/>
+          <Link href="/" className={styles.logoLink}>
+            <Image
+              src={logoMarkSrc}
+              alt="Lalasia mark"
+              className={styles.logoMark}
+              height={42}
+              width={42}
+            />
+            <Image
+              src='/svg/Lalasia.svg'
+              alt="Lalasia"
+              className={styles.logoText}
+              height={24}
+              width={108}
+            />
           </Link>
         </div>
         <nav className={styles.nav}>
@@ -121,8 +134,21 @@ const Header = observer(() => {
       {/* Mobile Header */}
       <div className={styles.burger}>
         <div className={styles.logo}>
-          <Link href="/">
-            <Image src={logoSrc} alt="logo" height={42} width={130}/>
+          <Link href="/" className={styles.logoLink}>
+            <Image
+              src={logoMarkSrc}
+              alt="Lalasia mark"
+              className={styles.logoMark}
+              height={32}
+              width={32}
+            />
+            <Image
+              src='/svg/Lalasia.svg'
+              alt="Lalasia"
+              className={styles.logoText}
+              height={18}
+              width={82}
+            /> 
           </Link>
         </div>
 

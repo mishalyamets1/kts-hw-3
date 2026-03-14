@@ -88,6 +88,31 @@ export class AllProductsStore {
     this.fetchProducts();
   }
 
+  async fetchAllProducts() {
+    this.productsLoading = true;
+    try {
+      const params = new URLSearchParams();
+      params.set('page', '1');
+      params.set('pageSize', '1000');
+      if (this.searchTitle) params.set('search', this.searchTitle);
+      if (this.selectedCategoryIds.length > 0)
+        params.set('categories', this.selectedCategoryIds.join(','));
+
+      const response = await fetch(`/api/products?${params.toString()}`);
+      if (!response.ok) throw new Error(`Failed to fetch products: ${response.status}`);
+
+      const data: ProductsResponse = await response.json();
+      runInAction(() => {
+        this.products = data.data;
+        this.total = data.meta?.pagination?.total;
+      });
+    } finally {
+      runInAction(() => {
+        this.productsLoading = false;
+      });
+    }
+  }
+
   // хук useGetAllProducts
   async fetchProducts(pageSize = PRODUCTS_PAGE_SIZE) {
     this.productsLoading = true;

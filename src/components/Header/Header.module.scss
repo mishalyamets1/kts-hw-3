@@ -35,10 +35,42 @@
   display: flex;
   align-items: center;
   flex-shrink: 0;
+}
 
-  img {
-    height: 40px;
-    width: auto;
+.logoLink {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+  gap: 12px;
+}
+
+.logoMark {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.logoText {
+  width: 76px;
+  height: 18px;
+  object-fit: contain;
+  transition: filter 0.2s ease;
+}
+
+:global(html[data-theme='dark']) .logoText {
+  filter: brightness(0) invert(1);
+}
+
+
+@media (max-width: $tablet) {
+  .logoMark {
+    width: 32px;
+    height: 32px;
+  }
+
+  .logoText {
+    width: 82px;
+    height: 18px;
   }
 }
 
@@ -68,7 +100,7 @@
 
 .icons {
   display: flex;
-  gap: 20px;
+  gap: 15px;
   align-items: center;
 }
 

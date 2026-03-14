@@ -1,5 +1,5 @@
 import { STRAPI_BASE_URL } from "@/configs/api";
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 
 export type User = {
   id: number;
@@ -85,20 +85,27 @@ export class AuthStore {
                 throw new Error(errorText || 'Error register')
             }
             const data: AuthResponse = await res.json()
-            this.token = data.jwt
-            this.user = data.user
+            runInAction(() => {
+                this.token = data.jwt
+                this.user = data.user
+            })
             this.saveToLocalStorage()
             return {success: true}
         } catch (e) {
             const errMsg = e instanceof Error ? e.message : 'Unknown error'
-            this.error = errMsg;
+            runInAction(() => {
+                this.error = errMsg;
+            })
             return {
                 success: false, error: errMsg
             }
         } finally {
-            this.isLoading = false
+            runInAction(() => {
+                this.isLoading = false
+            })
         }
     }
+
     async login(payload: LoginPayload): Promise<{success: boolean; error?: string}> {
         this.isLoading  = true;
         this.error = null;
@@ -114,20 +121,27 @@ export class AuthStore {
                 throw new Error(errorText || 'Error register')
             }
             const data: AuthResponse = await res.json()
-            this.token = data.jwt
-            this.user = data.user
+            runInAction(() => {
+                this.token = data.jwt
+                this.user = data.user
+            })
             this.saveToLocalStorage()
             return {success: true}
         } catch (e) {
             const errMsg = e instanceof Error ? e.message : 'Unknown error'
-            this.error = errMsg;
+            runInAction(() => {
+                this.error = errMsg;
+            })
             return {
                 success: false, error: errMsg
             }
         } finally {
-            this.isLoading = false
+            runInAction(() => {
+                this.isLoading = false
+            })
         }
     }
+
     logout() {
         this.clearAuth()
     }
