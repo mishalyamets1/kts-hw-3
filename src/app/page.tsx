@@ -6,6 +6,7 @@ import { getProducts } from "@/api/getProducts";
 import { getCategories } from "@/api/getCategories";
 import { PRODUCTS_PAGE_SIZE } from "@/configs/constants";
 import styles from './page.module.scss'
+import Snowfall from "react-snowfall";
 export const metadata: Metadata = {
   title: 'Home',
   description: 'Browse our product catalog',
@@ -27,6 +28,7 @@ export default async function Home({searchParams}: Props) {
     getCategories()
   ])
   return (
+    
     <Suspense fallback={<Loader className={styles.mainLoader} size='l' />}>
         <HomePage
         initialProducts={productsData.data}

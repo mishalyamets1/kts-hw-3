@@ -7,6 +7,7 @@ import { AllProductsStore } from './store';
 import { AllProductsStoreProvider } from './StoreContext';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Product, ProductCategory } from '@/api/productsTypes';
+import Snowfall from 'react-snowfall';
 
 type Props = {
   initialProducts: Product[];
@@ -17,13 +18,19 @@ type Props = {
 function HomePage({initialProducts, initialTotal, initialCategories}: Props) {
   const searchParams = useSearchParams();
   const router = useRouter()
-
+  const [image, setImage] = useState<HTMLImageElement[]>([]);
   const [store] = useState(() => {
     const s = new AllProductsStore();
     s.initializeFromUrl(searchParams);
     s.setInitialData(initialProducts, initialTotal, initialCategories)
     return s;
   });
+
+  useEffect(() => {
+    const snowCat = document.createElement('img');
+    snowCat.src = '/svg/cat-kts.svg';
+    setImage([snowCat]);
+  }, []);
 
   useEffect(() => {
     store.setUrlUpdater((params) => {
@@ -35,6 +42,7 @@ function HomePage({initialProducts, initialTotal, initialCategories}: Props) {
 
   return (
     <AllProductsStoreProvider value={store}>
+      <Snowfall images={image} radius={[15, 30]} snowflakeCount={30} speed={[1, 1]}/> 
       <HeroProducts />
       <Menu />
       <Products />

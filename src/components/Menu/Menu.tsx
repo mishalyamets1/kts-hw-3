@@ -9,6 +9,7 @@ import type { Option } from '@/components/ui-kit/MultiDropdown';
 import Text from '@/components/ui-kit/Text';
 import { useAllProductsStore } from '@/components/pages/HomePage/StoreContext';
 import styles from './Menu.module.scss';
+import debounce from 'debounce';
 
 const Menu = observer(() => {
   const allProductsStore = useAllProductsStore();
@@ -46,9 +47,9 @@ const Menu = observer(() => {
 
   const handleClearFilter = () => {
     setValue('');
-    // allProductsStore.setSearchTitle('');
     allProductsStore.setSelectedCategories([]);
-    allProductsStore.fetchProducts(9);
+    allProductsStore.setSearchTitle('');
+    allProductsStore.fetchProducts(9);      
   };
 
   const hasActiveFilters =
@@ -57,7 +58,7 @@ const Menu = observer(() => {
   return (
     <div className={styles.menu}>
       <div className={styles.inputBox}>
-        <Input value={value} onChange={handleSearch} placeholder="Search product" />
+        <Input value={value} onChange={(handleSearch)} placeholder="Search product" />
         <Button className={styles.btn} onClick={handleFindClick}>
           Find now
         </Button>

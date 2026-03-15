@@ -54,14 +54,13 @@ html[data-theme='dark'] {
   --foreground: var(--text-primary);
 }
 
-html,
-body {
-  height: 100%;
+html {
+  scrollbar-gutter: stable;
   overflow-x: hidden;
-  
 }
 
 body {
+  height: 100%;
   color: var(--foreground);
   background: var(--background);
   font-family: 'Roboto';
