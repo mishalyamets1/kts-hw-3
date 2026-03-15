@@ -26,7 +26,7 @@ export default function ProductsVirtualized({ products }: ProductsVirtualizedPro
   useEffect(() => {
     const debouncedScroll = debounce(() => {
       setScrollTop(window.scrollY);
-    }, 50);
+    }, 200);
 
     window.addEventListener('scroll', debouncedScroll);
     return () => window.removeEventListener('scroll', debouncedScroll);
