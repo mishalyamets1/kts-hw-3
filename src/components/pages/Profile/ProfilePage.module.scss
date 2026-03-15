@@ -1,0 +1,26 @@
+.page {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 48px 16px;
+}
+
+.card {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	width: 100%;
+	max-width: 420px;
+}
+
+.info {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.row {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}

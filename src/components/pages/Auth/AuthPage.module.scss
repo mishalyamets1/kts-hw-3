@@ -1,0 +1,48 @@
+.page {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 48px 16px;
+}
+
+.card {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	width: 100%;
+	max-width: 420px;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.error {
+	margin-top: 4px;
+}
+
+.switch {
+	background: none;
+	border: none;
+	padding: 0;
+	color: inherit;
+	cursor: pointer;
+	text-align: left;
+}
+
+.eyeBtn {
+	background: none;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	color: inherit;
+	opacity: 0.6;
+
+	&:hover {
+		opacity: 1;
+	}
+}

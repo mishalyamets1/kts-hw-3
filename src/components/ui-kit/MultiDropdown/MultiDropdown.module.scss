@@ -13,7 +13,7 @@
 }
 .multiDropdown__option {
   box-sizing: border-box;
-  background: $text-white;
+  background: $bg-white;
   padding: 16px 12px;
   align-items: center;
   display: flex;
@@ -22,6 +22,15 @@
   font-weight: 400;
   line-height: 20px;
   height: 48px;
+  border-bottom: 1px solid $line-color;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: $bg-light;
+  }
 }
 .multiDropdown__option.selected {
   color: $brand;

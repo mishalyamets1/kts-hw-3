@@ -1,3 +1,5 @@
+'use client'
+
 import { observer } from 'mobx-react-lite';
 import { useState, useEffect } from 'react';
 import Button from '@/components/ui-kit/Button';
@@ -5,7 +7,7 @@ import Input from '@/components/ui-kit/Input';
 import MultiDropdown from '@/components/ui-kit/MultiDropdown';
 import type { Option } from '@/components/ui-kit/MultiDropdown';
 import Text from '@/components/ui-kit/Text';
-import { useAllProductsStore } from '@/stores/local/AllProductsStore/AllProductsStoreContext';
+import { useAllProductsStore } from '@/components/pages/HomePage/StoreContext';
 import styles from './Menu.module.scss';
 
 const Menu = observer(() => {
@@ -16,11 +18,6 @@ const Menu = observer(() => {
   useEffect(() => {
     setValue(searchTitle);
   }, [searchTitle]);
-
-  // Загружаем категории
-  useEffect(() => {
-    allProductsStore.fetchCategories();
-  }, []);
 
   const categoryOptions: Option[] = allProductsStore.categories.map((cat) => ({
     key: String(cat.id),

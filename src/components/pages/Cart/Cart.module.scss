@@ -74,11 +74,16 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  margin-top: 10px;
+  @include tablet-and-up {
+    margin-top: 5px;
+  }
 }
 .quantityBtn {
   width: 30px;
   height: 30px;
   cursor: pointer;
+  border-radius: 10px;   
 }
 
 .btnBox {
@@ -122,4 +127,19 @@
     width: 110px;
     height: 110px;
   }
+}
+.total {
+  display: flex; 
+  align-items: center;
+  gap: 10px;
+}
+.totalConatiner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.buyAllBtn {
+  width: 120px;
 }

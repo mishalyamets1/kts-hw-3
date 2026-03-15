@@ -1,7 +1,10 @@
+'use client';
+
 import classNames from 'classnames';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Input from '@/components/ui-kit/Input';
 import styles from './MultiDropdown.module.scss';
+import Text from '../Text';
 
 export type Option = {
   key: string;
@@ -30,6 +33,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
   afterSlot,
 }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -68,10 +72,17 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
       ref={wrapperRef}
       className={classNames(styles.multiDropdown, className, { disabled })}
       onClick={() => {
-        if (!disabled && readOnly) setIsOpen((prev) => !prev);
-      }}
+          if (disabled) return;
+          if (readOnly) {
+            setIsOpen((prev) => !prev);
+          } else {
+            setIsOpen(true);
+            inputRef.current?.focus();
+          }
+        }}
     >
       <Input
+          ref={inputRef}
         value={inputValue}
         disabled={disabled}
         readOnly={readOnly}
@@ -113,7 +124,9 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
                 })}
                 onClick={() => toggleOption(option)}
               >
-                {option.value}
+                <Text color={selected ? 'accent' : 'primary'}>
+                  {option.value}
+                </Text>
               </div>
             );
           })}

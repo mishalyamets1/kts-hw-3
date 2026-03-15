@@ -35,9 +35,42 @@
   display: flex;
   align-items: center;
   flex-shrink: 0;
+}
 
-  img {
-    height: 40px;
+.logoLink {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+  gap: 12px;
+}
+
+.logoMark {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.logoText {
+  width: 76px;
+  height: 18px;
+  object-fit: contain;
+  transition: filter 0.2s ease;
+}
+
+:global(html[data-theme='dark']) .logoText {
+  filter: brightness(0) invert(1);
+}
+
+
+@media (max-width: $tablet) {
+  .logoMark {
+    width: 32px;
+    height: 32px;
+  }
+
+  .logoText {
+    width: 82px;
+    height: 18px;
   }
 }
 
@@ -67,8 +100,30 @@
 
 .icons {
   display: flex;
-  gap: 20px;
+  gap: 15px;
   align-items: center;
+}
+
+.iconImage {
+  transition: filter 0.2s ease;
+}
+
+:global(html[data-theme='dark']) .iconImage {
+  filter: brightness(0) invert(1);
+}
+
+.themeToggle {
+  border: 1px solid $line-color;
+  background: $bg-white;
+  color: $text-primary;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: $brand;
+    color: $brand;
+  }
 }
 
 .nav {
@@ -146,6 +201,81 @@
     color: $brand;
   }
 }
-a {
+
+.link {
   color: $text-primary;
+}
+.cart {
+  display: flex;
+  position: relative;
+  align-items: center;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+  padding: 6px;
+  border-radius: 50%;
+
+  &:hover {
+    opacity: 1;
+    background: rgb(var(--brand-rgb) / 0.15);
+  }
+
+  &:active {
+    opacity: 0.9;
+    background: rgb(var(--brand-rgb) / 0.2);
+  }
+
+  &.active {
+    opacity: 1;
+    background: rgb(var(--brand-rgb) / 0.2);
+  }
+}
+
+.account {
+  transition: all 0.3s ease;
+  opacity: 0.7;
+  padding: 6px;
+  border-radius: 50%;
+
+  &:hover {
+    opacity: 1;
+    background: rgb(var(--brand-rgb) / 0.15);
+  }
+
+  &:active {
+    opacity: 0.9;
+    background: rgb(var(--brand-rgb) / 0.2);
+  }
+
+  &.active {
+    opacity: 1;
+    background: rgb(var(--brand-rgb) / 0.2);
+  }
+}
+
+.cartCount{
+  display: inline-block;
+  position: absolute;
+  top: -2px;
+  right: -3px;
+}
+
+.iconButton {
+  transition: all 0.3s ease;
+  opacity: 0.7;
+  border-radius: 50%;
+
+  &:hover {
+    opacity: 1;
+    background: rgb(var(--brand-rgb) / 0.15);
+  }
+
+  &:active {
+    opacity: 0.9;
+    background: rgb(var(--brand-rgb) / 0.2);
+  }
+
+  &.active {
+    opacity: 1;
+    background: rgb(var(--brand-rgb) / 0.2);
+  }
 }

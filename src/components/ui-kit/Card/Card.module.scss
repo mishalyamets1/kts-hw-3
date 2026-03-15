@@ -1,4 +1,22 @@
 @use '../../../styles/variables.scss' as *;
+
+@property --angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0turn;
+}
+
+@property --border-start-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: -30deg;
+}
+
+@keyframes border-trace {
+  from { --angle: 0turn; }
+  to   { --angle: 1turn; }
+}
+
 .card__img {
   display: block;
   background-color: $bg-overlay;
@@ -8,9 +26,22 @@
 .card {
   display: flex;
   flex-direction: column;
+  position: relative;
 
   background-color: $bg-white;
   border: 0px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: conic-gradient(from var(--border-start-angle, -30deg), $brand var(--angle), transparent var(--angle));
+    z-index: -1;
+  }
+
+  &:hover::before {
+    animation: border-trace 0.4s linear forwards;
+  }
 }
 .card:hover {
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);

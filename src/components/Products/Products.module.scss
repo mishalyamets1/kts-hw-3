@@ -20,7 +20,9 @@
   }
 }
 .loader {
-  justify-self: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 200px;
 }
 .contentSlot {
   display: flex;
@@ -87,4 +89,12 @@
 .arrowRight {
   margin-left: 15px;
   cursor: pointer;
+}
+
+.arrowIcon {
+  transition: filter 0.2s ease;
+}
+
+:global(html[data-theme='dark']) .arrowIcon {
+  filter: brightness(0) invert(1);
 }
