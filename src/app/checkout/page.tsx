@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   description: 'Complete your purchase',
 };
 
+export const dynamic = 'force-dynamic';
+
 const CheckoutPage = () => {
   return (
     <Checkout />
