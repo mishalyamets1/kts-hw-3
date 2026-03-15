@@ -11,7 +11,6 @@ export default function ScrollToTopButton() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Показываем кнопку когда скроллим ниже 300px
       setIsVisible(window.scrollY > 300);
     };
 
@@ -26,7 +25,6 @@ export default function ScrollToTopButton() {
     });
   };
 
-  // Показываем только на мобилке
   if (!isMobile || !isVisible) return null;
 
   return (

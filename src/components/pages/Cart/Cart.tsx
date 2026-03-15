@@ -37,66 +37,77 @@ const Cart = observer(() => {
           {cartStore.itemsCount}
         </Text>
       </div>
+      {cartStore.cartItems.length > 0 && (
+            <div className={styles.totalConatiner}>
+              <div className={styles.total}>
+                <Text color='primary' view='subtitle' weight='bold'>Total:</Text> 
+                <Text color='accent' view='p-20' weight='bold'>${cartStore.totalPrice}</Text>
+              </div>
+              <Button className={styles.buyAllBtn} onClick={() => router.push('/checkout')}>Buy all</Button>
+            </div>
+          )}
       {cartStore.cartLoading ? (
         <div className={styles.loader}>
           <Loader size="l" />
         </div>
       ) : (
-        <div className={styles.cartItems}>
-          {Array.isArray(cartStore.cartItems) && cartStore.cartItems.length > 0 ? (
-            cartStore.cartItems.map((item) => {
-              const { id: itemId, quantity } = item;
-              const { id: productId, title, price, images } = item.product;
-              const imageUrl = images?.[0]?.url;
-              const isUpdating = cartStore.isItemUpdating(productId);
-              return (
-                <div
-                  className={`${styles.cartItem} ${isUpdating ? styles.cartItemUpdating : ''}`}
-                  key={itemId}
-                >
-                  <div>
-                    <Image className={styles.img} src={imageUrl} alt={title} width={100} height={100} />
-                  </div>
-                  <div className={styles.itemInfo}>
-                    <Text color="primary" weight="bold">
-                      {title}
-                    </Text>
-                    <Text color="primary">${price * quantity}</Text>
-                    <div className={styles.quantity}>
+        <>
+          <div className={styles.cartItems}>
+            {Array.isArray(cartStore.cartItems) && cartStore.cartItems.length > 0 ? (
+              cartStore.cartItems.map((item) => {
+                const { id: itemId, quantity } = item;
+                const { id: productId, title, price, images } = item.product;
+                const imageUrl = images?.[0]?.url;
+                const isUpdating = cartStore.isItemUpdating(productId);
+                return (
+                  <div
+                    className={`${styles.cartItem} ${isUpdating ? styles.cartItemUpdating : ''}`}
+                    key={itemId}
+                  >
+                    <div>
+                      <Image className={styles.img} src={imageUrl} alt={title} width={100} height={100} />
+                    </div>
+                    <div className={styles.itemInfo}>
+                      <Text color="primary" weight="bold">
+                        {title}
+                      </Text>
+                      <Text color="primary">${price * quantity}</Text>
+                      <div className={styles.quantity}>
+                        <Button
+                          className={styles.quantityBtn}
+                          disabled={isUpdating}
+                          onClick={() => cartStore.removeItem(productId)}
+                        >
+                          -
+                        </Button>
+                        <Text color='primary'>{quantity}</Text>
+                        <Button
+                          className={styles.quantityBtn}
+                          disabled={isUpdating}
+                          onClick={() => cartStore.addItem(productId)}
+                        >
+                          +
+                        </Button>
+                      </div>
+                    </div>
+                    <div className={styles.btnBox}>
                       <Button
-                        className={styles.quantityBtn}
+                        className={styles.removeBtn}
                         disabled={isUpdating}
-                        onClick={() => cartStore.removeItem(productId)}
+                        onClick={() => cartStore.removeItemFull(productId)}
                       >
-                        -
+                        Remove
                       </Button>
-                      <Text color='primary'>{quantity}</Text>
-                      <Button
-                        className={styles.quantityBtn}
-                        disabled={isUpdating}
-                        onClick={() => cartStore.addItem(productId)}
-                      >
-                        +
-                      </Button>
+                      <Button className={styles.buyBtn} onClick={() => router.push(`/checkout?type=item&itemId=${productId}`)}>Buy</Button>
                     </div>
                   </div>
-                  <div className={styles.btnBox}>
-                    <Button
-                      className={styles.removeBtn}
-                      disabled={isUpdating}
-                      onClick={() => cartStore.removeItemFull(productId)}
-                    >
-                      Remove
-                    </Button>
-                    <Button className={styles.buyBtn}>Buy</Button>
-                  </div>
-                </div>
-              );
-            })
-          ) : (
-            <p>Корзина пуста</p>
-          )}
-        </div>
+                );
+              })
+            ) : (
+              <Text color='secondary' view='p-20' >Cart is empty</Text>
+            )}
+          </div>
+        </>
       )}
     </div>
   );

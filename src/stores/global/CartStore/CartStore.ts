@@ -44,7 +44,6 @@ export class CartStore {
       this.updatingItemIds.add(productId);
     });
 
-    // Оптимистичное обновление
     runInAction(() => {
       const existingItem = this.cartItems.find((item) => item.product.id === productId);
       if (existingItem) {
@@ -64,7 +63,6 @@ export class CartStore {
         };
       });
     } catch {
-      // Откат при ошибке
       const cartItems = await getCart();
       runInAction(() => {
         this.cartItems = cartItems;
@@ -82,7 +80,6 @@ export class CartStore {
       this.updatingItemIds.add(productId);
     });
 
-    // Оптимистичное обновление
     runInAction(() => {
       const existingItem = this.cartItems.find((item) => item.product.id === productId);
       if (existingItem) {
@@ -128,5 +125,13 @@ export class CartStore {
   getItemQuantity(productId: number): number {
     return this.cartItems.find((item) => item.product.id === productId)?.quantity ?? 0;
   }
+
+  get totalPrice(): number {
+    return this.cartItems.reduce((sum,item) => {
+      return sum + (item.product.price * item.quantity);
+    }, 0);
+  }
 }
+
+
 export const cartStore = new CartStore();

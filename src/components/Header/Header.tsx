@@ -70,6 +70,7 @@ const Header = observer(() => {
               className={styles.logoMark}
               height={42}
               width={42}
+              priority
             />
             <Image
               src='/svg/Lalasia.svg'
@@ -77,6 +78,7 @@ const Header = observer(() => {
               className={styles.logoText}
               height={24}
               width={108}
+              priority
             />
           </Link>
         </div>
@@ -110,6 +112,7 @@ const Header = observer(() => {
               className={styles.iconImage}
               width={30}
               height={30}
+              priority
               onClick={() =>
                 router.push(authStore.isAuthenticated ? '/cart' : '/auth?next=/cart')
               }
@@ -124,6 +127,7 @@ const Header = observer(() => {
               className={styles.iconImage}
               width={30}
               height={30}
+              priority
               onClick={() => router.push(authStore.isAuthenticated ? '/profile' : '/auth')}
               style={{ cursor: 'pointer' }}
             />
@@ -141,6 +145,7 @@ const Header = observer(() => {
               className={styles.logoMark}
               height={32}
               width={32}
+              priority
             />
             <Image
               src='/svg/Lalasia.svg'
@@ -148,6 +153,7 @@ const Header = observer(() => {
               className={styles.logoText}
               height={18}
               width={82}
+              priority
             /> 
           </Link>
         </div>
@@ -157,8 +163,6 @@ const Header = observer(() => {
             type="button"
             className={styles.themeToggle}
             onClick={toggleTheme}
-            aria-label="Toggle color theme"
-            title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
           >
             {theme === 'dark' ? 'Light' : 'Dark'}
           </button>
@@ -177,6 +181,7 @@ const Header = observer(() => {
               className={styles.iconImage}
               width={30}
               height={30}
+              priority
               onClick={() =>
                 router.push(authStore.isAuthenticated ? '/cart' : '/auth?next=/cart')
               }
@@ -191,6 +196,7 @@ const Header = observer(() => {
               className={styles.iconImage}
               width={30}
               height={30}
+              priority
               onClick={() => router.push(authStore.isAuthenticated ? '/profile' : '/auth')}
               style={{ cursor: 'pointer' }}
             />

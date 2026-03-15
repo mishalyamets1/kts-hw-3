@@ -25,6 +25,15 @@ const SingleCard = observer(({product, relatedPromise}: Props) => {
   const cartItem = cartStore.cartItems.find(item => item.product.id === product.id);
   const cartQuantity = cartItem?.quantity ?? 0;
 
+const handleBuyNow = async () => {
+  if (!authStore.isAuthenticated) {
+    router.push(`/auth?next=/product/${product.documentId}`);
+    return;
+  }
+  await cartStore.addItem(product.id, 1);
+  router.push('/cart')
+}
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -62,7 +71,7 @@ const SingleCard = observer(({product, relatedPromise}: Props) => {
             </div>
             
             <div className={styles.buttons}>
-              <Button className={styles.btnBuy}>Buy now</Button>
+              <Button className={styles.btnBuy} onClick={handleBuyNow}>Buy now</Button>
               <Button
                 className={styles.btnCart}
                 onClick={(e) => {

@@ -1,4 +1,5 @@
 import Categories from "@/components/pages/Categories"
+import { getCategories } from "@/api/getCategories";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,9 +7,10 @@ export const metadata: Metadata = {
   description: 'Learn more about our store',
 };
 
-const CategoriesPage = () => {
+const CategoriesPage = async () => {
+  const categories = await getCategories();
   return (
-    <Categories/>
+    <Categories categories={categories} />
   )
 }
 

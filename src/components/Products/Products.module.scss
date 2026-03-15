@@ -20,7 +20,9 @@
   }
 }
 .loader {
-  justify-self: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 200px;
 }
 .contentSlot {
   display: flex;

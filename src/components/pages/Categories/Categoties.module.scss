@@ -1,0 +1,43 @@
+@use '../../../styles/variables.scss' as *;
+
+.page {
+  padding: 0 8px;
+  margin-top: 40px;
+  
+  @include desktop-and-up {
+    padding: 0 100px;
+  }
+}
+
+.grid {
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+
+  @include tablet-and-up {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  @include desktop-and-up {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32px;
+  border: 1px solid $stroke-light;
+  background: $bg-white;
+  text-decoration: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+
+  &:hover {
+    border-color: $brand;
+    background: $bg-light;
+  }
+}

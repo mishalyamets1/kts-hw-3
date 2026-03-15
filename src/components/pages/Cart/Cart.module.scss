@@ -128,3 +128,18 @@
     height: 110px;
   }
 }
+.total {
+  display: flex; 
+  align-items: center;
+  gap: 10px;
+}
+.totalConatiner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.buyAllBtn {
+  width: 120px;
+}
