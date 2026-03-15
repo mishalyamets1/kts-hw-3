@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import debounce from 'debounce';
 import Card from '@/components/ui-kit/Card';
 import Button from '@/components/ui-kit/Button';
 import Text from '@/components/ui-kit/Text';
@@ -23,12 +24,12 @@ export default function ProductsVirtualized({ products }: ProductsVirtualizedPro
   const [scrollTop, setScrollTop] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
+    const debouncedScroll = debounce(() => {
       setScrollTop(window.scrollY);
-    };
+    }, 50);
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', debouncedScroll);
+    return () => window.removeEventListener('scroll', debouncedScroll);
   }, []);
 
   const { visibleProducts, topPadding, bottomPadding } = useMemo(() => {
