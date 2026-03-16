@@ -12,7 +12,7 @@ import { Product } from '@/api/productsTypes';
 import styles from './ProductsVirtualized.module.scss';
 import productStyles from './Products.module.scss';
 
-const ITEM_HEIGHT = 474;
+const ITEM_HEIGHT = 682;
 const BUFFER_SIZE = 3;
 
 interface ProductsVirtualizedProps {
@@ -26,7 +26,7 @@ export default function ProductsVirtualized({ products }: ProductsVirtualizedPro
   useEffect(() => {
     const debouncedScroll = debounce(() => {
       setScrollTop(window.scrollY);
-    }, 200);
+    }, 50);
 
     window.addEventListener('scroll', debouncedScroll);
     return () => window.removeEventListener('scroll', debouncedScroll);
@@ -60,8 +60,9 @@ export default function ProductsVirtualized({ products }: ProductsVirtualizedPro
         const cartQty = cartStore.getItemQuantity(id);
 
         return (
-          <Card
-            key={documentId}
+          <div key={documentId} style={{ height: ITEM_HEIGHT, display: 'flex', width: '100%' }}>
+            <Card
+            className={productStyles.card}
             image={image}
             title={title}
             captionSlot={productCategory?.title}
@@ -94,7 +95,8 @@ export default function ProductsVirtualized({ products }: ProductsVirtualizedPro
               </Button>
             }
             onClick={() => router.push(`/product/${documentId}`)}
-          />
+            />
+          </div>
         );
       })}
 
