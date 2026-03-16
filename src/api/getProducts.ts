@@ -1,7 +1,8 @@
 import qs from 'qs';
 import { STRAPI_BASE_URL, API_TOKEN } from '@/configs/api';
 import { PRODUCTS_PAGE_SIZE } from '@/configs/constants';
-import type { ProductsResponse, Locale } from './productsTypes';
+import type { ProductsResponse } from './productsTypes';
+import type { Locale } from '@/i18n/translations';
 
 const STRAPI_URL = `${STRAPI_BASE_URL}/api/products`;
 

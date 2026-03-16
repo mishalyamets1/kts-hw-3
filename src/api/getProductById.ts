@@ -1,6 +1,7 @@
 import qs from 'qs';
 import { STRAPI_BASE_URL, API_TOKEN } from '@/configs/api';
-import type { Product, Locale } from './productsTypes';
+import type { Product } from './productsTypes';
+import type { Locale } from '@/i18n/translations';
 
 const STRAPI_URL = `${STRAPI_BASE_URL}/api/products`;
 
@@ -13,6 +14,7 @@ export const getProductById = async (documentId: string, locale: Locale = 'en'):
   if (!response.ok) {
     throw new Error(`Failed to fetch product ${documentId}: ${response.status} ${response.statusText}`);
   }
+  
   const data = await response.json();
   return data.data;
 };
