@@ -10,6 +10,7 @@ import Text from '@/components/ui-kit/Text';
 import { cartStore } from '@/stores/global/CartStore';
 import { authStore } from '@/stores/global/AuthStore/AuthStore';
 import { useAllProductsStore } from '@/components/pages/HomePage/StoreContext';
+import { useI18n } from '@/components/providers/I18nProvider';
 import { PRODUCTS_PAGE_SIZE } from '@/configs/constants';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import ProductsVirtualized from './ProductsVirtualized';
@@ -19,6 +20,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 const Products = observer(() => {
+  const { t } = useI18n();
   const pageSize = PRODUCTS_PAGE_SIZE;
   const router = useRouter();
   const allProductsStore = useAllProductsStore();
@@ -43,10 +45,10 @@ const Products = observer(() => {
           {allProductsStore.products.length === 0 ? (
             <div className={styles.empty}>
               <Text view="title" color="secondary">
-                Nothing was found
+                {t('products.empty.title')}
               </Text>
               <Text view="p-18" color="secondary">
-                Try changing the query or resetting the filters
+                {t('products.empty.subtitle')}
               </Text>
             </div>
           ) : isMobile ? (
@@ -72,7 +74,7 @@ const Products = observer(() => {
                           </Text>
                           {cartQty > 0 && (
                             <Text view="p-14" color="secondary">
-                              In the cart: {cartQty}
+                              {t('products.inCart')} {cartQty}
                             </Text>
                           )}
                         </div>
@@ -89,7 +91,7 @@ const Products = observer(() => {
                             cartStore.addItem(id, 1);
                           }}
                         >
-                          Add to Cart
+                          {t('products.addToCart')}
                         </Button>
                       }
                       onClick={() => router.push(`/product/${documentId}`)}

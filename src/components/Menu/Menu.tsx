@@ -8,10 +8,12 @@ import MultiDropdown from '@/components/ui-kit/MultiDropdown';
 import type { Option } from '@/components/ui-kit/MultiDropdown';
 import Text from '@/components/ui-kit/Text';
 import { useAllProductsStore } from '@/components/pages/HomePage/StoreContext';
+import { useI18n } from '@/components/providers/I18nProvider';
 import styles from './Menu.module.scss';
 import debounce from 'debounce';
 
 const Menu = observer(() => {
+  const { t } = useI18n();
   const allProductsStore = useAllProductsStore();
   const [value, setValue] = useState('');
   const searchTitle = allProductsStore.searchTitle;
@@ -58,9 +60,9 @@ const Menu = observer(() => {
   return (
     <div className={styles.menu}>
       <div className={styles.inputBox}>
-        <Input value={value} onChange={(handleSearch)} placeholder="Search product" />
+        <Input value={value} onChange={(handleSearch)} placeholder={t('menu.searchPlaceholder')} />
         <Button className={styles.btn} onClick={handleFindClick}>
-          Find now
+          {t('menu.findNow')}
         </Button>
       </div>
       <div className={styles.filterBox}>
@@ -69,15 +71,15 @@ const Menu = observer(() => {
           options={categoryOptions}
           value={selectedOptions}
           onChange={handleFilterChange}
-          getTitle={(value) => (value.length ? value.map((v) => v.value).join(', ') : 'Filter')}
+          getTitle={(value) => (value.length ? value.map((v) => v.value).join(', ') : t('menu.filter'))}
         />
 
-        {hasActiveFilters && <Button onClick={handleClearFilter}>Reset</Button>}
+        {hasActiveFilters && <Button onClick={handleClearFilter}>{t('menu.reset')}</Button>}
       </div>
 
       <div className={styles.totalBox}>
         <Text view="subtitle" color="primary">
-          Total products
+          {t('menu.totalProducts')}
         </Text>
         <Text className={styles.count} view="p-20" weight="bold" color="accent">
           {allProductsStore.total}

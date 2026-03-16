@@ -7,6 +7,7 @@ import Text from '@/components/ui-kit/Text';
 import { cartStore } from '@/stores/global/CartStore';
 import { authStore } from '@/stores/global/AuthStore/AuthStore';
 import { useRouter } from 'next/navigation';
+import { useI18n } from '@/components/providers/I18nProvider';
 import { Product } from '@/api/productsTypes';
 import styles from './ProductsVirtualized.module.scss';
 import productStyles from './Products.module.scss';
@@ -18,6 +19,7 @@ interface ProductsVirtualizedProps {
 }
 
 export default function ProductsVirtualized({ products }: ProductsVirtualizedProps) {
+  const { t } = useI18n();
   const router = useRouter();
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
@@ -69,7 +71,7 @@ export default function ProductsVirtualized({ products }: ProductsVirtualizedPro
                   </Text>
                   {cartQty > 0 && (
                     <Text view="p-14" color="secondary">
-                      In the cart: {cartQty}
+                      {t('products.inCart')} {cartQty}
                     </Text>
                   )}
                 </div>
@@ -86,7 +88,7 @@ export default function ProductsVirtualized({ products }: ProductsVirtualizedPro
                     cartStore.addItem(id, 1);
                   }}
                 >
-                  Add to Cart
+                  {t('products.addToCart')}
                 </Button>
               }
               onClick={() => router.push(`/product/${documentId}`)}

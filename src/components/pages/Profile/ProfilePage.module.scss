@@ -1,8 +1,14 @@
+@use '../../../styles/variables.scss' as *;
+
 .page {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 48px 16px;
+	padding: 40px 8px;
+
+	@include desktop-and-up {
+		padding: 40px 100px;
+	}
 }
 
 .card {
@@ -10,17 +16,61 @@
 	flex-direction: column;
 	gap: 24px;
 	width: 100%;
-	max-width: 420px;
+	max-width: 560px;
+	padding: 28px 24px;
+	border: 1px solid $stroke-light;
+	background: $bg-white;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.avatar {
+	width: 58px;
+	height: 58px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: $bg-light;
+	border: 1px solid $stroke-light;
+	color: $brand;
+	font-size: 22px;
+	font-weight: 700;
+	line-height: 1;
+}
+
+.headerText {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
 }
 
 .info {
 	display: flex;
 	flex-direction: column;
-	gap: 16px;
+	border-top: 1px solid $line-color;
 }
 
 .row {
 	display: flex;
 	flex-direction: column;
-	gap: 4px;
+	gap: 6px;
+	padding: 14px 0;
+	border-bottom: 1px solid $line-color;
+}
+
+.value {
+	word-break: break-word;
+}
+
+.actions {
+	display: flex;
+}
+
+.logoutBtn {
+	width: 100%;
+	max-width: none;
 }

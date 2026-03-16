@@ -6,6 +6,7 @@ import { useState } from 'react'
 import Text from '@/components/ui-kit/Text'
 import Input from '@/components/ui-kit/Input'
 import Button from '@/components/ui-kit/Button'
+import { useI18n } from '@/components/providers/I18nProvider'
 import { authStore } from '@/stores/global/AuthStore/AuthStore'
 import styles from './AuthPage.module.scss'
 
@@ -30,6 +31,7 @@ const EyeIcon = ({ open }: { open: boolean }) => (
 const AuthPage = observer(() => {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { t } = useI18n()
   const nextUrl = searchParams?.get('next') || '/'
 
   const [isRegister, setIsRegister] = useState(false)
@@ -54,29 +56,39 @@ const AuthPage = observer(() => {
   return (
     <div className={styles.page}>
       <div className={styles.card}>
-        <Text view="title" color="primary">
-          {isRegister ? 'Register' : 'Login'}
-        </Text>
+        <div className={styles.header}>
+          <div className={styles.headerText}>
+            <Text view="title" color="primary">
+              {isRegister ? t('auth.title.register') : t('auth.title.login')}
+            </Text>
+            <Text view="p-16" color="secondary">
+              {isRegister ? t('auth.subtitle.register') : t('auth.subtitle.login')}
+            </Text>
+          </div>
+        </div>
 
         <form className={styles.form} onSubmit={onSubmit}>
           {isRegister && (
             <Input
+              className={styles.authInput}
               value={username}
               onChange={setUsername}
-              placeholder="Username"
+              placeholder={t('auth.field.username')}
               disabled={authStore.isLoading}
             />
           )}
           <Input
+            className={styles.authInput}
             value={email}
             onChange={setEmail}
-            placeholder="Email"
+            placeholder={t('auth.field.email')}
             disabled={authStore.isLoading}
           />
           <Input
+            className={styles.authInput}
             value={password}
             onChange={setPassword}
-            placeholder="Password"
+            placeholder={t('auth.field.password')}
             type={showPassword ? 'text' : 'password'}
             disabled={authStore.isLoading}
             afterSlot={
@@ -97,18 +109,26 @@ const AuthPage = observer(() => {
             </Text>
           )}
 
-          <Button type="submit" disabled={authStore.isLoading}>
-            {authStore.isLoading ? 'Loading...' : isRegister ? 'Register' : 'Login'}
+          <Button type="submit" disabled={authStore.isLoading} className={styles.submitBtn}>
+            {authStore.isLoading
+              ? t('auth.submit.loading')
+              : isRegister
+                ? t('auth.title.register')
+                : t('auth.title.login')}
           </Button>
         </form>
 
-        <button
-          className={styles.switch}
-          type="button"
-          onClick={() => setIsRegister((prev) => !prev)}
-        >
-          <Text color='accent' view='p-14'>{isRegister ? 'I already have an account' : 'Create an account'}</Text>
-        </button>
+        <div className={styles.footer}>
+          <button
+            className={styles.switch}
+            type="button"
+            onClick={() => setIsRegister((prev) => !prev)}
+          >
+            <Text color="accent" view="p-14">
+              {isRegister ? t('auth.switch.toLogin') : t('auth.switch.toRegister')}
+            </Text>
+          </button>
+        </div>
       </div>
     </div>
   )

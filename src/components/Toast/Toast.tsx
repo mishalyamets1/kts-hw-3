@@ -3,10 +3,12 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import Text from '@/components/ui-kit/Text';
+import { useI18n } from '@/components/providers/I18nProvider';
 import { cartStore } from '@/stores/global/CartStore';
 import styles from './Toast.module.scss';
 
 const Toast = observer(() => {
+  const { t } = useI18n();
   const { notification } = cartStore;
 
   useEffect(() => {
@@ -26,7 +28,7 @@ const Toast = observer(() => {
           </Text>
         </span>
         <span className={styles.toast__subtitle}>
-          <Text view="p-14">Quantity in the cart: {notification.quantity}</Text>
+          <Text view="p-14">{t('toast.quantityInCart')} {notification.quantity}</Text>
         </span>
       </div>
     </div>

@@ -143,3 +143,12 @@
 .buyAllBtn {
   width: 120px;
 }
+
+.emptyCart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 60px;
+  text-align: center;
+}

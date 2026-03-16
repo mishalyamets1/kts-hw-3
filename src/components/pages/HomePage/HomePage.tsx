@@ -27,6 +27,10 @@ function HomePage({initialProducts, initialTotal, initialCategories}: Props) {
   });
 
   useEffect(() => {
+    store.setInitialData(initialProducts, initialTotal, initialCategories);
+  }, [store, initialProducts, initialTotal, initialCategories]);
+
+  useEffect(() => {
     const snowCat = document.createElement('img');
     snowCat.src = '/svg/cat-kts.svg';
     setImage([snowCat]);

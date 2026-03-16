@@ -9,9 +9,11 @@ import Loader from '@/components/ui-kit/Loader';
 import Text from '@/components/ui-kit/Text';
 import { cartStore } from '@/stores/global/CartStore';
 import { authStore } from '@/stores/global/AuthStore/AuthStore';
+import { useI18n } from '@/components/providers/I18nProvider';
 import styles from './Cart.module.scss';
 
 const Cart = observer(() => {
+  const { t } = useI18n();
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -29,10 +31,10 @@ const Cart = observer(() => {
   return (
     <div className={styles.cart}>
       <div className={styles.cartTitle}>
-        <Text view="title" color='primary'>Cart</Text>
+        <Text view="title" color='primary'>{t('cart.title')}</Text>
       </div>
       <div className={styles.cartInfo}>
-        <Text view="subtitle" color='primary'>Products in the cart:</Text>
+        <Text view="subtitle" color='primary'>{t('cart.productsInCart')}</Text>
         <Text view="p-20" weight="bold" color="accent">
           {cartStore.itemsCount}
         </Text>
@@ -40,10 +42,10 @@ const Cart = observer(() => {
       {cartStore.cartItems.length > 0 && (
             <div className={styles.totalConatiner}>
               <div className={styles.total}>
-                <Text color='primary' view='subtitle' weight='bold'>Total:</Text> 
+                <Text color='primary' view='subtitle' weight='bold'>{t('cart.total')}</Text> 
                 <Text color='accent' view='p-20' weight='bold'>${cartStore.totalPrice}</Text>
               </div>
-              <Button className={styles.buyAllBtn} onClick={() => router.push('/checkout')}>Buy all</Button>
+              <Button className={styles.buyAllBtn} onClick={() => router.push('/checkout')}>{t('cart.buyAll')}</Button>
             </div>
           )}
       {cartStore.cartLoading ? (
@@ -96,15 +98,18 @@ const Cart = observer(() => {
                         disabled={isUpdating}
                         onClick={() => cartStore.removeItemFull(productId)}
                       >
-                        Remove
+                        {t('cart.remove')}
                       </Button>
-                      <Button className={styles.buyBtn} onClick={() => router.push(`/checkout?type=item&itemId=${productId}`)}>Buy</Button>
+                      <Button className={styles.buyBtn} onClick={() => router.push(`/checkout?type=item&itemId=${productId}`)}>{t('cart.buy')}</Button>
                     </div>
                   </div>
                 );
               })
             ) : (
-              <Text color='secondary' view='p-20' >Cart is empty</Text>
+              <div className={styles.emptyCart}>
+                <Text color='secondary' view='p-20' >{t('cart.empty')}</Text>
+                <Button onClick={() => router.push('/')}>{t('cart.continueShopping')}</Button>
+              </div>
             )}
           </div>
         </>

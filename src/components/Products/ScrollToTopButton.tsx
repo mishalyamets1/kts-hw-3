@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { useIsMobile } from '@/hooks/useIsMobile';
+import { useI18n } from '@/components/providers/I18nProvider';
 import styles from './ScrollToTopButton.module.scss';
 import Image from 'next/image';
 
 export default function ScrollToTopButton() {
+  const { t } = useI18n();
   const isMobile = useIsMobile();
   const [isVisible, setIsVisible] = useState(false);
 
@@ -31,8 +33,8 @@ export default function ScrollToTopButton() {
     <button
       className={styles.button}
       onClick={scrollToTop}
-      aria-label="Scroll to top"
-      title="Back to top"
+      aria-label={t('products.scrollToTop')}
+      title={t('products.backToTop')}
     >
       <Image
         src="/svg/arrow-left.svg"

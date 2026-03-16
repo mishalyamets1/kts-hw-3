@@ -7,14 +7,15 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Text from '@/components/ui-kit/Text';
+import { useI18n } from '@/components/providers/I18nProvider';
 import { cartStore } from '@/stores/global/CartStore';
 import { authStore } from '@/stores/global/AuthStore/AuthStore';
 import styles from './Header.module.scss';
 
 const NAV_LINKS = [
-  { href: '/', label: 'Products' },
-  { href: '/categories', label: 'Categories' },
-  { href: '/about', label: 'About us' },
+  { href: '/', labelKey: 'header.nav.products' },
+  { href: '/categories', labelKey: 'header.nav.categories' },
+  { href: '/about', labelKey: 'header.nav.about' },
 ];
 
 type Theme = 'light' | 'dark';
@@ -33,6 +34,7 @@ const getInitialTheme = (): Theme => {
 const Header = observer(() => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [theme, setTheme] = useState<Theme>('light');
+  const { locale, toggleLocale, t } = useI18n();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -53,10 +55,17 @@ const Header = observer(() => {
     setIsMenuOpen(false);
   };
 
+  const handleLanguageToggle = () => {
+    toggleLocale();
+    closeMenu();
+    router.refresh();
+  };
+
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href);
 
   const logoMarkSrc = theme === 'dark' ? '/svg/logo-img-dark.svg' : '/svg/logo-img.svg';
+  const themeToggleIconSrc = theme === 'dark' ? '/svg/theme-sun.svg' : '/svg/theme-moon.svg';
 
   return (
     <>
@@ -83,14 +92,14 @@ const Header = observer(() => {
           </Link>
         </div>
         <nav className={styles.nav}>
-          {NAV_LINKS.map(({ href, label }) => (
+          {NAV_LINKS.map(({ href, labelKey }) => (
             <Link
               key={href}
               href={href}
               className={clsx(styles.link, { [styles.active]: isActive(href) })}
             >
               <Text view="p-18" tag="p" color={isActive(href) ? 'accent' : 'primary'}>
-                {label}
+                {t(labelKey)}
               </Text>
             </Link>
           ))}
@@ -99,11 +108,27 @@ const Header = observer(() => {
           <button
             type="button"
             className={styles.themeToggle}
+            onClick={handleLanguageToggle}
+            aria-label={t('header.language')}
+            title={t('header.language')}
+          >
+            {locale.toUpperCase()}
+          </button>
+          <button
+            type="button"
+            className={styles.themeToggle}
             onClick={toggleTheme}
             aria-label="Toggle color theme"
-            title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+            title={theme === 'dark' ? t('header.theme.toLight') : t('header.theme.toDark')}
           >
-            {theme === 'dark' ? 'Light' : 'Dark'}
+            <Image
+              src={themeToggleIconSrc}
+              alt={theme === 'dark' ? t('header.theme.toLight') : t('header.theme.toDark')}
+              className={styles.themeToggleIcon}
+              width={18}
+              height={18}
+              priority
+            />
           </button>
           <div className={clsx(styles.cart, { [styles.active]: pathname === '/cart' })}>
             <Image
@@ -162,9 +187,27 @@ const Header = observer(() => {
           <button
             type="button"
             className={styles.themeToggle}
-            onClick={toggleTheme}
+            onClick={handleLanguageToggle}
+            aria-label={t('header.language')}
+            title={t('header.language')}
           >
-            {theme === 'dark' ? 'Light' : 'Dark'}
+            {locale.toUpperCase()}
+          </button>
+          <button
+            type="button"
+            className={styles.themeToggle}
+            onClick={toggleTheme}
+            aria-label={theme === 'dark' ? t('header.theme.toLight') : t('header.theme.toDark')}
+            title={theme === 'dark' ? t('header.theme.toLight') : t('header.theme.toDark')}
+          >
+            <Image
+              src={themeToggleIconSrc}
+              alt={theme === 'dark' ? t('header.theme.toLight') : t('header.theme.toDark')}
+              className={styles.themeToggleIcon}
+              width={16}
+              height={16}
+              priority
+            />
           </button>
           <button
             className={clsx(styles.burgerMenu, { [styles.active]: isMenuOpen })}
@@ -207,7 +250,7 @@ const Header = observer(() => {
       {/* Mobile Navigation Menu */}
       {isMenuOpen && (
         <nav className={styles.navMobile}>
-          {NAV_LINKS.map(({ href, label }) => (
+          {NAV_LINKS.map(({ href, labelKey }) => (
             <Link
               key={href}
               href={href}
@@ -215,7 +258,7 @@ const Header = observer(() => {
               onClick={closeMenu}
             >
               <Text view="p-18" tag="p" color={isActive(href) ? 'accent' : 'primary'}>
-                {label}
+                {t(labelKey)}
               </Text>
             </Link>
           ))}

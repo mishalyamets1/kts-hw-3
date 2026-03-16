@@ -9,6 +9,7 @@ import Card from '@/components/ui-kit/Card';
 import Text from '@/components/ui-kit/Text';
 import { cartStore } from '@/stores/global/CartStore';
 import { authStore } from '@/stores/global/AuthStore/AuthStore';
+import { useI18n } from '@/components/providers/I18nProvider';
 import styles from './SingleCard.module.scss';
 import { useRouter } from 'next/navigation';
 import type { Product, ProductsResponse } from '@/api/productsTypes';
@@ -19,6 +20,7 @@ type Props = {
 };
 
 const SingleCard = observer(({product, relatedPromise}: Props) => {
+  const { t } = useI18n();
   const relatedProducts = use(relatedPromise).data;
 
   const router = useRouter();
@@ -48,7 +50,7 @@ const handleBuyNow = async () => {
       <RemoveButton />
       <div className={styles.container}>
         {image && (
-          <Image className={styles.image} src={image} alt="фото товара" width={600} height={600} />
+          <Image className={styles.image} src={image} alt={t('single.imageAlt')} width={600} height={600} />
         )}
         <div className={styles.info}>
           <div className={styles.text}>
@@ -66,12 +68,12 @@ const handleBuyNow = async () => {
               ${price}
             </Text>
             <Text color='secondary' view='p-20'>
-              In the cart: {cartQuantity}
+              {t('single.inCart')} {cartQuantity}
             </Text>
             </div>
             
             <div className={styles.buttons}>
-              <Button className={styles.btnBuy} onClick={handleBuyNow}>Buy now</Button>
+              <Button className={styles.btnBuy} onClick={handleBuyNow}>{t('single.buyNow')}</Button>
               <Button
                 className={styles.btnCart}
                 onClick={(e) => {
@@ -83,7 +85,7 @@ const handleBuyNow = async () => {
                   cartStore.addItem(prodId, 1);
                 }}
               >
-                Add to cart
+                {t('single.addToCart')}
               </Button>
             </div>
           </div>
@@ -92,7 +94,7 @@ const handleBuyNow = async () => {
 
       <div className={styles.related}>
         <Text view="title" color="primary">
-          Related Items
+          {t('single.related')}
         </Text>
         <div className={styles.cards}>
           {relatedProducts?.map((prod) => {
@@ -118,7 +120,7 @@ const handleBuyNow = async () => {
                         cartStore.addItem(id, 1);
                       }}
                     >
-                      Add to cart
+                      {t('single.addToCart')}
                     </Button>
                   }
                   onClick={() => router.push(`/product/${documentId}`)}

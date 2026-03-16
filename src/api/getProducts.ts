@@ -1,7 +1,7 @@
 import qs from 'qs';
 import { STRAPI_BASE_URL, API_TOKEN } from '@/configs/api';
 import { PRODUCTS_PAGE_SIZE } from '@/configs/constants';
-import type { ProductsResponse } from './productsTypes';
+import type { ProductsResponse, Locale } from './productsTypes';
 
 const STRAPI_URL = `${STRAPI_BASE_URL}/api/products`;
 
@@ -10,6 +10,7 @@ type GetProductsParams = {
   pageSize?: number;
   searchTitle?: string;
   categoryIds?: number[];
+  locale?: Locale;
 };
 
 export const getProducts = async ({
@@ -17,6 +18,7 @@ export const getProducts = async ({
   pageSize = PRODUCTS_PAGE_SIZE,
   searchTitle,
   categoryIds,
+  locale = 'en',
 }: GetProductsParams): Promise<ProductsResponse> => {
   const filters: Record<string, unknown> = {};
 
@@ -32,6 +34,7 @@ export const getProducts = async ({
     {
       populate: ['images', 'productCategory'],
       pagination: { page, pageSize },
+      locale,
       ...(Object.keys(filters).length > 0 && { filters }),
     },
     { arrayFormat: 'brackets' }

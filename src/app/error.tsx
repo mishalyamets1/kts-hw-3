@@ -5,6 +5,7 @@ import styles from './error.module.scss';
 import Text from '@/components/ui-kit/Text';
 import Button from '@/components/ui-kit/Button';
 import { useRouter } from 'next/navigation';
+import { useI18n } from '@/components/providers/I18nProvider';
 
 type Props = {
   error: Error;
@@ -12,6 +13,8 @@ type Props = {
 };
 
 export default function Error({ error, reset }: Props) {
+  const { t } = useI18n();
+
   useEffect(() => {
     console.error(error);
   }, [error]);
@@ -19,16 +22,16 @@ export default function Error({ error, reset }: Props) {
   const router = useRouter();
   return (
     <div className={styles.container}>
-      <Text view='title' className={styles.title}>Something went wrong</Text>
+      <Text view='title' className={styles.title}>{t('error.title')}</Text>
       <Text view='p-20' className={styles.message}>
         {error.message}
       </Text> 
       <div className={styles.buttons}>
         <Button className={styles.btnOutline} onClick={reset}>
-          Try again
+          {t('error.tryAgain')}
         </Button>
         <Button  className={styles.btnPrimary} onClick={() => router.push('/')}>
-          Home
+          {t('error.home')}
         </Button>
       </div>
     </div>
