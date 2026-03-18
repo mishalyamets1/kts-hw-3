@@ -2,15 +2,22 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import type { Product, ProductCategory, ProductsResponse } from '@/api/productsTypes';
 import { PRODUCTS_PAGE_SIZE } from '@/configs/constants';
 
+export type SortOrder = 'asc' | 'desc' | 'none';
+
 export class AllProductsStore {
   // хук useGetAllProducts
   products: Product[] = [];
+  allProducts: Product[] = []; // Storage for all products to calculate filtered count
   total: number | undefined = undefined;
   productsLoading = true;
 
   searchTitle = '';
   selectedCategoryIds: number[] = [];
   currentPage = 1;
+
+  priceMin: number | null = null;
+  priceMax: number | null = null;
+  sortOrder: SortOrder = 'none';
 
   // Категории
   categories: ProductCategory[] = [];
@@ -43,10 +50,16 @@ export class AllProductsStore {
     const page = parseInt(searchParams.get('page') || '1');
     const categories = searchParams.get('categories');
     const categoryIds = categories ? categories.split(',').map(Number) : [];
+    const priceMin = searchParams.get('priceMin');
+    const priceMax = searchParams.get('priceMax');
+    const sortOrder = searchParams.get('sort') as SortOrder | null;
 
     this.searchTitle = search;
     this.currentPage = page;
     this.selectedCategoryIds = categoryIds;
+    this.priceMin = priceMin ? parseInt(priceMin) : null;
+    this.priceMax = priceMax ? parseInt(priceMax) : null;
+    this.sortOrder = sortOrder || 'none';
   }
 
   buildSearchParams(): URLSearchParams {
@@ -55,6 +68,9 @@ export class AllProductsStore {
     if (this.currentPage > 1) params.set('page', String(this.currentPage));
     if (this.selectedCategoryIds.length > 0)
       params.set('categories', this.selectedCategoryIds.join(','));
+    if (this.priceMin !== null) params.set('priceMin', String(this.priceMin));
+    if (this.priceMax !== null) params.set('priceMax', String(this.priceMax));
+    if (this.sortOrder !== 'none') params.set('sort', this.sortOrder);
     return params;
   }
 
@@ -68,18 +84,33 @@ export class AllProductsStore {
     }
   }
 
-  setSearchTitle(title: string) {
+  setSearchTitle(title: string, pageSize: number = 9) {
     this.searchTitle = title;
     this.currentPage = 1;
     this.updateUrl();
-    this.fetchProducts();
+    this.fetchProducts(pageSize);
   }
 
-  setSelectedCategories(categoryIds: number[]) {
+  setSelectedCategories(categoryIds: number[], pageSize: number = 9) {
     this.selectedCategoryIds = categoryIds;
     this.currentPage = 1;
     this.updateUrl();
-    this.fetchProducts();
+    this.fetchProducts(pageSize);
+  }
+
+  setPriceRange(min: number | null, max: number | null, pageSize: number = 9) {
+    this.priceMin = min;
+    this.priceMax = max;
+    this.currentPage = 1;
+    this.updateUrl();
+    this.fetchProducts(pageSize);
+  }
+
+  setSortOrder(order: SortOrder, pageSize: number = 9) {
+    this.sortOrder = order;
+    this.currentPage = 1;
+    this.updateUrl();
+    this.fetchProducts(pageSize);
   }
 
   setCurrentPage(page: number) {
@@ -88,8 +119,28 @@ export class AllProductsStore {
     this.fetchProducts();
   }
 
-  async fetchAllProducts() {
-    this.productsLoading = true;
+  private applyPriceFilterAndSort(products: Product[]): Product[] {
+    let filtered = products;
+
+    if (this.priceMin !== null || this.priceMax !== null) {
+      filtered = filtered.filter((p) => {
+        if (this.priceMin !== null && p.price < this.priceMin) return false;
+        if (this.priceMax !== null && p.price > this.priceMax) return false;
+        return true;
+      });
+    }
+
+    if (this.sortOrder === 'asc') {
+      filtered = [...filtered].sort((a, b) => a.price - b.price);
+    } else if (this.sortOrder === 'desc') {
+      filtered = [...filtered].sort((a, b) => b.price - a.price);
+    }
+
+    return filtered;
+  }
+
+  async fetchAllProducts(updateLoading = true) {
+    if (updateLoading) this.productsLoading = true;
     try {
       const params = new URLSearchParams();
       params.set('page', '1');
@@ -103,13 +154,16 @@ export class AllProductsStore {
 
       const data: ProductsResponse = await response.json();
       runInAction(() => {
-        this.products = data.data;
+        this.allProducts = data.data;
+        this.products = this.applyPriceFilterAndSort(data.data);
         this.total = data.meta?.pagination?.total;
       });
     } finally {
-      runInAction(() => {
-        this.productsLoading = false;
-      });
+      if (updateLoading) {
+        runInAction(() => {
+          this.productsLoading = false;
+        });
+      }
     }
   }
 
@@ -126,16 +180,28 @@ export class AllProductsStore {
 
       const response = await fetch(`/api/products?${params.toString()}`);
       if (!response.ok) throw new Error(`Failed to fetch products: ${response.status}`);
-      
+
       const data: ProductsResponse = await response.json();
       runInAction(() => {
-        this.products = data.data;
+        this.products = this.applyPriceFilterAndSort(data.data);
         this.total = data.meta?.pagination?.total;
+      });
+
+      // Load all products for filtered count calculation (don't update loading state)
+      await this.fetchAllProducts(false);
+
+      // Update total based on price filter
+      runInAction(() => {
+        this.total = this.applyPriceFilterAndSort(this.allProducts).length;
       });
     } finally {
       runInAction(() => {
         this.productsLoading = false;
       });
     }
+  }
+
+  get filteredCount(): number {
+    return this.applyPriceFilterAndSort(this.allProducts).length;
   }
 }

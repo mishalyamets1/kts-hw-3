@@ -40,6 +40,17 @@ const AuthPage = observer(() => {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
+  const getErrorMessage = () => {
+    if (!authStore.errorType) return null
+    const errorMap: Record<string, string> = {
+      'invalid_credentials': t('auth.error.invalidCredentials'),
+      'user_exists': t('auth.error.userExists'),
+      'validation_error': t('auth.error.default'),
+      'unknown_error': t('auth.error.default'),
+    }
+    return errorMap[authStore.errorType] || t('auth.error.default')
+  }
+
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
@@ -103,9 +114,9 @@ const AuthPage = observer(() => {
             }
           />
 
-          {authStore.error && (
+          {authStore.errorType && (
             <Text className={styles.error} view="p-14" color="accent">
-              {authStore.error}
+              {getErrorMessage()}
             </Text>
           )}
 

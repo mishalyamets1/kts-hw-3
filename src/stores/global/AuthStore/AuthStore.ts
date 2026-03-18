@@ -23,11 +23,13 @@ export type AuthResponse = {
   user: User;
 };
 
+export type ErrorType = 'invalid_credentials' | 'user_exists' | 'validation_error' | 'unknown_error';
+
 export class AuthStore {
     user: User | null = null;
     token: string | null = null;
     isLoading: boolean = false;
-    error: string | null = null;
+    errorType: ErrorType | null = null;
 
     constructor() {
         makeAutoObservable(this);
@@ -37,7 +39,7 @@ export class AuthStore {
     private clearAuth() {
         this.user = null;
         this.token = null;
-        this.error = null
+        this.errorType = null
         this.removeFromLocalStorage()
     }
 
@@ -70,9 +72,9 @@ export class AuthStore {
         }
     }
 
-    async register(payload: RegisterPayload): Promise<{success: boolean; error?: string}> {
+    async register(payload: RegisterPayload): Promise<{success: boolean; error?: ErrorType}> {
         this.isLoading  = true;
-        this.error = null;
+        this.errorType = null;
 
         try {
             const res = await fetch(`${STRAPI_BASE_URL}/api/auth/local/register`, {
@@ -82,7 +84,8 @@ export class AuthStore {
             })
             if (!res.ok) {
                 const errorText = await res.text()
-                throw new Error(errorText || 'Error register')
+                const errorType = this.parseErrorType(errorText)
+                throw { errorType }
             }
             const data: AuthResponse = await res.json()
             runInAction(() => {
@@ -92,12 +95,12 @@ export class AuthStore {
             this.saveToLocalStorage()
             return {success: true}
         } catch (e) {
-            const errMsg = e instanceof Error ? e.message : 'Unknown error'
+            const errorType = (e as any).errorType || 'unknown_error'
             runInAction(() => {
-                this.error = errMsg;
+                this.errorType = errorType;
             })
             return {
-                success: false, error: errMsg
+                success: false, error: errorType
             }
         } finally {
             runInAction(() => {
@@ -106,9 +109,9 @@ export class AuthStore {
         }
     }
 
-    async login(payload: LoginPayload): Promise<{success: boolean; error?: string}> {
+    async login(payload: LoginPayload): Promise<{success: boolean; error?: ErrorType}> {
         this.isLoading  = true;
-        this.error = null;
+        this.errorType = null;
 
         try {
             const res = await fetch(`${STRAPI_BASE_URL}/api/auth/local`, {
@@ -118,7 +121,8 @@ export class AuthStore {
             })
             if (!res.ok) {
                 const errorText = await res.text()
-                throw new Error(errorText || 'Error register')
+                const errorType = this.parseErrorType(errorText)
+                throw { errorType }
             }
             const data: AuthResponse = await res.json()
             runInAction(() => {
@@ -128,18 +132,38 @@ export class AuthStore {
             this.saveToLocalStorage()
             return {success: true}
         } catch (e) {
-            const errMsg = e instanceof Error ? e.message : 'Unknown error'
+            const errorType = (e as any).errorType || 'unknown_error'
             runInAction(() => {
-                this.error = errMsg;
+                this.errorType = errorType;
             })
             return {
-                success: false, error: errMsg
+                success: false, error: errorType
             }
         } finally {
             runInAction(() => {
                 this.isLoading = false
             })
         }
+    }
+
+    private parseErrorType(errorText: string): ErrorType {
+        try {
+            const errorData = JSON.parse(errorText);
+            const message = errorData?.error?.message || '';
+
+            if (message.includes('Invalid identifier') || message.includes('Invalid password')) {
+                return 'invalid_credentials';
+            }
+            if (message.includes('already exists')) {
+                return 'user_exists';
+            }
+            if (errorData?.error?.name === 'ValidationError') {
+                return 'validation_error';
+            }
+        } catch {
+            // If parsing fails, return unknown_error
+        }
+        return 'unknown_error';
     }
 
     logout() {
