@@ -3,6 +3,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
+  // Fix Turbopack workspace root resolution
+  turbopack: {
+    root: process.cwd()
+  },
   images: {
     remotePatterns: [
       // {

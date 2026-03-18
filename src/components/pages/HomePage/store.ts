@@ -80,7 +80,10 @@ export class AllProductsStore {
       this._setSearchParams(params);
     } else {
       const newUrl = params.toString() ? `/?${params.toString()}` : '/';
-      window.history.replaceState({}, '', newUrl);
+      // Use replaceState instead of router.replace to prevent scroll jump
+      if (typeof window !== 'undefined') {
+        window.history.replaceState(null, '', newUrl);
+      }
     }
   }
 

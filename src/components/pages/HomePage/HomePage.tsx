@@ -39,7 +39,7 @@ function HomePage({initialProducts, initialTotal, initialCategories}: Props) {
   useEffect(() => {
     store.setUrlUpdater((params) => {
       const query = params.toString();
-      router.replace(query ? `/?${query}` : '/')
+      router.replace(query ? `/?${query}` : '/', { scroll: false })
     });
     return () => store.resetUrlUpdater();
   }, [store, router]);

@@ -23,7 +23,7 @@
     "react-virtualized": "^9.22.6",
     "react-window": "^2.2.7",
     "sass": "^1.97.3",
-    "vercel": "^50.28.0"
+    "vercel": "^50.33.0"
   },
   "devDependencies": {
     "@types/node": "^20",
