@@ -226,6 +226,6 @@ export class AllProductsStore {
   }
 
   get filteredCount(): number {
-    return this.applyPriceFilterAndSort(this.allProducts).length;
+    return this.total ?? 0;
   }
 }
