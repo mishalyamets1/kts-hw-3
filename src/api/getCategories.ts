@@ -1,18 +1,19 @@
-import axios from 'axios';
 import qs from 'qs';
-import { STRAPI_BASE_URL, API_TOKEN } from '@/config/api';
+import { STRAPI_BASE_URL, API_TOKEN } from '@/configs/api';
 import type { ProductCategory } from './productsTypes';
+import type { Locale } from '@/i18n/translations';
 
 const STRAPI_URL = `${STRAPI_BASE_URL}/api/product-categories`;
 
-type CategoriesResponse = {
-  data: ProductCategory[];
-};
-
-export const getCategories = async (): Promise<ProductCategory[]> => {
-  const query = qs.stringify({});
-  const response = await axios.get<CategoriesResponse>(`${STRAPI_URL}?${query}`, {
+export const getCategories = async (locale: Locale = 'en'): Promise<ProductCategory[]> => {
+  const query = qs.stringify({ locale });
+  const response = await fetch(`${STRAPI_URL}?${query}`, {
     headers: { Authorization: `Bearer ${API_TOKEN}` },
+    next: {revalidate: 60},
   });
-  return response.data.data;
+  if (!response.ok) {
+    throw new Error(`Failed to fetch categories: ${response.status} ${response.statusText}`);
+  }
+  const data = await response.json();
+  return data.data;
 };

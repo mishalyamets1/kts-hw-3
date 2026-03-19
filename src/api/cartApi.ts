@@ -1,43 +1,44 @@
-import axios from 'axios';
 import type { CartItem } from '@/api/productsTypes';
-import { STRAPI_BASE_URL, API_TOKEN } from '@/config/api';
+import { authStore } from '@/stores/global/AuthStore/AuthStore';
 
-const CART_URL = `${STRAPI_BASE_URL}/api/cart`;
+const CART_URL = '/api/cart';
 
 export type CartResponse = {
   data: CartItem[];
 };
 
+const getAuthHeaders = (): Record<string, string> => {
+  const headers: Record<string, string> = {};
+  if (authStore.token) {
+    headers['Authorization'] = `Bearer ${authStore.token}`;
+  }
+  return headers;
+};
+
 export const getCart = async (): Promise<CartItem[]> => {
-  const response = await axios.get<CartItem[]>(CART_URL, {
-    headers: { Authorization: `Bearer ${API_TOKEN}` },
+  const response = await fetch(CART_URL, {
+    cache: 'no-store',
+    headers: getAuthHeaders(),
   });
-  return response.data;
+  return response.json();
 };
 
 export const addToCart = async (productId: number, quantity = 1): Promise<CartItem[]> => {
-  const response = await axios.post<CartResponse>(
-    `${CART_URL}/add`,
-    {
-      product: productId,
-      quantity,
-    },
-    {
-      headers: { Authorization: `Bearer ${API_TOKEN}` },
-    }
-  );
-  return response.data.data;
+  const response = await fetch(`${CART_URL}/add`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+    body: JSON.stringify({ product: productId, quantity }),
+  });
+  const data: CartResponse = await response.json();
+  return data.data;
 };
+
 export const removeFromCart = async (productId: number, quantity = 1): Promise<CartItem[]> => {
-  const response = await axios.post<CartResponse>(
-    `${CART_URL}/remove`,
-    {
-      product: productId,
-      quantity,
-    },
-    {
-      headers: { Authorization: `Bearer ${API_TOKEN}` },
-    }
-  );
-  return response.data.data;
+  const response = await fetch(`${CART_URL}/remove`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+    body: JSON.stringify({ product: productId, quantity }),
+  });
+  const data: CartResponse = await response.json();
+  return data.data;
 };

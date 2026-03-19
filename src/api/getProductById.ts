@@ -1,16 +1,20 @@
-import axios from 'axios';
 import qs from 'qs';
-import { STRAPI_BASE_URL, API_TOKEN } from '@/config/api';
+import { STRAPI_BASE_URL, API_TOKEN } from '@/configs/api';
 import type { Product } from './productsTypes';
+import type { Locale } from '@/i18n/translations';
 
 const STRAPI_URL = `${STRAPI_BASE_URL}/api/products`;
-type ProductByIdResponse = {
-  data: Product;
-};
-export const getProductById = async (documentId: string): Promise<Product> => {
-  const query = qs.stringify({ populate: ['images', 'productCategory'] });
-  const response = await axios.get<ProductByIdResponse>(`${STRAPI_URL}/${documentId}?${query}`, {
+
+export const getProductById = async (documentId: string, locale: Locale = 'en'): Promise<Product> => {
+  const query = qs.stringify({ populate: ['images', 'productCategory'], locale });
+  const response = await fetch(`${STRAPI_URL}/${documentId}?${query}`, {
     headers: { Authorization: `Bearer ${API_TOKEN}` },
+    next: {revalidate: 60},
   });
-  return response.data.data;
+  if (!response.ok) {
+    throw new Error(`Failed to fetch product ${documentId}: ${response.status} ${response.statusText}`);
+  }
+  
+  const data = await response.json();
+  return data.data;
 };

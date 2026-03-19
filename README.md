@@ -1,76 +1,90 @@
-# Запуск
-В .env.example указал параметры
-Для запуска: yarn dev
-# React + TypeScript + Vite
+# E-Commerce App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Учебный проект интернет-магазина на Next.js с поддержкой авторизации, корзины и имитацией оплаты.
 
-Currently, two official plugins are available:
+## Стек
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Next.js 16** + **React 19** — App Router, SSR/SSG
+- **MobX** + **MobX React Lite** — управление состоянием
+- **SCSS Modules** — стилизация
+- **Strapi** — бэкенд (товары, корзина, авторизация)
 
-## React Compiler
+## Функциональность
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Каталог товаров с пагинацией (десктоп) и виртуализацией (мобилка)
+- Фильтрация по поиску и категориям
+- Страница категорий
+- Страница товара с похожими продуктами
+- Корзина с управлением количеством
+- Оплата одного товара или всей корзины (имитация)
+- Авторизация / регистрация
+- Тёмная тема
 
-## Expanding the ESLint configuration
+## Запуск
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 1. Клонировать репозиторий
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone <url>
+cd <папка>
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Установить зависимости
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+yarn install
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 3. Настроить переменные окружения
+
+```bash
+cp .env.example .env.local
+```
+
+Открыть `.env.local` и вставить свой API токен:
+
+```env
+NEXT_PUBLIC_STRAPI_BASE_URL=https://front-school-strapi.ktsdev.ru
+NEXT_PUBLIC_STRAPI_API_TOKEN=ваш_токен
+```
+
+### 4. Запустить
+
+```bash
+# Разработка
+yarn dev
+
+# Продакшн сборка
+yarn build
+yarn start
+```
+
+Приложение будет доступно по адресу [http://localhost:3000](http://localhost:3000)
+
+## Структура проекта
+
+```
+src/
+├── app/                        # Next.js App Router (страницы)
+│   ├── page.tsx                # Главная — каталог товаров
+│   ├── categories/             # Страница категорий
+│   ├── product/[productId]/    # Страница товара
+│   ├── cart/                   # Корзина
+│   ├── checkout/               # Оформление заказа
+│   │   └── success/            # Подтверждение оплаты
+│   ├── auth/                   # Авторизация
+│   └── api/                    # API routes (прокси к Strapi)
+│
+├── components/
+│   ├── pages/                  # Компоненты страниц
+│   └── ui-kit/                 # UI компоненты (Button, Input, Card, Text...)
+│
+├── stores/
+│   └── global/
+│       ├── CartStore/          # Стор корзины
+│       └── AuthStore/          # Стор авторизации
+│
+├── api/                        # Функции запросов к Strapi
+├── hooks/                      # Кастомные хуки
+└── styles/                     # Глобальные стили и переменные
 ```

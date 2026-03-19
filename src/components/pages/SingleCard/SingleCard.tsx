@@ -1,78 +1,56 @@
+'use client'
+
+import { use, useEffect } from 'react';
+import Image from 'next/image';
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import RemoveButton from '@/components/RemoveButton';
 import Button from '@/components/ui-kit/Button';
 import Card from '@/components/ui-kit/Card';
-import Loader from '@/components/ui-kit/Loader';
 import Text from '@/components/ui-kit/Text';
 import { cartStore } from '@/stores/global/CartStore';
-import { singleProductStore } from '@/stores/local/SingleProductStore';
+import { authStore } from '@/stores/global/AuthStore/AuthStore';
+import { useI18n } from '@/components/providers/I18nProvider';
 import styles from './SingleCard.module.scss';
+import { useRouter } from 'next/navigation';
+import type { Product, ProductsResponse } from '@/api/productsTypes';
 
-const SingleCard = observer(() => {
-  const { documentId } = useParams<{ documentId?: string }>();
-  const navigate = useNavigate();
-  const categoryId = singleProductStore.product?.productCategory?.id;
+type Props = {
+  product: Product;
+  relatedPromise: Promise<ProductsResponse>;
+};
+
+const SingleCard = observer(({product, relatedPromise}: Props) => {
+  const { t } = useI18n();
+  const relatedProducts = use(relatedPromise).data;
+
+  const router = useRouter();
+  const cartItem = cartStore.cartItems.find(item => item.product.id === product.id);
+  const cartQuantity = cartItem?.quantity ?? 0;
+
+const handleBuyNow = async () => {
+  if (!authStore.isAuthenticated) {
+    router.push(`/auth?next=/product/${product.documentId}`);
+    return;
+  }
+  await cartStore.addItem(product.id, 1);
+  router.push('/cart')
+}
+
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (documentId) {
-      singleProductStore.fetchProductById(documentId);
-    }
-    return () => {
-      singleProductStore.destroy();
-    };
-  }, [documentId]);
-
-  useEffect(() => {
-    if (categoryId) {
-      singleProductStore.fetchRelatedProducts(categoryId);
-    }
-  }, [categoryId]);
-
-  if (!documentId) {
-    return (
-      <Text view="title" color="accent">
-        Товар не найден
-      </Text>
-    );
-  }
-
-  if (singleProductStore.productLoading) {
-    return (
-      <div className={styles.loader}>
-        <Loader />
-      </div>
-    );
-  }
-
-  if (singleProductStore.productError) {
-    return (
-      <Text view="title" color="accent">
-        Ошибка: {singleProductStore.productError}
-      </Text>
-    );
-  }
-
-  if (!singleProductStore.product) {
-    return (
-      <Text view="title" color="accent">
-        Товар не найден
-      </Text>
-    );
-  }
+  }, []);
 
   const image =
-    singleProductStore.product.images && singleProductStore.product.images.length > 0
-      ? singleProductStore.product.images[0].url
+    product.images && product.images.length > 0
+      ? product.images[0].url
       : undefined;
-  const { id: productId, title, description, price } = singleProductStore.product;
+  const { id: prodId, title, description, price } = product;
   return (
     <div className={styles.singleCard}>
       <RemoveButton />
       <div className={styles.container}>
         {image && (
-          <img className={styles.image} src={image} alt="фото товара" width={600} height={600} />
+          <Image className={styles.image} src={image} alt={t('single.imageAlt')} width={600} height={600} />
         )}
         <div className={styles.info}>
           <div className={styles.text}>
@@ -85,19 +63,29 @@ const SingleCard = observer(() => {
           </div>
 
           <div className={styles.purchase}>
-            <Text view="title" color="primary">
+            <div className={styles.purchaseInfo}>
+              <Text view="title" color="primary">
               ${price}
             </Text>
+            <Text color='secondary' view='p-20'>
+              {t('single.inCart')} {cartQuantity}
+            </Text>
+            </div>
+            
             <div className={styles.buttons}>
-              <Button className={styles.btnBuy}>Buy now</Button>
+              <Button className={styles.btnBuy} onClick={handleBuyNow}>{t('single.buyNow')}</Button>
               <Button
                 className={styles.btnCart}
                 onClick={(e) => {
                   e.stopPropagation();
-                  cartStore.addItem(productId, 1);
+                  if (!authStore.isAuthenticated) {
+                    router.push(`/auth?next=/product/${product.documentId}`);
+                    return;
+                  }
+                  cartStore.addItem(prodId, 1);
                 }}
               >
-                Add to cart
+                {t('single.addToCart')}
               </Button>
             </div>
           </div>
@@ -106,15 +94,10 @@ const SingleCard = observer(() => {
 
       <div className={styles.related}>
         <Text view="title" color="primary">
-          Related Items
+          {t('single.related')}
         </Text>
         <div className={styles.cards}>
-          {singleProductStore.relatedError ? (
-            <div className={styles.loader}>
-              <Loader />
-            </div>
-          ) : (
-            singleProductStore.relatedProducts?.map((prod) => {
+          {relatedProducts?.map((prod) => {
               const { id, documentId, title, description, price, productCategory } = prod;
               const image = prod.images?.[0]?.url;
               return (
@@ -123,23 +106,28 @@ const SingleCard = observer(() => {
                   image={image}
                   captionSlot={productCategory?.title}
                   title={title}
+                  imageAlt={title}
                   subtitle={description}
                   contentSlot={<Text view="p-18" color="primary" weight="bold">{`$${price}`}</Text>}
                   actionSlot={
                     <Button
                       onClick={(e) => {
                         e.stopPropagation();
+                        if (!authStore.isAuthenticated) {
+                          router.push(`/auth?next=/product/${documentId}`);
+                          return;
+                        }
                         cartStore.addItem(id, 1);
                       }}
                     >
-                      Add to cart
+                      {t('single.addToCart')}
                     </Button>
                   }
-                  onClick={() => navigate(`/product/${documentId}`)}
+                  onClick={() => router.push(`/product/${documentId}`)}
                 />
               );
             })
-          )}
+          }
         </div>
       </div>
     </div>

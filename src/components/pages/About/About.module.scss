@@ -1,0 +1,104 @@
+@use '../../../styles/variables' as *;
+
+.about {
+    max-width: 1120px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 clamp(12px, 3vw, 32px);
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.title {
+    text-align: center;
+}
+
+.intro {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: clamp(18px, 2.5vw, 24px);
+    border: 1px solid $stroke-light;
+    background: $bg-white;
+}
+
+.grid {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+
+    @include tablet-and-up {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+
+        > .card:last-child:nth-child(odd) {
+            grid-column: 1 / -1;
+            width: min(520px, 100%);
+            justify-self: center;
+        }
+    }
+
+    @include desktop-and-up {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+
+        > .card:last-child:nth-child(odd) {
+            grid-column: auto;
+            width: auto;
+            justify-self: stretch;
+        }
+    }
+}
+
+.card {
+    display: grid;
+    gap: 10px;
+    min-height: 160px;
+    padding: clamp(18px, 2.5vw, 24px);
+    border: 1px solid $stroke-light;
+    background: $bg-white;
+    transition: border-color 0.2s ease, background 0.2s ease;
+
+    &:hover {
+        border-color: $brand;
+        background: $bg-light;
+    }
+}
+
+.story {
+    margin-top: 20px;
+    padding: clamp(18px, 2.5vw, 24px);
+    border: 1px solid $stroke-light;
+    background: $bg-white;
+}
+
+.storyTitle {
+    margin-bottom: 10px;
+}
+
+.storyText {
+    line-height: 1.5 !important;
+}
+
+.stats {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+
+    @include tablet-and-up {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+    }
+}
+
+.statItem {
+    display: grid;
+    justify-items: start;
+    gap: 8px;
+    padding: 20px 24px;
+    border: 1px solid $stroke-light;
+    background: $bg-white;
+}

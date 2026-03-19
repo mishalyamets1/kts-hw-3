@@ -1,11 +1,15 @@
 @use '../../styles/variables.scss' as *;
 
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
   display: none;
   width: 100%;
-  justify-content: space-around;
+  justify-content: space-between;
   background: $bg-white;
-  padding: 24px 100px;
+  padding: 24px clamp(20px, 5vw, 100px);
   align-items: center;
   height: 90px;
   border-bottom: 2px solid $line-color;
@@ -16,9 +20,13 @@
 }
 
 .burger {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
   display: flex;
   width: 100%;
+  height: 56px;
   background-color: $bg-white;
   border-bottom: 2px solid $line-color;
   align-items: center;
@@ -35,9 +43,42 @@
   display: flex;
   align-items: center;
   flex-shrink: 0;
+}
 
-  img {
-    height: 40px;
+.logoLink {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+  gap: 12px;
+}
+
+.logoMark {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.logoText {
+  width: 76px;
+  height: 18px;
+  object-fit: contain;
+  transition: filter 0.2s ease;
+}
+
+:global(html[data-theme='dark']) .logoText {
+  filter: brightness(0) invert(1);
+}
+
+
+@media (max-width: $tablet) {
+  .logoMark {
+    width: 32px;
+    height: 32px;
+  }
+
+  .logoText {
+    width: 82px;
+    height: 18px;
   }
 }
 
@@ -67,29 +108,71 @@
 
 .icons {
   display: flex;
-  gap: 20px;
+  gap: clamp(8px, 1.2vw, 15px);
   align-items: center;
+  flex-shrink: 0;
+
+  @media (max-width: $tablet) {
+    gap: 8px;
+  }
+}
+
+.iconImage {
+  transition: filter 0.2s ease;
+}
+
+:global(html[data-theme='dark']) .iconImage {
+  filter: brightness(0) invert(1);
+}
+
+.themeToggle {
+  border: 1px solid $line-color;
+  background: $bg-white;
+  color: $text-primary;
+  padding: 6px 10px;
+  min-width: 36px;
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: $brand;
+    color: $brand;
+  }
+}
+
+.themeToggleIcon {
+  display: block;
+}
+
+:global(html[data-theme='dark']) .themeToggleIcon {
+  filter: brightness(0) invert(1);
 }
 
 .nav {
   display: flex;
-  gap: 48px;
-  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  gap: clamp(20px, 3.2vw, 48px);
 }
 
 .navMobile {
-  position: absolute;
-  z-index: 10;
+  position: fixed;
+  top: 56px;
+  left: 0;
+  z-index: 99;
   display: flex;
   flex-direction: column;
   width: 100%;
   background: $bg-white;
   border-bottom: 2px solid $line-color;
-  
-
-  @include tablet-and-up {
-    display: none;
-  }
+  animation: slideDown 0.4s ease forwards;
 
   .link {
     padding: 16px 20px;
@@ -112,12 +195,33 @@
   .active {
     background-color: $bg-light;
   }
+
+  @include tablet-and-up {
+    display: none;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .link {
   position: relative;
   text-decoration: none;
   cursor: pointer;
+  white-space: nowrap;
+
+  p {
+    white-space: nowrap;
+  }
+
   &:hover {
     color: $brand;
     transition: all 0.3s ease;
@@ -146,6 +250,81 @@
     color: $brand;
   }
 }
-a {
+
+.link {
   color: $text-primary;
+}
+.cart {
+  display: flex;
+  position: relative;
+  align-items: center;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+  padding: 6px;
+  border-radius: 50%;
+
+  &:hover {
+    opacity: 1;
+    background: rgb(var(--brand-rgb) / 0.15);
+  }
+
+  &:active {
+    opacity: 0.9;
+    background: rgb(var(--brand-rgb) / 0.2);
+  }
+
+  &.active {
+    opacity: 1;
+    background: rgb(var(--brand-rgb) / 0.2);
+  }
+}
+
+.account {
+  transition: all 0.3s ease;
+  opacity: 0.7;
+  padding: 6px;
+  border-radius: 50%;
+
+  &:hover {
+    opacity: 1;
+    background: rgb(var(--brand-rgb) / 0.15);
+  }
+
+  &:active {
+    opacity: 0.9;
+    background: rgb(var(--brand-rgb) / 0.2);
+  }
+
+  &.active {
+    opacity: 1;
+    background: rgb(var(--brand-rgb) / 0.2);
+  }
+}
+
+.cartCount{
+  display: inline-block;
+  position: absolute;
+  top: -2px;
+  right: -3px;
+}
+
+.iconButton {
+  transition: all 0.3s ease;
+  opacity: 0.7;
+  border-radius: 50%;
+
+  &:hover {
+    opacity: 1;
+    background: rgb(var(--brand-rgb) / 0.15);
+  }
+
+  &:active {
+    opacity: 0.9;
+    background: rgb(var(--brand-rgb) / 0.2);
+  }
+
+  &.active {
+    opacity: 1;
+    background: rgb(var(--brand-rgb) / 0.2);
+  }
 }

@@ -1,0 +1,100 @@
+@use '../../../styles/variables.scss' as *;
+
+.page {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 40px 8px;
+
+	@include desktop-and-up {
+		padding: 40px 100px;
+	}
+}
+
+.card {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	width: 100%;
+	max-width: 560px;
+	padding: 28px 24px;
+	border: 1px solid $stroke-light;
+	background: $bg-white;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.avatar {
+	width: 58px;
+	height: 58px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: $bg-light;
+	border: 1px solid $stroke-light;
+	color: $brand;
+	font-size: 22px;
+	font-weight: 700;
+	line-height: 1;
+}
+
+.headerText {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid $line-color;
+}
+
+.authInput {
+	--input-bg: #{$bg-light};
+	border: 1px solid $stroke-light;
+}
+
+.authInput:focus-within {
+	border: 1px solid $brand;
+}
+
+.submitBtn {
+  margin-top: 4px;
+  width: 100%;
+  max-width: none;
+}
+
+.footer {
+	padding-top: 4px;
+}
+
+.switch {
+	background: none;
+	border: none;
+	padding: 0;
+	color: inherit;
+	cursor: pointer;
+	text-align: left;
+}
+
+.eyeBtn {
+	background: none;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	color: inherit;
+	opacity: 0.6;
+
+	&:hover {
+		opacity: 1;
+	}
+}

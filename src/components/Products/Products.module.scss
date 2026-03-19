@@ -20,13 +20,19 @@
   }
 }
 .loader {
-  justify-self: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 200px;
 }
 .contentSlot {
   display: flex;
   flex-direction: row;
   gap: 16px; 
   align-items: center;
+}
+.card {
+  width: 100%;
+  height: 100%;
 }
 .empty {
   display: flex;
@@ -87,4 +93,12 @@
 .arrowRight {
   margin-left: 15px;
   cursor: pointer;
+}
+
+.arrowIcon {
+  transition: filter 0.2s ease;
+}
+
+:global(html[data-theme='dark']) .arrowIcon {
+  filter: brightness(0) invert(1);
 }

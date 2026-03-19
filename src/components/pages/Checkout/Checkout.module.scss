@@ -1,0 +1,110 @@
+@use '../../../styles/variables.scss' as *;
+
+.page {
+  padding: 0 8px;
+  margin-bottom: 40px;
+    
+  @include desktop-and-up {
+    padding: 0 100px;
+  }
+}
+
+.title {
+  margin-top: 40px;
+  align-self: center;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-top: 32px;
+
+  @include desktop-and-up {
+    flex-direction: row;
+    gap: 48px;
+  }
+}
+
+.orderSummary {
+  flex: 1;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: $bg-white;
+}
+
+.itemImg {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+
+  * {
+    word-break: break-word;
+  }
+}
+.itemPrice {
+    margin-right: 20px;
+}
+.totalRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid $stroke-light;
+}
+
+.form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fieldError {
+  margin-top: -2px;
+}
+
+.cardRow {
+  display: flex;
+  gap: 16px;
+}
+
+.cardRow .field {
+  flex: 1;
+}
+
+.confirmBtn {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.emptyText {
+  margin-top: 80px;
+  text-align: center;
+}

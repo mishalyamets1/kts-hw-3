@@ -4,20 +4,78 @@
   display: flex;
   flex-direction: column;
 
+  @include tablet-and-up {
+    padding: 0 16px;
+  }
+
   @include desktop-and-up {
     padding: 0 100px;
   }
 }
 .inputBox {
   display: flex;
-  gap: 24px;
+  flex-direction: column;
+  gap: 12px;
+
+  @include tablet-and-up {
+    flex-direction: row;
+    gap: 24px;
+  }
 }
 .btn {
-  width: 137px;
+  width: 100%;
+  cursor: pointer;
+
+  @include tablet-and-up {
+    width: 137px;
+  }
 }
 .filter {
-  width: 300px;
-  
+  width: 100%;
+
+  @include tablet-and-up {
+    width: 300px;
+  }
+}
+.priceContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+
+  @include tablet-and-up {
+    width: auto;
+  }
+}
+.priceInputs {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+
+  @include tablet-and-up {
+    width: auto;
+  }
+
+  input {
+    flex: 1;
+
+    @include tablet-and-up {
+      flex: none;
+      width: 80px;
+    }
+  }
+}
+.activeSort {
+  background-color: $bg-light-gray !important;
+  color: inherit !important;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: $bg-light-gray !important;
+    color: inherit !important;
+  }
 }
 .totalBox {
   margin-top: 48px;
@@ -27,7 +85,44 @@
 }
 .filterBox {
   display: flex;
+  flex-direction: column;
   margin-top: 24px;
-  gap: 24px;
-  
+  gap: 12px;
+  width: 100%;
+
+  @include tablet-and-up {
+    flex-direction: row;
+    gap: 24px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    width: auto;
+  }
+}
+.sortAndResetContainer {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+
+  @include tablet-and-up {
+    width: auto;
+    gap: 24px;
+  }
+
+  button {
+    flex: 1;
+    width: 100%;
+    max-width: 100% ;
+
+    @include tablet-and-up {
+      flex: none;
+      width: auto;
+      max-width: 185px ;
+    }
+  }
+}
+.reset {
+  cursor: pointer;
+}
+.sortBtn{
+  cursor: pointer;
 }

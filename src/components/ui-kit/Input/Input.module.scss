@@ -1,7 +1,7 @@
 @use '../../../styles/variables.scss' as *;
 .input__wrapper {
   border: 0px;
-  background: $bg-white;
+  background: var(--input-bg, #{$bg-white});
   padding: 16px 12px;
   width: 100%;
   align-items: center;
@@ -13,7 +13,7 @@
   border: 1px solid $brand;
 }
 .input__wrapper:disabled {
-  background: $bg-white;
+  background: var(--input-bg, #{$bg-white});
 }
 .input {
   font-family: 'Roboto';
@@ -22,9 +22,11 @@
   font-size: 16px;
   font-weight: 400;
   line-height: 20px;
+  background: transparent;
+  color: $text-primary;
 }
 .input:disabled {
-  background: $bg-white;
+  background: transparent;
   color: $text-secondary;
 }
 .input::placeholder {
@@ -32,4 +34,17 @@
 }
 .input:focus {
   outline: none;
+  box-shadow: none;
+}
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus {
+  -webkit-text-fill-color: $text-primary;
+  -webkit-box-shadow: 0 0 0 1000px var(--input-bg, #{$bg-white}) inset ;
+  box-shadow: 0 0 0 1000px var(--input-bg, #{$bg-white}) inset ;
 }

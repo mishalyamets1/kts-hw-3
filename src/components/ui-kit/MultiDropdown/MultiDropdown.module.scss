@@ -10,10 +10,22 @@
   z-index: 100;
   margin-top: $space-xxs;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+  animation: slideDown 0.3s ease forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .multiDropdown__option {
   box-sizing: border-box;
-  background: $text-white;
+  background: $bg-white;
   padding: 16px 12px;
   align-items: center;
   display: flex;
@@ -22,6 +34,15 @@
   font-weight: 400;
   line-height: 20px;
   height: 48px;
+  border-bottom: 1px solid $line-color;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: $bg-light;
+  }
 }
 .multiDropdown__option.selected {
   color: $brand;
