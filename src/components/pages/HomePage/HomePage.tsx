@@ -27,6 +27,7 @@ function HomePage({initialProducts, initialTotal, initialCategories}: Props) {
   });
 
   useEffect(() => {
+    if (store.priceMin !== null || store.priceMax !== null || store.sortOrder !== 'none') return;
     store.setInitialData(initialProducts, initialTotal, initialCategories);
   }, [store, initialProducts, initialTotal, initialCategories]);
 

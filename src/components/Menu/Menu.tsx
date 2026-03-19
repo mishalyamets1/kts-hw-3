@@ -140,12 +140,12 @@ const Menu = observer(() => {
         <div className={styles.sortAndResetContainer}>
           <Button
             onClick={handleSortToggle}
-            className={allProductsStore.sortOrder !== 'none' ? styles.activeSort : ''}
+            className={allProductsStore.sortOrder !== 'none' ? styles.activeSort : styles.sortBtn}
           >
             {getSortButtonLabel()}
           </Button>
 
-          {hasActiveFilters && <Button onClick={handleClearFilter}>{t('menu.reset')}</Button>}
+          {hasActiveFilters && <Button className={styles.reset} onClick={handleClearFilter}>{t('menu.reset')}</Button>}
         </div>
       </div>
 

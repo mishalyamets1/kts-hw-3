@@ -158,7 +158,9 @@ export class AllProductsStore {
       const data: ProductsResponse = await response.json();
       runInAction(() => {
         this.allProducts = data.data;
-        this.products = this.applyPriceFilterAndSort(data.data);
+        if (updateLoading) {
+          this.products = this.applyPriceFilterAndSort(data.data);
+        }
         this.total = data.meta?.pagination?.total;
       });
     } finally {
@@ -170,33 +172,52 @@ export class AllProductsStore {
     }
   }
 
+  private get hasPriceFilter(): boolean {
+    return this.priceMin !== null || this.priceMax !== null;
+  }
+
   // хук useGetAllProducts
   async fetchProducts(pageSize = PRODUCTS_PAGE_SIZE) {
     this.productsLoading = true;
     try {
-      const params = new URLSearchParams();
-      params.set('page', String(this.currentPage));
-      params.set('pageSize', String(pageSize));
-      if (this.searchTitle) params.set('search', this.searchTitle);
-      if (this.selectedCategoryIds.length > 0)
-        params.set('categories', this.selectedCategoryIds.join(','));
+      if (this.hasPriceFilter || this.sortOrder !== 'none') {
+        // Client-side pagination: fetch all, filter, then slice
+        const params = new URLSearchParams();
+        params.set('page', '1');
+        params.set('pageSize', '1000');
+        if (this.searchTitle) params.set('search', this.searchTitle);
+        if (this.selectedCategoryIds.length > 0)
+          params.set('categories', this.selectedCategoryIds.join(','));
 
-      const response = await fetch(`/api/products?${params.toString()}`);
-      if (!response.ok) throw new Error(`Failed to fetch products: ${response.status}`);
+        const response = await fetch(`/api/products?${params.toString()}`);
+        if (!response.ok) throw new Error(`Failed to fetch products: ${response.status}`);
 
-      const data: ProductsResponse = await response.json();
-      runInAction(() => {
-        this.products = this.applyPriceFilterAndSort(data.data);
-        this.total = data.meta?.pagination?.total;
-      });
+        const data: ProductsResponse = await response.json();
+        runInAction(() => {
+          this.allProducts = data.data;
+          const filtered = this.applyPriceFilterAndSort(data.data);
+          this.total = filtered.length;
+          const start = (this.currentPage - 1) * pageSize;
+          this.products = filtered.slice(start, start + pageSize);
+        });
+      } else {
+        // Server-side pagination: no price filter or sort active
+        const params = new URLSearchParams();
+        params.set('page', String(this.currentPage));
+        params.set('pageSize', String(pageSize));
+        if (this.searchTitle) params.set('search', this.searchTitle);
+        if (this.selectedCategoryIds.length > 0)
+          params.set('categories', this.selectedCategoryIds.join(','));
 
-      // Load all products for filtered count calculation (don't update loading state)
-      await this.fetchAllProducts(false);
+        const response = await fetch(`/api/products?${params.toString()}`);
+        if (!response.ok) throw new Error(`Failed to fetch products: ${response.status}`);
 
-      // Update total based on price filter
-      runInAction(() => {
-        this.total = this.applyPriceFilterAndSort(this.allProducts).length;
-      });
+        const data: ProductsResponse = await response.json();
+        runInAction(() => {
+          this.products = data.data;
+          this.total = data.meta?.pagination?.total;
+        });
+      }
     } finally {
       runInAction(() => {
         this.productsLoading = false;

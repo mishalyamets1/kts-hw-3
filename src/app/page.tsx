@@ -8,7 +8,6 @@ import { getCategories } from "@/api/getCategories";
 import { PRODUCTS_PAGE_SIZE } from "@/configs/constants";
 import type { Locale } from "@/i18n/translations";
 import styles from './page.module.scss'
-import Snowfall from "react-snowfall";
 
 export const metadata: Metadata = {
   title: 'Lalasia',

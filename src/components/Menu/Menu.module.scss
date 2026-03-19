@@ -24,6 +24,7 @@
 }
 .btn {
   width: 100%;
+  cursor: pointer;
 
   @include tablet-and-up {
     width: 137px;
@@ -118,4 +119,10 @@
       max-width: 185px ;
     }
   }
+}
+.reset {
+  cursor: pointer;
+}
+.sortBtn{
+  cursor: pointer;
 }
